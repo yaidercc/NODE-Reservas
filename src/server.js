@@ -1,10 +1,36 @@
-const { Sequelize } = require("sequelize")
+const express = require('express');
+const cors = require('cors');
 
-const sequelize = new Sequelize(process.env.DB_NAME,process.env.DB_USER,process.env.DB_PASSWORD,{
-    host: process.env.DB_HOST,
-    dialect: "postgres",
-    logging: false,
-    port:"5432"
-})
+class ServerManager {
+    #app;
+    #path;
+    constructor() {
+        this.port = process.env.PORT || 4000;
+        this.#app = express();
 
-module.exports = sequelize;
+        this.#path={
+            users: "/api/users"
+        }
+
+        this.middlewares();
+
+        this.#routes()
+    }
+
+    middlewares() {
+        this.#app.use(express.json());
+        this.#app.use(cors())
+    }
+
+    #routes(){
+        this.#app.use(this.#path.users, require("../api/users/routes"));
+    }
+
+    listen(){
+        this.#app.listen(this.port, ()=>{
+            console.log("Server started");
+        });
+    }
+}
+
+module.exports = ServerManager;
