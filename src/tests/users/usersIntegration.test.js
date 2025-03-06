@@ -1,7 +1,7 @@
 const KnexUserReposiroty = require("../../core/users/infrastructure/knexUserRepository");
 const {knexConfig} = require("../knexfile");
 const {UserFinder} = require("../../core/users");
-
+const UsersMother = require("./domain/usersMother");
 
 describe("prueba",()=>{
    const repository = new KnexUserReposiroty(knexConfig);
@@ -13,8 +13,9 @@ describe("prueba",()=>{
         await repository.connection.migrate.rollback(undefined, true);
     });
 
-    it('finds an existing Ans instance by id', async () => {
-        const ansResult = await new UserFinder(repository).execute("8a09ba2c-0231-4cc3-b02d-5b90054d6f90");
-        console.log(ansResult);
+    it('Should create an user', async () => {
+        const createdUser = await UsersMother.create(repository)
+        const findUser = await new UserFinder(repository).execute(createdUser.id.value);
+        console.log(findUser);
     });
 })

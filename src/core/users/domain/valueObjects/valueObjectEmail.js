@@ -1,7 +1,7 @@
-const Guards = require("./guards");
-const ValueObjectString = require("./valueObjectString");
 
-export class valueObjectEmail extends ValueObjectString {
+const {ValueObjectString,Guards} = require("../../../../shared/valueObjects");
+
+class valueObjectEmail extends ValueObjectString {
     constructor(field, value, nullable = false) {
         super(field, value);
 
@@ -10,3 +10,4 @@ export class valueObjectEmail extends ValueObjectString {
         Guards.validateEmail(this);
     }
 }
+module.exports = valueObjectEmail;

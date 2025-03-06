@@ -4,5 +4,4 @@ module.exports = {
     ValueObjectId: require("./valueObjectId"),
     ValueObjectString: require("./valueObjectString"),
     ValueObjectTimeStamp: require("./valueObjectTimeStamp"),
-    AggregateRoot: require("./aggregateRoot"),
 }

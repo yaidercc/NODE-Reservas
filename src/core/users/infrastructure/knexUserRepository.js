@@ -5,8 +5,13 @@ class KnexUserRepository extends knexRepository {
         super(config, 'users');
     }
 
-    async insert(dto){
-        await this.connection(this.tableName).insert(dto)
+    async save(dto){
+        await this.connection(this.tableName).insert({
+            name: dto.name.value,
+            last_name: dto.last_name.value,
+            email: dto.email.value,
+            password: dto.password.value,
+        })
     }
 
     async find(id){

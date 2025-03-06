@@ -6,7 +6,6 @@ const validateSchemas = (schema) => (req, res, next) => {
         const errorFormated = error.details.map(( {message,path} )=> ({ message,field: path[0] }));
         return HttpResponses.validationsFail({ errors: errorFormated, res });
     }
-    console.log("dasdasdasdasdas")
     next()
 }
 

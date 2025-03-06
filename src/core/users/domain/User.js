@@ -1,69 +1,73 @@
-import {ValueObjectId} from "../../../shared/valueObjects/valueObjectId";
-import {valueObjectString} from "../../../shared/valueObjects/valueObjectString";
-import {valueObjectEmail} from "./valueObjects/valueObjectEmail";
-import {valueObjectPassword} from "./valueObjects/valueObjectPassword";
-import {AggregateRoot} from "../../../shared/valueObjects";
+
+const {ValueObjectString} =  require( "../../../shared/valueObjects");
+const valueObjectEmail =  require( "./valueObjects/valueObjectEmail");
+const valueObjectPassword =  require( "./valueObjects/valueObjectPassword");
+const AggregateRoot  = require("../../../shared/domain/aggregateRoot");
 
 class User extends AggregateRoot {
-    /** @type {valueObjectString} */
+    /** @type {ValueObjectString} */
     #name;
-    /** @type {valueObjectString} */
-    #lastName;
+    /** @type {ValueObjectString} */
+    #last_name;
     /** @type {valueObjectEmail} */
     #email;
     /** @type {valueObjectPassword} */
     #password;
 
-    constructor(id, name, lastName ,email, password) {
+    constructor({id, name, last_name, email, password}) {
         super(id)
-        this.#name = new valueObjectString("name", name);
-        this.#lastName = new valueObjectString("last_name", name);
+        this.#name = new ValueObjectString("name", name);
+        this.#last_name = new ValueObjectString("last_name", last_name);
         this.#email = new valueObjectEmail("email", email);
         this.#password = new valueObjectPassword("password", password);
 
     }
 
+    static create(dto) {
+        return new User(dto)
+    }
+
     set name (newName) {
         if(newName !== this.#name.value) {
-            this.#name = new valueObjectString("name", newName);
-            this.#changedAttributes.name = newName;
+            this.#name = new ValueObjectString("name", newName);
+            this.changedAttributes.name = newName;
         }
     }
-    set lastName (newLastName) {
-        if(newLastName !== this.#lastName.value) {
-            this.#lastName = new valueObjectString("last_name", newLastName);
-            this.#changedAttributes.lastName = newLastName;
+    set last_name (newLastName) {
+        if(newLastName !== this.#last_name.value) {
+            this.#last_name = new ValueObjectString("last_name", newLastName);
+            this.changedAttributes.lastName = newLastName;
         }
     }
 
     set email (newEmail) {
         if(newEmail !== this.#email.value) {
             this.#email = new valueObjectEmail("email", newEmail);
-            this.#changedAttributes.email = newEmail;
+            this.changedAttributes.email = newEmail;
         }
     }
 
     set password (newPassword) {
         if(newPassword === this.#password.value) {
             this.#password = new valueObjectPassword("password", newPassword);
-            this.#changedAttributes.password = newPassword;
+            this.changedAttributes.password = newPassword;
         }
     }
 
-    get id() {
-        return this.#id;
-    }
     get name() {
         return this.#name;
     }
-    get lastName() {
-        return this.#lastName;
+    get last_name() {
+        return this.#last_name;
     }
     get email() {
         return this.#email;
     }
-
-
+    get password() {
+        return this.#password;
+    }
 
 
 }
+
+module.exports = User;

@@ -4,7 +4,7 @@ class UserCreator {
         this.#repository = repository;
     }
   async execute(dto) {
-        await this.#repository.insert(dto);
+        await this.#repository.save(dto);
     }
 }
 
