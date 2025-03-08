@@ -8,7 +8,6 @@ const connection = {
     port: process.env.DB_PORT
 };
 
-
 const development = {
     client: 'pg',
     migrations: {

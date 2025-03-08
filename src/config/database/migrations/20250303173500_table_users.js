@@ -1,6 +1,6 @@
 function up(knex){
     return knex.schema.createTable('users', function (table){
-        table.string('id', 36).primary();
+        table.uuid('id').primary();
         table.string('name', 100).notNullable();
         table.string('last_name', 36).notNullable();
         table.string('email', 100).notNullable();

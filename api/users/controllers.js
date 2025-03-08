@@ -14,7 +14,6 @@ class UserController {
             return HttpResponses.created({res})
 
         }catch (error) {
-            console.log(error)
             return HttpResponses.internalServerError({errors: error, res})
         }
     }

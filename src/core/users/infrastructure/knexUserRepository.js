@@ -1,4 +1,5 @@
 const knexRepository = require("../../../shared/infrastructure/knexRepository");
+const User =  require("../domain/User");
 
 class KnexUserRepository extends knexRepository {
     constructor(config) {
@@ -7,6 +8,7 @@ class KnexUserRepository extends knexRepository {
 
     async save(dto){
         await this.connection(this.tableName).insert({
+            id: dto.id.value,
             name: dto.name.value,
             last_name: dto.last_name.value,
             email: dto.email.value,
@@ -15,9 +17,12 @@ class KnexUserRepository extends knexRepository {
     }
 
     async find(id){
+        if(!id?.value){
+            throw new Error("ID must be provided")
+        }
         const result = await this.connection(this.tableName).where({id: id.value}).first();
 
-        return result
+        return result ?  new User(result) : null
     }
 }
 

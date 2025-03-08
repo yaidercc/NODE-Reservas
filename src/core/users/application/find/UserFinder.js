@@ -1,4 +1,5 @@
 const DomainUserFinder = require("../../domain/UserFinder");
+const UserResponse = require("../UserResponse");
 
 class UserFinder {
 
@@ -8,8 +9,8 @@ class UserFinder {
     }
 
     async execute(id){
-        const result = this.#finder.execute(id);
-        return result;
+        const user = await this.#finder.execute(id);
+        return new UserResponse(user);
     }
 }
 

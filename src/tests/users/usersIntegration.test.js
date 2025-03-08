@@ -15,7 +15,12 @@ describe("prueba",()=>{
 
     it('Should create an user', async () => {
         const createdUser = await UsersMother.create(repository)
-        const findUser = await new UserFinder(repository).execute(createdUser.id.value);
-        console.log(findUser);
+        const user = (await new UserFinder(repository).execute(createdUser.id.value)).toJson().data;
+
+        expect(user.id).toBe(createdUser.id.value);
+        expect(user.name).toBe(createdUser.name.value);
+        expect(user.last_name).toBe(createdUser.last_name.value);
+        expect(user.email).toBe(createdUser.email.value);
+
     });
 })
