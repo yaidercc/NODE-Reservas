@@ -4,15 +4,9 @@ class AggregateRoot {
     /** @type {ValueObjectId} */
     #id;
     /** @type {ValueObjectId} */
-    #created_by = null;
-    /** @type {ValueObjectTimestamp} */
-    #updated_by = null;
-    /** @type {ValueObjectTimestamp} */
     #created_at = null;
     /** @type {ValueObjectTimeStamp} */
     #updated_at = null;
-    /** @type {ValueObjectId} */
-    #deleted_by = null;
     /** @type {ValueObjectTimestamp} */
     #deleted_at = null;
     /** @type {object} */
@@ -54,6 +48,34 @@ class AggregateRoot {
         }
         this.deleted_at = dto.deleted_at;
         this.deleted_by = dto.deleted_by;
+    }
+
+    get created_at() {
+        return this.#created_at;
+    }
+    get updated_at() {
+        return this.#updated_at;
+    }
+    get deleted_at() {
+        return this.#deleted_at;
+    }
+    set created_at(value) {
+        if (this.#created_at === null || this.#created_at === undefined) {
+            this.#created_at = new ValueObjectTimeStamp('created at', value);
+        }
+    }
+    set updated_at(value) {
+        this.#updated_at = new ValueObjectTimeStamp('updated at', value, true);
+        if (value !== null && value !== undefined) {
+            this.#changedAttributes.updated_at = this.#updated_at.value;
+        }
+    }
+
+    set deleted_at(value) {
+        this.#deleted_at = new ValueObjectTimeStamp('deleted at', value, true);
+        if (value !== null && value !== undefined) {
+            this.#changedAttributes.deleted_at = this.#deleted_at.value;
+        }
     }
 }
 

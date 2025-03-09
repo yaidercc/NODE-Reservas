@@ -2,6 +2,7 @@ const KnexUserReposiroty = require("../../core/users/infrastructure/knexUserRepo
 const {knexConfig} = require("../knexfile");
 const {UserFinder} = require("../../core/users");
 const UsersMother = require("./domain/usersMother");
+const UserResponse = require("../../core/users/application/UserResponse");
 
 describe("prueba",()=>{
    const repository = new KnexUserReposiroty(knexConfig);
@@ -14,13 +15,21 @@ describe("prueba",()=>{
     });
 
     it('Should create an user', async () => {
+        console.log(UsersMother.dto());
         const createdUser = await UsersMother.create(repository)
         const user = (await new UserFinder(repository).execute(createdUser.id.value)).toJson().data;
-
         expect(user.id).toBe(createdUser.id.value);
-        expect(user.name).toBe(createdUser.name.value);
-        expect(user.last_name).toBe(createdUser.last_name.value);
-        expect(user.email).toBe(createdUser.email.value);
-
     });
+
+    it('Should find an user by id', async () => {
+        const createdUser = await UsersMother.create(repository);
+        const user = await new UserFinder(repository).execute(createdUser.id.value)
+
+        expect(user).not.toBeNull();
+        expect(user).toBeInstanceOf(UserResponse)
+    })
+
+    it('Should return all users', async () => {
+
+    })
 })

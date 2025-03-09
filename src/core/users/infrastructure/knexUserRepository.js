@@ -7,12 +7,21 @@ class KnexUserRepository extends knexRepository {
     }
 
     async save(dto){
+        console.log({
+            id: dto.id.value,
+            name: dto.name.value,
+            last_name: dto.last_name.value,
+            email: dto.email.value,
+            password: dto.password.value,
+            created_at: dto.created_at.value,
+        })
         await this.connection(this.tableName).insert({
             id: dto.id.value,
             name: dto.name.value,
             last_name: dto.last_name.value,
             email: dto.email.value,
             password: dto.password.value,
+            created_at: dto.created_at.value,
         })
     }
 

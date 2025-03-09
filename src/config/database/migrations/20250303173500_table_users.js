@@ -5,9 +5,9 @@ function up(knex){
         table.string('last_name', 36).notNullable();
         table.string('email', 100).notNullable();
         table.string('password', 30).notNullable();
-        table.timestamp('created_at').defaultTo(knex.fn.now());
-        table.timestamp('updated_at').defaultTo(knex.fn.now());
-    })
+        table.datetime('created_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+        table.datetime('updated_at').nullable();
+    });
 }
 
 function down(knex){

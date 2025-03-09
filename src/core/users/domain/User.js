@@ -14,16 +14,20 @@ class User extends AggregateRoot {
     /** @type {valueObjectPassword} */
     #password;
 
-    constructor({id, name, last_name, email, password}) {
+    constructor({id, name, last_name, email, password,created_at, updated_at, deleted_at}) {
         super(id)
         this.#name = new ValueObjectString("name", name);
         this.#last_name = new ValueObjectString("last_name", last_name);
         this.#email = new valueObjectEmail("email", email);
         this.#password = new valueObjectPassword("password", password);
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.deleted_at = deleted_at;
 
     }
 
     static create(dto) {
+        console.log(dto);
         return new User(dto)
     }
 
