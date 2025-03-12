@@ -1,11 +1,23 @@
 const Joi = require('joi');
 
-const createSchema = Joi.object({
-    id: Joi.string().uuid().required(),
+const schemaBase = {
     name: Joi.string().max(30).required(),
     last_name: Joi.string().max(30).required(),
     email: Joi.string().max(100).required(),
     password: Joi.string().max(30).required()
+}
+
+const createSchema = Joi.object({
+    id: Joi.string().uuid().required(),
+    ...schemaBase,
+    created_at: Joi.date()
 });
 
-module.exports = {createSchema};
+const updateSchema = Joi.object({
+    name: Joi.string().max(30),
+    last_name: Joi.string().max(30),
+    email: Joi.string().max(100),
+    password: Joi.string().max(30)
+});
+
+module.exports = {createSchema, updateSchema};

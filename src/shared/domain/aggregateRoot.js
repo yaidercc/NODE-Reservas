@@ -43,11 +43,11 @@ class AggregateRoot {
     }
 
     delete(dto) {
-        if (!dto.hasOwnProperty('deleted_at') || !dto.hasOwnProperty('deleted_by')) {
-            throw new Error("Element has already been deleted.");
+        if (!dto.hasOwnProperty('deleted_at')) {
+            throw new Error("deleted_at cannot be null.");
         }
         this.deleted_at = dto.deleted_at;
-        this.deleted_by = dto.deleted_by;
+
     }
 
     get created_at() {

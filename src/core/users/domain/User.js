@@ -27,7 +27,6 @@ class User extends AggregateRoot {
     }
 
     static create(dto) {
-        console.log(dto);
         return new User(dto)
     }
 

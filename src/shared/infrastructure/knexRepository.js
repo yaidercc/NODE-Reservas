@@ -28,6 +28,7 @@ class knexRepository {
                 .where({id: aggregate.id.value})
                 .whereNull("deleted_at")
         }catch (error) {
+            console.log(error)
             throw new Error("Ha ocurrido un error inesperado")
         }
     }

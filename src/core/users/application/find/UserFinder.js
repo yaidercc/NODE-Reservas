@@ -10,6 +10,9 @@ class UserFinder {
 
     async execute(id){
         const user = await this.#finder.execute(id);
+        if(!user || user.deleted_at.value){
+            throw new Error("User don´t exists");
+        }
         return new UserResponse(user);
     }
 }

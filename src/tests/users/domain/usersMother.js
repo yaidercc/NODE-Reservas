@@ -14,7 +14,6 @@ class UserMother {
 
     static async create(repository) {
         const userDto = UserMother.dto();
-        console.log(userDto);
         const user = User.create(userDto);
         await repository.save(user);
         return user;

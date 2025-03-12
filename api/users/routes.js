@@ -1,5 +1,5 @@
 const Router = require("express").Router();
-const { createSchema } = require('./schemas')
+const { createSchema, updateSchema } = require('./schemas')
 const UserController  = require('./controllers')
 const validateSchemas = require("../../src/shared/validateSchemas")
 
@@ -13,6 +13,7 @@ class Routes {
 
     setRoutes(){
         this.router.post("/",validateSchemas(createSchema), this.controllers.create)
+        this.router.put("/:id",validateSchemas(updateSchema), this.controllers.update)
     }
 }
 

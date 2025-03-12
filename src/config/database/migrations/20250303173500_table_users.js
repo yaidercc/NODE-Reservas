@@ -7,6 +7,7 @@ function up(knex){
         table.string('password', 30).notNullable();
         table.datetime('created_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
         table.datetime('updated_at').nullable();
+        table.datetime('deleted_at').nullable();
     });
 }
 

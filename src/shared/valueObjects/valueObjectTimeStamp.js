@@ -3,7 +3,6 @@ const ValueObject = require("./valueObject");
 class ValueObjectTimeStamp extends ValueObject {
     constructor(field, value, nullable = false) {
         super(field, value);
-            console.log(!value && !nullable)
         if(!value && !nullable) {
             throw new Error(`${this.field}: The value cannot be null`);
         }

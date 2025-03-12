@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const morgan = require("morgan");
 
 class ServerManager {
     #app;
@@ -20,6 +21,7 @@ class ServerManager {
     middlewares() {
         this.#app.use(express.json());
         this.#app.use(cors())
+        this.#app.use(morgan("dev"));
     }
 
     #routes(){
@@ -30,6 +32,10 @@ class ServerManager {
         this.#app.listen(this.port, ()=>{
             console.log("Server started");
         });
+    }
+
+    get app(){
+        return this.#app;
     }
 }
 
