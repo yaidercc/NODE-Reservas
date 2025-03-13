@@ -1,4 +1,4 @@
-const { KnexUserRepository, UserCreator} = require( "../../src/core/users");
+const { KnexUserRepository, UserCreator, UserFinder} = require( "../../src/core/users");
 const { development: knexConfig } = require("../../src/config/database/knexfile");
 const HttpResponses = require("../../src/shared/httpResponses/httpResponses");
 const {validate: validateUuid} = require("uuid");
@@ -33,6 +33,23 @@ class UserController {
 
             await new UserUpdater(this.#repository).execute(id, {...userInfo, updated_at: new Date().toISOString()});
             return HttpResponses.ok({res})
+
+        } catch (error) {
+            console.log(error.message)
+            return HttpResponses.internalServerError({errors: error.message, res})
+        }
+    }
+
+    find = async ( req, res ) => {
+        try {
+            const { id } = req.params;
+
+            if(!validateUuid(id)){
+                return HttpResponses.badRequest({errors: "El id es invalido", res})
+            }
+
+            const user = await new UserFinder(this.#repository).execute(id);
+            return HttpResponses.ok({res, ...user.toJson() })
 
         } catch (error) {
             console.log(error.message)
