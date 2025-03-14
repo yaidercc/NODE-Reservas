@@ -10,7 +10,7 @@ Este proyecto tiene como propósito reforzar y aplicar los conocimientos que he 
 - Principios SOLID: escritura de código limpio, escalable y mantenible.
 - Testing: pruebas unitarias, de integración y E2E.
 - Gestión de bases de datos: uso de Knex.js y PostgreSQL.
-- 
+  
 Con este proyecto, quiero consolidar mi experiencia en desarrollo backend aplicando buenas prácticas y arquitecturas modernas, asegurando que el código sea robusto, mantenible y bien probado.
 
 ## Tecnologías utilizadas
