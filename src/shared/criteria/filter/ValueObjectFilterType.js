@@ -6,7 +6,7 @@ const FILTER_TYPE = {
 }
 class ValueObjectFilterType extends ValueObjectEnum {
     constructor(operator) {
-        super("type",operator,Object.values(FILTER_TYPE));
+        super("type",operator,FILTER_TYPE);
     }
 
     static fromValues(value) {

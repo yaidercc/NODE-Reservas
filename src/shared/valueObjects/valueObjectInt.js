@@ -1,5 +1,6 @@
 const ValueObject = require("./valueObject");
 const {validate} = require("uuid");
+const Guards = require("./guards");
 
 class ValueObjectInt extends ValueObject {
     constructor(field, value, nullable = false) {
@@ -9,13 +10,7 @@ class ValueObjectInt extends ValueObject {
             throw new Error(`${this.field}: the value cannot be null.`);
         }
 
-        this.#ensureValueObjectUuid(value)
-    }
-
-    #ensureValueObjectUuid(value){
-        if(!validate(value)){
-            throw new Error(`${this.field}: Invalid value ${value} for object uuid`);
-        }
+        Guards.integerType(this)
     }
 
 }

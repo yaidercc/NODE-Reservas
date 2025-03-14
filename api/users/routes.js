@@ -12,6 +12,7 @@ class Routes {
     }
 
     setRoutes(){
+        this.router.get("/", this.controllers.index)
         this.router.get("/:id", this.controllers.find)
         this.router.post("/",validateSchemas(createSchema), this.controllers.create)
         this.router.put("/:id",validateSchemas(updateSchema), this.controllers.update)

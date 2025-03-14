@@ -5,11 +5,12 @@ class UserCollectionResponse {
     #userCollection;
 
     constructor(userCollection) {
-        this.userCollection = userCollection;
+        this.#userCollection = userCollection;
     }
 
     toJson() {
         return {
+
             data: {
                 items: this.#userCollection.map((user) => new UserResponse(user).toJson().data),
             }

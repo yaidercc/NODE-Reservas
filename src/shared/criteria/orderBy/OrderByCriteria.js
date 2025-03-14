@@ -5,7 +5,7 @@ class OrderByCriteria {
 
     constructor(order) {
         this.field = new ValueObjectString("field", order.field)
-        this.direction = new ValueObjectDirection("direction", order.direction)
+        this.direction = new ValueObjectDirection(order.direction)
     }
 }
 

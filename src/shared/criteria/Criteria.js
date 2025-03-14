@@ -12,10 +12,11 @@ class Criteria {
     #offset;
 
     constructor(filters, order, limit, offset) {
+
         this.#filters = !filters ? filters : Filters.fromValues(filters);
-        this.#order = !order ? null : new OrderByCriteria(limit);
+        this.#order = !order ? null : new OrderByCriteria(order);
         this.#offset = !offset ? null : new ValueObjectInt("offset", offset);
-        this.#limit = !limit ? null : new ValueObjectInt("order", order);
+        this.#limit = !limit ? null : new ValueObjectInt("limit", limit);
     }
 
     get limit() {
@@ -23,27 +24,32 @@ class Criteria {
     }
 
     get order() {
-        return this.#order.value;
+        return {
+            field: this.#order.field.value,
+            direction: this.#order.direction.value,
+        }
     }
 
     get offset() {
-        return this.#offset.value;
+        return this.#offset?.value;
     }
 
     convertToKnex(knexQuery, table = null) {
 
-        this.#filters.filters.forEach((filter) => this.#converFiltersToKnex(knexQuery, filter))
+        this.#filters?.filters?.forEach((filter) => this.#converFiltersToKnex(knexQuery, filter))
+
 
         if (this.limit) {
             knexQuery.limit(this.limit);
         }
 
+
         if (this.offset) {
             knexQuery.offset(this.offset);
         }
 
-        if (table) knexQuery.order(`${table}.${this.order.field}`, this.order.direction);
-        else knexQuery.order(this.order.field, this.order.direction);
+        if (table) knexQuery.orderBy(`${table}.${this.order.field}`, this.order.direction);
+        else knexQuery.orderBy(this.order.field, this.order.direction);
     }
 
     #converFiltersToKnex(KnexQuery, filter) {

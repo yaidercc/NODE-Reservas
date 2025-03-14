@@ -3,6 +3,7 @@ const { development: knexConfig } = require("../../src/config/database/knexfile"
 const HttpResponses = require("../../src/shared/httpResponses/httpResponses");
 const {validate: validateUuid} = require("uuid");
 const UserUpdater = require("../../src/core/users/application/update/UserUpdater");
+const UserSearcher = require("../../src/core/users/application/search/UserSearcher");
 
 class UserController {
     #repository;
@@ -49,6 +50,29 @@ class UserController {
             }
 
             const user = await new UserFinder(this.#repository).execute(id);
+            return HttpResponses.ok({res, ...user.toJson() })
+
+        } catch (error) {
+            console.log(error.message)
+            return HttpResponses.internalServerError({errors: error.message, res})
+        }
+    }
+
+    index = async ( req, res ) => {
+        try {
+
+            const dtoCriteria = {
+                filter: undefined,
+                limit: 10,
+                offset: 0,
+                order: {
+                    field: 'created_at',
+                    direction: 'desc',
+                },
+            };
+
+
+            const user = await new UserSearcher(this.#repository).execute(dtoCriteria);
             return HttpResponses.ok({res, ...user.toJson() })
 
         } catch (error) {

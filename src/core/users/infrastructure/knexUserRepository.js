@@ -24,6 +24,19 @@ class KnexUserRepository extends knexRepository {
         const result = await this.connection(this.tableName).where({id: id.value}).first();
         return result ?  new User(result) : null
     }
+
+    async search(criteria) {
+       try{
+           const query = this.connection(this.tableName).select("*")
+           criteria.convertToKnex(query)
+           const rows = await query;
+           console.log(rows);
+           return !rows ? null : rows.map((user)=> new User(user) );
+       }catch(err){
+           console.log(err)
+       }
+
+    }
 }
 
 module.exports = KnexUserRepository;

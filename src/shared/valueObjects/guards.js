@@ -28,9 +28,9 @@ class Guards {
         }
     }
 
-    static enumValue(vo, validValues){
-        if(!Object.values(validValues).includes(vo.value)){
-            throw new Error(`${vo.value} invalid value for enum`);
+    static enumValue(value, validValues){
+        if(!Object.values(validValues).includes(value)){
+            throw new Error(`${value} invalid value for enum`);
         }
     }
 }

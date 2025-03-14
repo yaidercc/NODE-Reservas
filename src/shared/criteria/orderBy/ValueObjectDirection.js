@@ -7,7 +7,7 @@ const VALID_DIRECTIONS = {
 
 class ValueObjectDirection extends ValueObjectEnum {
     constructor(direction) {
-        super("direction", direction.toLowerCase(), Object.values(VALID_DIRECTIONS));
+        super("direction", direction.toLowerCase(), VALID_DIRECTIONS);
     }
     static fromValues(value) {
         for(const direction of Object.values(VALID_DIRECTIONS)) {

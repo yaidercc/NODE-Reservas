@@ -37,4 +37,11 @@ describe('users E2E Test', () => {
 
         expect(response.status).toBe(200)
     })
+
+    test.only("Should get all users", async () => {
+        const dto = UserMother.dto()
+        const response = await request(app).get("/api/users")
+        expect(response.status).toBe(200)
+        expect(response.body.data.items.length).toBeGreaterThan(0)
+    })
 })
