@@ -18,6 +18,21 @@ class Guards {
             throw new Error(`${vo.value}: the password does not meet the conditions`);
         }
     }
+    static integerType(vo){
+        if(typeof vo.value  !== 'number'){
+            throw new Error(`${vo.value} is not a number`);
+        }
+
+        if(!Number.isInteger(vo.value)){
+            throw new Error(`${vo.value} is not an integer `);
+        }
+    }
+
+    static enumValue(vo, validValues){
+        if(!Object.values(validValues).includes(vo.value)){
+            throw new Error(`${vo.value} invalid value for enum`);
+        }
+    }
 }
 
 module.exports = Guards;
