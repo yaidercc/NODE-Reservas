@@ -5,13 +5,13 @@ const UserMother = require("../../src/tests/users/domain/usersMother");
 
 describe('users E2E Test', () => {
 
-    test("Should create a new user", async () => {
+    it("Should create a new user", async () => {
         const dto = UserMother.dto()
         const response = await request(app).post("/api/users").send(dto)
         expect(response.status).toBe(201)
     })
 
-    test("Should find an user", async () => {
+    it("Should find an user", async () => {
         const dto = UserMother.dto()
         await request(app).post("/api/users").send(dto)
 
@@ -25,26 +25,26 @@ describe('users E2E Test', () => {
         expect(user.email).toBe(dto.email)
     })
 
-    test("Should update an user", async () => {
+    it("Should update an user", async () => {
         const dto = UserMother.dto()
         await request(app).post("/api/users").send(dto)
 
         const infoToUpdate = {
             name: "John Doe",
         }
-
         const response = await request(app).put(`/api/users/${dto.id}`).send(infoToUpdate)
 
         expect(response.status).toBe(200)
     })
 
-    test("Should fetch all users", async () => {
+    it("Should fetch all users", async () => {
         const response = await request(app).get("/api/users")
+
         expect(response.status).toBe(200)
         expect(response.body.data.items.length).toBeGreaterThan(0)
     })
 
-    test("Should fetch users by a criteria", async () => {
+    it("Should fetch users by a criteria", async () => {
         const dto = UserMother.dto()
         await request(app).post("/api/users").send(dto)
         const dtoCriteria = {
@@ -70,11 +70,11 @@ describe('users E2E Test', () => {
 
     })
 
-    test("Should login an user", async () => {
+    it("Should login an user", async () => {
         const dto = UserMother.dto()
         await request(app).post("/api/users").send(dto)
 
         const loginUser = await request(app).post("/api/users/login").send({email: dto.email, password: dto.password})
-
+        expect(loginUser.status).toBe(200)
     })
 })
