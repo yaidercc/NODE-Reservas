@@ -4,16 +4,26 @@ const request = require("supertest");
 const UserMother = require("../../src/tests/users/domain/usersMother");
 
 describe('users E2E Test', () => {
+    let token;
+
+    beforeAll(async () => {
+        const loginResponse = await request(app)
+            .post("/api/users/login")
+            .send(UserMother.adminUserLogin);
+        token = loginResponse.body.data.token;
+
+    });
 
     it("Should create a new user", async () => {
         const dto = UserMother.dto()
-        const response = await request(app).post("/api/users").send(dto)
+        const response = await request(app).post("/api/users").set("x-token",token).send(dto)
+
         expect(response.status).toBe(201)
     })
 
     it("Should find an user", async () => {
         const dto = UserMother.dto()
-        await request(app).post("/api/users").send(dto)
+        await request(app).post("/api/users").set("x-token",token).send(dto)
 
         const { status, body } = await request(app).get(`/api/users/${dto.id}`)
         const { data: user } = body
@@ -27,7 +37,7 @@ describe('users E2E Test', () => {
 
     it("Should update an user", async () => {
         const dto = UserMother.dto()
-        await request(app).post("/api/users").send(dto)
+        await request(app).post("/api/users").set("x-token",token).send(dto)
 
         const infoToUpdate = {
             name: "John Doe",
@@ -46,7 +56,7 @@ describe('users E2E Test', () => {
 
     it("Should fetch users by a criteria", async () => {
         const dto = UserMother.dto()
-        await request(app).post("/api/users").send(dto)
+        await request(app).post("/api/users").set("x-token",token).send(dto)
         const dtoCriteria = {
             filter: [
                 {
@@ -72,9 +82,10 @@ describe('users E2E Test', () => {
 
     it("Should login an user", async () => {
         const dto = UserMother.dto()
-        await request(app).post("/api/users").send(dto)
+        await request(app).post("/api/users").set("x-token",token).send(dto)
 
         const loginUser = await request(app).post("/api/users/login").send({email: dto.email, password: dto.password})
+
         expect(loginUser.status).toBe(200)
     })
 })

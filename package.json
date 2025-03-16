@@ -5,6 +5,9 @@
   "scripts": {
     "test": "jest",
     "migrate:latest": "knex --knexfile=./src/config/database/knexfile.js migrate:latest\n",
+    "migrate:rollback": "knex --knexfile=./src/config/database/knexfile.js migrate:rollback --all\n",
+    "migrate:seed": "knex --knexfile=./src/config/database/knexfile.js seed:run\n",
+    "migrate:reset": "npm run migrate:rollback && npm run migrate:latest && npm run migrate:seed",
     "api": "nodemon src/app.js"
   },
   "keywords": [],

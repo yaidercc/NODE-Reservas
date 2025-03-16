@@ -1,8 +1,8 @@
 const {ValueObjectString,Guards} = require("../../../../shared/valueObjects");
 
 class valueObjectPassword extends ValueObjectString {
-    constructor(field, value, nullable = false) {
-        super(field, value);
+    constructor(value, nullable = false) {
+        super("password", value);
 
         if(nullable) return;
 

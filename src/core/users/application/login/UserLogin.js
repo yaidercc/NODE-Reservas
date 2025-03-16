@@ -12,7 +12,7 @@ class UserLogin {
     async execute({email, password}) {
         if(!email || !password) throw new Error(`email and password must be provided.`);
 
-        const user = await this.#repository.find(new valueObjectEmail("email",email));
+        const user = await this.#repository.find(new valueObjectEmail(email));
 
         if(!user || user.deleted_at.value){
             throw new Error("User don´t exists");

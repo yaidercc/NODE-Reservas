@@ -4,6 +4,7 @@ function up(knex){
         table.string('name', 100).notNullable();
         table.string('last_name', 36).notNullable();
         table.string('email', 100).notNullable();
+        table.enu('role', ['admin', 'client']).notNullable().defaultTo('client');
         table.string('password', 100).notNullable();
         table.datetime('created_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
         table.datetime('updated_at').nullable();

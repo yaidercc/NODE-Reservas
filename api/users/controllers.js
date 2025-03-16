@@ -8,8 +8,8 @@ const UserLogin = require("../../src/core/users/application/login/UserLogin");
 
 class UserController {
     #repository;
-    constructor() {
-        this.#repository = new KnexUserRepository(knexConfig);
+    constructor(repository) {
+        this.#repository = repository
     }
 
     create = async ( req, res ) => {

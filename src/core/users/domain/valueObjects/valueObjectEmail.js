@@ -2,8 +2,8 @@
 const {ValueObjectString,Guards} = require("../../../../shared/valueObjects");
 
 class valueObjectEmail extends ValueObjectString {
-    constructor(field, value, nullable = false) {
-        super(field, value);
+    constructor(value, nullable = false) {
+        super("email", value);
 
         if(nullable) return;
 

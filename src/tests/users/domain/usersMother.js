@@ -9,7 +9,7 @@ class UserMother {
             name: chance.name({max:10}),
             last_name: chance.last({max:10}),
             email: chance.email({max:50}),
-            password: `dasd`,
+            password: `asdasdasd`,
             created_at: new Date().toISOString(),
         }
     }
@@ -19,6 +19,11 @@ class UserMother {
         const user = User.create(userDto);
         await repository.save(user);
         return user;
+    }
+
+    static adminUserLogin = {
+        email: "yaider@gmail.com",
+        password: "1d44b922"
     }
 }
 

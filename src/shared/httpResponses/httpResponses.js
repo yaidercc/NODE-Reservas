@@ -38,8 +38,14 @@ class HttpResponses {
         })
     }
 
-    static Unauthorized({message = 'Unauthorized', errors, res} = {}) {
+    static unauthorized({message = 'Unauthorized', errors, res} = {}) {
         return res.status(HttpStatusCode.Unauthorized).json({
+            message,
+            errors
+        })
+    }
+    static forbidden({message = 'Forbidden', errors, res} = {}) {
+        return res.status(HttpStatusCode.Forbidden).json({
             message,
             errors
         })

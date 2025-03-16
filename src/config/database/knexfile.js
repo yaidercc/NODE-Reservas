@@ -15,7 +15,7 @@ const development = {
         directory: './migrations',
     },
     seeds: {
-        directory: './src/config/database/seeds',
+        directory: './seeds',
     },
     connection: { ...connection },
 };
