@@ -38,10 +38,43 @@ describe('users E2E Test', () => {
         expect(response.status).toBe(200)
     })
 
-    test.only("Should get all users", async () => {
-        const dto = UserMother.dto()
+    test("Should fetch all users", async () => {
         const response = await request(app).get("/api/users")
         expect(response.status).toBe(200)
         expect(response.body.data.items.length).toBeGreaterThan(0)
+    })
+
+    test("Should fetch users by a criteria", async () => {
+        const dto = UserMother.dto()
+        await request(app).post("/api/users").send(dto)
+        const dtoCriteria = {
+            filter: [
+                {
+                    field: "name",
+                    operator: "eq",
+                    value: dto.name,
+                    type: "AND"
+                }
+            ],
+            limit: 10,
+            offset: 0,
+            order: {
+                field: 'created_at',
+                direction: 'desc',
+            },
+        };
+        const response = await request(app).post("/api/users/search").send(dtoCriteria)
+
+        const { name } = response.body.data.items[0]
+        expect(name).toBe(dto.name)
+
+    })
+
+    test("Should login an user", async () => {
+        const dto = UserMother.dto()
+        await request(app).post("/api/users").send(dto)
+
+        const loginUser = await request(app).post("/api/users/login").send({email: dto.email, password: dto.password})
+
     })
 })

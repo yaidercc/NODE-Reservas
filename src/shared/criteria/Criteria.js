@@ -58,18 +58,29 @@ class Criteria {
         this.validateBetweenOperator(filter);
 
         const andCondition = {
-            "null": ()=> KnexQuery.whereNull(filter.field.value),
-            "notNull": ()=> KnexQuery.whereNotNull(filter.field.value),
-            "between": ()=> KnexQuery.andWhereBetween(filter.field.value, filter.value.value),
-        }
-        const orCondition = {
-            "null": ()=> KnexQuery.orWhereNull(filter.field.value),
-            "notNull": ()=> KnexQuery.orWhereNotNull(filter.field.value),
-            "between": ()=> KnexQuery.orWhereBetween(filter.field.value, filter.value.value),
-        }
+            "null": () => KnexQuery.whereNull(filter.field.value),
+            "notNull": () => KnexQuery.whereNotNull(filter.field.value),
+            "between": () => KnexQuery.andWhereBetween(filter.field.value, filter.value.value),
+            "default": () => KnexQuery.where(filter.field.value,filter.operator.value, filter.value.value) // Fallback
+        };
 
-        if(filter.type.value === FILTER_TYPE.AND) andCondition[filter.operator]()
-        if(filter.type.value === FILTER_TYPE.OR) orCondition[filter.operator]()
+        const orCondition = {
+            "null": () => KnexQuery.orWhereNull(filter.field.value),
+            "notNull": () => KnexQuery.orWhereNotNull(filter.field.value),
+            "between": () => KnexQuery.orWhereBetween(filter.field.value, filter.value.value),
+            "default": () => KnexQuery.orWhere(filter.field.value,filter.operator.value, filter.value.value) // Fallback
+        };
+
+        if(filter.type.value === FILTER_TYPE.AND) {
+            if(andCondition[filter.operator.value]) andCondition[filter.operator.value]()
+            else andCondition["default"]()
+
+
+        }
+        if(filter.type.value === FILTER_TYPE.OR) {
+            if(orCondition[filter.operator.value]) orCondition[filter.operator.value]()
+            else orCondition["default"]()
+        }
     }
 
     validateLikeOrIlikeOperator(filter){

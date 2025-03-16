@@ -1,6 +1,6 @@
 const DomainUserFinder = require("../../domain/UserFinder") ;
 const User = require("../../domain/User");
-
+const bcryptjs = require("bcryptjs");
 class UserCreator {
     #repository;
     #finder;
@@ -17,7 +17,10 @@ class UserCreator {
         if (existsUser) {
             throw new Error(`User already exists`);
         }
-        const user = new User(dto);
+        const salt = bcryptjs.genSaltSync();
+        const encriptedPassword  = bcryptjs.hashSync(dto.password, salt);
+
+        const user = new User({...dto, password: encriptedPassword});
         await this.#repository.save(user);
     }
 }

@@ -20,4 +20,8 @@ const updateSchema = Joi.object({
     password: Joi.string().max(30)
 });
 
-module.exports = {createSchema, updateSchema};
+const loginSchema = Joi.object({
+    email: Joi.string().required(),
+    password: Joi.string().required()
+});
+module.exports = {createSchema, updateSchema, loginSchema};

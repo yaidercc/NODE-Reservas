@@ -37,6 +37,13 @@ class HttpResponses {
             errors
         })
     }
+
+    static Unauthorized({message = 'Unauthorized', errors, res} = {}) {
+        return res.status(HttpStatusCode.Unauthorized).json({
+            message,
+            errors
+        })
+    }
 }
 
 module.exports = HttpResponses;

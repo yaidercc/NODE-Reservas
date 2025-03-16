@@ -11,7 +11,7 @@ class UserSearcher {
     async execute({filter, order, limit, offset}) {
         const criteria = new Criteria(filter, order, limit, offset);
         const rows = await this.#repository.search(criteria);
-        console.log(rows)
+
         return new UserCollectionResponse(rows)
     }
 }

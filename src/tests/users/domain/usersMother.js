@@ -1,13 +1,15 @@
 const {User} = require("../../../core/users");
 const {v4: uuid} = require('uuid')
+const chance = new (require('chance'))();
+
 class UserMother {
     static dto(){
         return  {
             id: uuid() ,
-            name: "yaider",
-            last_name: "cordoba",
-            email: "yaider@gmail.com",
-            password: `${uuid().split("-")[0]}`,
+            name: chance.name({max:10}),
+            last_name: chance.last({max:10}),
+            email: chance.email({max:50}),
+            password: `dasd`,
             created_at: new Date().toISOString(),
         }
     }

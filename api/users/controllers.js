@@ -4,6 +4,7 @@ const HttpResponses = require("../../src/shared/httpResponses/httpResponses");
 const {validate: validateUuid} = require("uuid");
 const UserUpdater = require("../../src/core/users/application/update/UserUpdater");
 const UserSearcher = require("../../src/core/users/application/search/UserSearcher");
+const UserLogin = require("../../src/core/users/application/login/UserLogin");
 
 class UserController {
     #repository;
@@ -16,6 +17,30 @@ class UserController {
             const { body: userInfo } = req;
             await new UserCreator(this.#repository).execute({...userInfo, created_at: new Date().toISOString()});
             return HttpResponses.created({res})
+
+        }catch (error) {
+            console.log(error.message)
+            return HttpResponses.internalServerError({errors: error.message, res})
+        }
+    }
+
+    search = async ( req, res ) => {
+        try {
+            const { body: dtoCriteria } = req;
+            const user = await new UserSearcher(this.#repository).execute(dtoCriteria);
+            return HttpResponses.ok({res, ...user.toJson() })
+
+        }catch (error) {
+            console.log(error.message)
+            return HttpResponses.internalServerError({errors: error.errors, res})
+        }
+    }
+
+    login = async ( req, res ) => {
+        try {
+            const { body: loginInfo } = req;
+            const user = await new UserLogin(this.#repository).execute(loginInfo);
+            return HttpResponses.ok({res, ...user })
 
         }catch (error) {
             console.log(error.message)
@@ -54,7 +79,7 @@ class UserController {
 
         } catch (error) {
             console.log(error.message)
-            return HttpResponses.internalServerError({errors: error.message, res})
+            return HttpResponses.internalServerError({errors: error.errors, res})
         }
     }
 
@@ -77,7 +102,7 @@ class UserController {
 
         } catch (error) {
             console.log(error.message)
-            return HttpResponses.internalServerError({errors: error.message, res})
+            return HttpResponses.internalServerError({errors: error.errors, res})
         }
     }
 }

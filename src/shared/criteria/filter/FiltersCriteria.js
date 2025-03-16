@@ -13,7 +13,7 @@ class FiltersCriteria {
     }
 
     static fromValues(values) {
-        if (values.field || values.operator || values.value  || values.type) {
+        if (!values.field || !values.operator || !values.value  || !values.type) {
             throw new Error('Filter must have field, operator, value, type');
         }
 
