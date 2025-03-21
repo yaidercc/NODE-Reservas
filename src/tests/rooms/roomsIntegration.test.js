@@ -1,6 +1,7 @@
 const {KnexRoomRepository, RoomFinder} = require("../../core/rooms");
 const {knexConfig} = require( "../knexfile");
 const RoomsMother = require("./domain/roomsMother");
+const RoomsUpdate = require("../../core/rooms/application/update/RoomUpdate");
 
 describe('Rooms Integrations testss', () => {
     const repository  = new KnexRoomRepository(knexConfig);
@@ -18,9 +19,15 @@ describe('Rooms Integrations testss', () => {
         expect(room.id).toBe(createdRoom.id.value);
     })
 
-    it('Should Create a room', async () => {
+    it('Should Update a room', async () => {
         const createdRoom = await RoomsMother.create(repository)
-        const room = (await new RoomFinder(repository).execute(createdRoom.id.value)).toJson().data;
-        expect(room.id).toBe(createdRoom.id.value);
+        const dtoRoomUpdated = {
+            name: "102"
+        }
+        await (new RoomsUpdate(repository).execute(createdRoom.id.value, dtoRoomUpdated));
+
+        const findRoom = (await new RoomFinder(repository).execute(createdRoom.id.value)).toJson().data;
+
+        expect(findRoom.name).toBe(dtoRoomUpdated.name);
     })
 });
