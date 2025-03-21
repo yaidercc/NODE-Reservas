@@ -1,9 +1,10 @@
 const KnexRoomRepository = require("./infrastructure/KnexRoomRepository");
 const RoomSearcher = require("./application/search/RoomSearcher");
 const RoomFinder = require("./application/find/RoomFinder");
-const DomainRoomFinder = require("./domain/DomainRoomFinder");
+const DomainRoomFinder = require("./domain/RoomFinder");
 const RoomDeleter = require("./application/deleter/RoomDeleter");
 const RoomsCreator = require("./application/create/RoomsCreator");
+const RoomResponse = require("./application/RoomResponse");
 
 module.exports ={
     KnexRoomRepository,
@@ -11,5 +12,6 @@ module.exports ={
     RoomFinder,
     DomainRoomFinder,
     RoomDeleter,
-    RoomsCreator
+    RoomsCreator,
+    RoomResponse
 }

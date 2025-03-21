@@ -6,6 +6,7 @@ class UserResponse {
     }
 
     toJson() {
+        if (!this.#user) return {}
         return {
             data: {
                 id: this.#user.id.value,
