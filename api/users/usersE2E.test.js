@@ -26,6 +26,30 @@ describe('users E2E Test', () => {
         expect(response.status).toBe(201)
     })
 
+    it("Should not create a user with an existent email", async () => {
+        const dto1 = UserMother.dto(userPassword)
+        const dto2 = UserMother.dto(userPassword)
+
+
+        await request(app).post("/api/users").send({...dto1,password: userPassword})
+        const response = await request(app).post("/api/users").send({...dto2, email: dto1.email ,password: userPassword})
+
+
+        expect(response.status).toBe(500)
+    })
+
+    it("Should not update an user with an existent email", async () => {
+        const userCreated1 = await UserMother.create(repository);
+        const userCreated2 = await UserMother.create(repository);
+
+        const infoToUpdate = {
+            email: userCreated1.email.value,
+        }
+        const response = await request(app).put(`/api/users/${userCreated2.id.value}`).send(infoToUpdate)
+
+        expect(response.status).toBe(500)
+    })
+
     it("Should find an user", async () => {
         const userCreated = await UserMother.create(repository);
 
