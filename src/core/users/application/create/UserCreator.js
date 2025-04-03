@@ -1,6 +1,8 @@
 const DomainUserFinder = require("../../domain/UserFinder") ;
 const User = require("../../domain/User");
 const bcryptjs = require("bcryptjs");
+const valueObjectEmail = require("../../domain/valueObjects/valueObjectEmail");
+
 class UserCreator {
     #repository;
     #finder;
@@ -11,12 +13,18 @@ class UserCreator {
     }
 
     async execute(dto) {
-        if (!dto) throw new Error(`User don´t existsdto cannot be null`);
+        if (!dto) throw new Error(`dto cannot be null`);
 
         const existsUser = await this.#finder.execute(dto.id)
         if (existsUser) {
             throw new Error(`User already exists`);
         }
+
+        const existsEmail = await this.#repository.find(new valueObjectEmail(dto.email));
+        if (existsEmail) {
+            throw new Error(`Email already exists`);
+        }
+
         const salt = bcryptjs.genSaltSync();
         const encriptedPassword  = bcryptjs.hashSync(dto.password, salt);
 

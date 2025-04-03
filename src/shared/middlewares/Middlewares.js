@@ -49,6 +49,20 @@ class MiddlewaresManager {
         }
         next()
     }
+
+    canEdit(req,res,next){
+        const {user,params} = req
+        if(!user){
+            throw new Error("user doesn't exist in the request");
+        }
+
+        if(params.id !== user.id && user.role !== "admin"){
+            return HttpResponses.forbidden({errors: "You do not have permission to perform this action.", res})
+        }
+
+        next()
+
+    }
 }
 
 module.exports = MiddlewaresManager;

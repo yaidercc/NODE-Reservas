@@ -45,7 +45,7 @@ describe('users E2E Test', () => {
         const infoToUpdate = {
             email: userCreated1.email.value,
         }
-        const response = await request(app).put(`/api/users/${userCreated2.id.value}`).send(infoToUpdate)
+        const response = await request(app).put(`/api/users/${userCreated2.id.value}`).send(infoToUpdate).set("x-token",token)
 
         expect(response.status).toBe(500)
     })
@@ -70,7 +70,7 @@ describe('users E2E Test', () => {
         const infoToUpdate = {
             name: "John Doe",
         }
-        const response = await request(app).put(`/api/users/${userCreated.id.value}`).send(infoToUpdate)
+        const response = await request(app).put(`/api/users/${userCreated.id.value}`).send(infoToUpdate).set("x-token",token)
 
         expect(response.status).toBe(200)
     })
@@ -78,7 +78,7 @@ describe('users E2E Test', () => {
     it("Should fetch all users", async () => {
         await UserMother.createMany(repository,3)
 
-        const response = await request(app).get("/api/users")
+        const response = await request(app).get("/api/users").set("x-token",token)
 
         expect(response.status).toBe(200)
         expect(response.body.data.length).toBeGreaterThan(0)
@@ -103,7 +103,7 @@ describe('users E2E Test', () => {
                 direction: 'desc',
             },
         };
-        const response = await request(app).post("/api/users/search").send(dtoCriteria)
+        const response = await request(app).post("/api/users/search").send(dtoCriteria).set("x-token",token)
 
         const { name } = response.body.data[0]
         expect(name).toBe(userCreated.name.value)

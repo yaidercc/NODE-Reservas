@@ -1,4 +1,5 @@
 const DomainUserFinder = require("../../domain/UserFinder");
+const valueObjectEmail = require("../../domain/valueObjects/valueObjectEmail");
 
 class UserUpdater {
     #repository;
@@ -13,6 +14,13 @@ class UserUpdater {
 
         const user = await this.#finder.execute(id);
         if(!user) throw new Error("user not exists")
+
+       if (dto?.email){
+           const existsEmail = await this.#repository.find(new valueObjectEmail(dto.email));
+           if (existsEmail && existsEmail.id.value !== id) {
+               throw new Error(`Email already exists`);
+           }
+       }
 
         user.update(dto);
 

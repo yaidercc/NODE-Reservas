@@ -4,7 +4,6 @@ const {validate: validateUuid} = require("uuid");
 const UserUpdater = require("../../src/core/users/application/update/UserUpdater");
 const UserSearcher = require("../../src/core/users/application/search/UserSearcher");
 const UserLogin = require("../../src/core/users/application/login/UserLogin");
-const {RoomDeleter} = require("../../src/core/rooms");
 
 class UserController {
     #repository;
@@ -61,7 +60,7 @@ class UserController {
             return HttpResponses.ok({res})
 
         } catch (error) {
-            console.log(error.message)
+            console.log(error)
             return HttpResponses.internalServerError({errors: error.message, res})
         }
     }
