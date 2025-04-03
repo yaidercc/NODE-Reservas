@@ -11,9 +11,8 @@ class UserCollectionResponse {
     toJson() {
         return {
 
-            data: {
-                items: this.#userCollection.map((user) => new UserResponse(user).toJson().data),
-            }
+            data: this.#userCollection.map((user) => new UserResponse(user).toJson().data),
+
         }
     }
 }

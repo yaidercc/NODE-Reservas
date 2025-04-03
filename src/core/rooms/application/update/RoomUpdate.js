@@ -19,6 +19,8 @@ class RoomsUpdate {
 
         await this.#repository.update(room);
 
+        room.flushChanges();
+
 
     }
 }

@@ -11,7 +11,7 @@ class UserCreator {
     }
 
     async execute(dto) {
-        if (!dto) throw new Error(`dto cannot be null`);
+        if (!dto) throw new Error(`User don´t existsdto cannot be null`);
 
         const existsUser = await this.#finder.execute(dto.id)
         if (existsUser) {

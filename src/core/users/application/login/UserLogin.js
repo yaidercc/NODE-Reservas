@@ -18,6 +18,7 @@ class UserLogin {
             throw new Error("User don´t exists");
         }
 
+
         const isThePasswordCorrect = bcryptjs.compareSync(password, user.password.value);
 
         if(!isThePasswordCorrect){

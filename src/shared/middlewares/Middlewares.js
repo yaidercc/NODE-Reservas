@@ -2,11 +2,15 @@ const jwt = require("jsonwebtoken");
 const {ValueObjectId} = require("../valueObjects");
 const HttpResponses = require("../httpResponses/httpResponses");
 const UserResponse = require("../../core/users/application/UserResponse");
+const {KnexUserRepository} = require("../../core/users");
+const KnexRoomRepository = require("../../core/rooms/infrastructure/KnexRoomRepository");
 
 class MiddlewaresManager {
-    #repository;
-    constructor(repository) {
-        this.#repository = repository;
+    #userRepository;
+    #roomRepository;
+    constructor(knexConfig) {
+        this.#userRepository = new KnexUserRepository(knexConfig);
+        this.#roomRepository = new KnexRoomRepository(knexConfig);
     }
 
     async validateJWT(req,res, next){
@@ -18,9 +22,10 @@ class MiddlewaresManager {
         try {
             const {id} = jwt.verify(token, process.env.SECRETKEY);
 
-            const user = await this.#repository.find(new ValueObjectId("id",id));
+            const user = await this.#userRepository.find(new ValueObjectId("id",id));
 
             if (!user) {
+
                 return HttpResponses.notFound({errors: "User don´t exists", res})
             }
 

@@ -7,7 +7,7 @@ const RoomsCreator = require("./application/create/RoomsCreator");
 const RoomResponse = require("./application/RoomResponse");
 const RoomsUpdate = require("./application/update/RoomUpdate");
 
-module.exports ={
+module.exports = {
     KnexRoomRepository,
     RoomSearcher,
     RoomFinder,

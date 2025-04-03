@@ -12,7 +12,7 @@ class Routes {
     constructor() {
         this.router = Router;
         this.#repository = new KnexUserRepository(knexConfig);
-        this.middlewares = new MiddlewaresManager(this.#repository);
+        this.middlewares = new MiddlewaresManager(knexConfig);
         this.controllers = new UserController(this.#repository);
         this.setRoutes()
 
@@ -21,10 +21,11 @@ class Routes {
     setRoutes(){
         this.router.get("/", this.controllers.index)
         this.router.get("/:id", this.controllers.find)
-        this.router.post("/",[validateSchemas(createSchema), this.middlewares.validateJWT.bind(this.middlewares), this.middlewares.isAdmin], this.controllers.create)
+        this.router.post("/",validateSchemas(createSchema), this.controllers.create)
         this.router.post("/search",validateSchemas(SearchSchema), this.controllers.search)
         this.router.post("/login",validateSchemas(loginSchema), this.controllers.login)
         this.router.put("/:id",validateSchemas(updateSchema), this.controllers.update)
+        this.router.delete("/:id/delete",[this.middlewares.validateJWT.bind(this.middlewares), this.middlewares.isAdmin], this.controllers.delete)
     }
 }
 

@@ -2,8 +2,12 @@ require("dotenv").config({ path: __dirname + "/../../.env" });
 const app  = require( "../../src/app");
 const request = require("supertest");
 const UserMother = require("../../src/tests/users/domain/usersMother");
+const {development: knexConfig} = require("../../src/config/database/knexfile");
+const {KnexUserRepository} = require("../../src/core/users");
 
 describe('users E2E Test', () => {
+    const repository = new KnexUserRepository(knexConfig);
+    const userPassword = 'RandomPass123#'
     let token;
 
     beforeAll(async () => {
@@ -15,54 +19,56 @@ describe('users E2E Test', () => {
     });
 
     it("Should create a new user", async () => {
-        const dto = UserMother.dto()
-        const response = await request(app).post("/api/users").set("x-token",token).send(dto)
+        const dto = UserMother.dto(userPassword)
+
+        const response = await request(app).post("/api/users").send({...dto,password: userPassword})
 
         expect(response.status).toBe(201)
     })
 
     it("Should find an user", async () => {
-        const dto = UserMother.dto()
-        await request(app).post("/api/users").set("x-token",token).send(dto)
+        const userCreated = await UserMother.create(repository);
 
-        const { status, body } = await request(app).get(`/api/users/${dto.id}`)
+        const { status, body } = await request(app).get(`/api/users/${userCreated.id.value}`)
         const { data: user } = body
 
         expect(status).toBe(200)
-        expect(user.id).toBe(dto.id)
-        expect(user.name).toBe(dto.name)
-        expect(user.last_name).toBe(dto.last_name)
-        expect(user.email).toBe(dto.email)
+
+        expect(user.id).toBe(userCreated.id.value)
+        expect(user.name).toBe(userCreated.name.value)
+        expect(user.last_name).toBe(userCreated.last_name.value)
+        expect(user.email).toBe(userCreated.email.value)
     })
 
     it("Should update an user", async () => {
-        const dto = UserMother.dto()
-        await request(app).post("/api/users").set("x-token",token).send(dto)
+        const userCreated = await UserMother.create(repository);
 
         const infoToUpdate = {
             name: "John Doe",
         }
-        const response = await request(app).put(`/api/users/${dto.id}`).send(infoToUpdate)
+        const response = await request(app).put(`/api/users/${userCreated.id.value}`).send(infoToUpdate)
 
         expect(response.status).toBe(200)
     })
 
     it("Should fetch all users", async () => {
+        await UserMother.createMany(repository,3)
+
         const response = await request(app).get("/api/users")
 
         expect(response.status).toBe(200)
-        expect(response.body.data.items.length).toBeGreaterThan(0)
+        expect(response.body.data.length).toBeGreaterThan(0)
     })
 
     it("Should fetch users by a criteria", async () => {
-        const dto = UserMother.dto()
-        await request(app).post("/api/users").set("x-token",token).send(dto)
+        const userCreated = await UserMother.create(repository);
+
         const dtoCriteria = {
             filter: [
                 {
                     field: "name",
                     operator: "eq",
-                    value: dto.name,
+                    value: userCreated.name.value,
                     type: "AND"
                 }
             ],
@@ -75,17 +81,28 @@ describe('users E2E Test', () => {
         };
         const response = await request(app).post("/api/users/search").send(dtoCriteria)
 
-        const { name } = response.body.data.items[0]
-        expect(name).toBe(dto.name)
+        const { name } = response.body.data[0]
+        expect(name).toBe(userCreated.name.value)
 
     })
 
     it("Should login an user", async () => {
-        const dto = UserMother.dto()
-        await request(app).post("/api/users").set("x-token",token).send(dto)
 
-        const loginUser = await request(app).post("/api/users/login").send({email: dto.email, password: dto.password})
+        const userCreated = await UserMother.create(repository, userPassword);
+
+        const loginUser = await request(app).post("/api/users/login").send({email: userCreated.email.value, password: userPassword})
 
         expect(loginUser.status).toBe(200)
     })
+
+    it("Should delete an user", async () => {
+        const userCreated = await UserMother.create(repository);
+        await request(app).delete(`/api/users/${userCreated.id.value}/delete`).set("x-token",token)
+
+        const response = await request(app).get(`/api/users/${userCreated.id.value}`)
+
+        expect(response.status).toBe(500)
+    })
+
+
 })

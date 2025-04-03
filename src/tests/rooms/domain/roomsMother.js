@@ -10,12 +10,23 @@ class RoomsMother {
         }
     }
 
-    static async create(repository) {
-        const roomDto = RoomsMother.dto()
+    static async create(repository, dto = null) {
+        const roomDto = dto || RoomsMother.dto()
         const room = Room.create(roomDto);
         await repository.save(room);
         return room;
     }
+
+    static async createMany(repository,quantity) {
+        const rooms = [];
+        for (let i = 0; i < quantity; i++) {
+           const room = await RoomsMother.create(repository);
+           rooms.push(room);
+        }
+
+        return rooms;
+    }
+
 }
 
 module.exports = RoomsMother

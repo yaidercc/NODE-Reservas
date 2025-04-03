@@ -1,10 +1,10 @@
-const { KnexUserRepository, UserCreator, UserFinder} = require( "../../src/core/users");
-const { development: knexConfig } = require("../../src/config/database/knexfile");
+const { UserCreator, UserFinder, UserDeleter} = require( "../../src/core/users");
 const HttpResponses = require("../../src/shared/httpResponses/httpResponses");
 const {validate: validateUuid} = require("uuid");
 const UserUpdater = require("../../src/core/users/application/update/UserUpdater");
 const UserSearcher = require("../../src/core/users/application/search/UserSearcher");
 const UserLogin = require("../../src/core/users/application/login/UserLogin");
+const {RoomDeleter} = require("../../src/core/rooms");
 
 class UserController {
     #repository;
@@ -19,7 +19,7 @@ class UserController {
             return HttpResponses.created({res})
 
         }catch (error) {
-            console.log(error.message)
+            console.log(error)
             return HttpResponses.internalServerError({errors: error.message, res})
         }
     }
@@ -78,7 +78,28 @@ class UserController {
             return HttpResponses.ok({res, ...user.toJson() })
 
         } catch (error) {
-            console.log(error.message)
+            console.log(error)
+            return HttpResponses.internalServerError({errors: error.errors, res})
+        }
+    }
+
+    delete = async ( req, res ) => {
+        try {
+            const { id } = req.params;
+
+            if(!validateUuid(id)){
+                return HttpResponses.badRequest({errors: "El id es invalido", res})
+            }
+
+            const dto = {
+                deleted_at: new Date().toISOString()
+            };
+
+            await new UserDeleter(this.#repository).execute(id, dto);
+            return HttpResponses.ok({res})
+
+        } catch (error) {
+            console.log(error)
             return HttpResponses.internalServerError({errors: error.errors, res})
         }
     }
