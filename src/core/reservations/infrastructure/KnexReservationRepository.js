@@ -1,5 +1,5 @@
 const knexRepository = require("../../../shared/infrastructure/knexRepository");
-const User = require("../../users/domain/User");
+const Reservations = require("../domain/Reservations");
 
 class KnexReservationRepository extends knexRepository {
     constructor(config) {
@@ -12,10 +12,10 @@ class KnexReservationRepository extends knexRepository {
             await this.connection(this.tableName).insert(
                 {
                     id: dto.id.value,
-                    user_id : dto.user_id.value,
-                    room_id : dto.room_id.value,
-                    date_from : dto.date_from.value,
-                    date_to : dto.date_to.value,
+                    user_id: dto.user_id.value,
+                    room_id: dto.room_id.value,
+                    date_from: dto.date_from.value,
+                    date_to: dto.date_to.value,
                 }
             );
         } catch (err) {
@@ -32,8 +32,7 @@ class KnexReservationRepository extends knexRepository {
         }
 
         const result = await this.connection(this.tableName).where(queryFieldAndValue).first();
-
-        return result ? new User(result) : null
+        return result ? new Reservations(result) : null
     }
 
     async search(criteria) {
@@ -41,7 +40,7 @@ class KnexReservationRepository extends knexRepository {
             const query = this.connection(this.tableName).select("*")
             criteria.convertToKnex(query)
             const rows = await query;
-            return !rows ? null : rows.map((user) => new User(user));
+            return !rows ? null : rows.map((reservation) => new Reservations(reservation));
         } catch (err) {
             console.log(err)
         }

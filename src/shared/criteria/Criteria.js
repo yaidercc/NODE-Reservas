@@ -12,7 +12,6 @@ class Criteria {
     #offset;
 
     constructor(filters, order, limit, offset) {
-
         this.#filters = !filters ? filters : Filters.fromValues(filters);
         this.#order = !order ? null : new OrderByCriteria(order);
         this.#offset = !offset ? null : new ValueObjectInt("offset", offset);
@@ -20,7 +19,7 @@ class Criteria {
     }
 
     get limit() {
-        return this.#limit.value;
+        return this.#limit?.value || 0;
     }
 
     get order() {
@@ -31,7 +30,7 @@ class Criteria {
     }
 
     get offset() {
-        return this.#offset?.value;
+        return this.#offset?.value || 0;
     }
 
     convertToKnex(knexQuery, table = null) {
@@ -91,7 +90,7 @@ class Criteria {
 
     validateInNotInOperator(filter){
         if(filter.operator.value === COMPARISION_OPERATORS.notIn || filter.operator.value === COMPARISION_OPERATORS.in) {
-            filter.setValue(filter.operator.value.split(", "))
+            filter.setValue(filter.value.value.split(", "))
         }
     }
 

@@ -93,7 +93,14 @@ class RoomsControllers {
         try {
 
             const dtoCriteria = {
-                filter: undefined,
+                filter: [
+                    {
+                        field: "deleted_at",
+                        operator: "null",
+                        value: '',
+                        type: "AND"
+                    },
+                ],
                 limit: 10,
                 offset: 0,
                 order: {

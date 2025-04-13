@@ -1,5 +1,5 @@
-require("dotenv").config({ path: __dirname + "/../../.env" });
-const app  = require( "../../src/app");
+require("dotenv").config({path: __dirname + "/../../.env"});
+const app = require("../../src/app");
 const request = require("supertest");
 const UserMother = require("../../src/tests/users/domain/usersMother");
 const {development: knexConfig} = require("../../src/config/database/knexfile");
@@ -21,7 +21,7 @@ describe('users E2E Test', () => {
     it("Should create a new user", async () => {
         const dto = UserMother.dto(userPassword)
 
-        const response = await request(app).post("/api/users").send({...dto,password: userPassword})
+        const response = await request(app).post("/api/users").send({...dto, password: userPassword})
 
         expect(response.status).toBe(201)
     })
@@ -31,21 +31,25 @@ describe('users E2E Test', () => {
         const dto2 = UserMother.dto(userPassword)
 
 
-        await request(app).post("/api/users").send({...dto1,password: userPassword})
-        const response = await request(app).post("/api/users").send({...dto2, email: dto1.email ,password: userPassword})
+        await request(app).post("/api/users").send({...dto1, password: userPassword})
+        const response = await request(app).post("/api/users").send({
+            ...dto2,
+            email: dto1.email,
+            password: userPassword
+        })
 
 
         expect(response.status).toBe(500)
     })
 
-    it("Should not update an user with an existent email", async () => {
+    it("Should not cancel an user with an existent email", async () => {
         const userCreated1 = await UserMother.create(repository);
         const userCreated2 = await UserMother.create(repository);
 
         const infoToUpdate = {
             email: userCreated1.email.value,
         }
-        const response = await request(app).put(`/api/users/${userCreated2.id.value}`).send(infoToUpdate).set("x-token",token)
+        const response = await request(app).put(`/api/users/${userCreated2.id.value}`).send(infoToUpdate).set("x-token", token)
 
         expect(response.status).toBe(500)
     })
@@ -53,8 +57,8 @@ describe('users E2E Test', () => {
     it("Should find an user", async () => {
         const userCreated = await UserMother.create(repository);
 
-        const { status, body } = await request(app).get(`/api/users/${userCreated.id.value}`)
-        const { data: user } = body
+        const {status, body} = await request(app).get(`/api/users/${userCreated.id.value}`)
+        const {data: user} = body
 
         expect(status).toBe(200)
 
@@ -64,21 +68,21 @@ describe('users E2E Test', () => {
         expect(user.email).toBe(userCreated.email.value)
     })
 
-    it("Should update an user", async () => {
+    it("Should cancel an user", async () => {
         const userCreated = await UserMother.create(repository);
 
         const infoToUpdate = {
             name: "John Doe",
         }
-        const response = await request(app).put(`/api/users/${userCreated.id.value}`).send(infoToUpdate).set("x-token",token)
+        const response = await request(app).put(`/api/users/${userCreated.id.value}`).send(infoToUpdate).set("x-token", token)
 
         expect(response.status).toBe(200)
     })
 
     it("Should fetch all users", async () => {
-        await UserMother.createMany(repository,3)
+        await UserMother.createMany(repository, 3)
 
-        const response = await request(app).get("/api/users").set("x-token",token)
+        const response = await request(app).get("/api/users").set("x-token", token)
 
         expect(response.status).toBe(200)
         expect(response.body.data.length).toBeGreaterThan(0)
@@ -94,7 +98,15 @@ describe('users E2E Test', () => {
                     operator: "eq",
                     value: userCreated.name.value,
                     type: "AND"
-                }
+                },
+
+                {
+                    field: "deleted_at",
+                    operator: "null",
+                    value: '',
+                    type: "AND"
+                },
+
             ],
             limit: 10,
             offset: 0,
@@ -103,9 +115,9 @@ describe('users E2E Test', () => {
                 direction: 'desc',
             },
         };
-        const response = await request(app).post("/api/users/search").send(dtoCriteria).set("x-token",token)
+        const response = await request(app).post("/api/users/search").send(dtoCriteria).set("x-token", token)
 
-        const { name } = response.body.data[0]
+        const {name} = response.body.data[0]
         expect(name).toBe(userCreated.name.value)
 
     })
@@ -114,14 +126,17 @@ describe('users E2E Test', () => {
 
         const userCreated = await UserMother.create(repository, userPassword);
 
-        const loginUser = await request(app).post("/api/users/login").send({email: userCreated.email.value, password: userPassword})
+        const loginUser = await request(app).post("/api/users/login").send({
+            email: userCreated.email.value,
+            password: userPassword
+        })
 
         expect(loginUser.status).toBe(200)
     })
 
     it("Should delete an user", async () => {
         const userCreated = await UserMother.create(repository);
-        await request(app).delete(`/api/users/${userCreated.id.value}/delete`).set("x-token",token)
+        await request(app).delete(`/api/users/${userCreated.id.value}/delete`).set("x-token", token)
 
         const response = await request(app).get(`/api/users/${userCreated.id.value}`)
 

@@ -14,10 +14,11 @@ class HttpResponses {
             data
         })
     }
-    static badRequest({message= "Bad request", errors,res}= {}) {
+    static badRequest({message= "Bad request", errors,res,data}= {}) {
         return res.status(HttpStatusCode.BadRequest).json({
             message,
-            errors
+            errors,
+            data
         })
     }
     static notFound({message= "Not Found",res}= {}) {

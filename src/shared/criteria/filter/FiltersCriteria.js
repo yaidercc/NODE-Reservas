@@ -13,12 +13,12 @@ class FiltersCriteria {
     }
 
     static fromValues(values) {
-        if (!values.field || !values.operator || !values.value  || !values.type) {
+        if (!values.field || !values.operator || values.value === null || values.value === undefined || !values.type) {
             throw new Error('Filter must have field, operator, value, type');
         }
 
         return new FiltersCriteria(
-            new ValueObjectString('field',values.field),
+            new ValueObjectString('field', values.field),
             ValueObjectFilterOperator.fromValues(values.operator),
             new ValueObjectFilterValue(values.value),
             ValueObjectFilterType.fromValues(values.type)

@@ -41,7 +41,6 @@ class KnexRoomRepository extends knexRepository{
         try{
             const query = this.connection(this.tableName).select("*")
             criteria.convertToKnex(query)
-
             const rows = await query;
             return rows ? rows.map((room) => new Room(room)) : null;
 

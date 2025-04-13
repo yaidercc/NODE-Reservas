@@ -8,10 +8,11 @@ const connection = {
     port: process.env.DB_PORT
 };
 
+
 const development = {
     client: 'pg',
     migrations: {
-        tableName: 'knex_migrations',
+        tableName: `knex_migrations`,
         directory: './migrations',
     },
     seeds: {

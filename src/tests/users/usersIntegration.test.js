@@ -55,7 +55,7 @@ describe("User integration tests",()=>{
         expect(SearchedUser[0].id).toBe(userDto.id)
     })
 
-    it('Should update an user', async () => {
+    it('Should cancel an user', async () => {
         const createdUser = await UsersMother.create(repository);
         await new UserUpdater(repository).execute(createdUser.id.value, {name: "soy yo"})
         const user = await repository.find(createdUser.id)

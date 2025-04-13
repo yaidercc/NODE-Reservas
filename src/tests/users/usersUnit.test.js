@@ -11,7 +11,7 @@ describe("User unit tests", () => {
         expect(user.id.value).toBe(dto.id);
     })
 
-    test("Should update an user", () => {
+    test("Should cancel an user", () => {
         const dto = UserMother.dto();
         const user = User.create(dto)
 

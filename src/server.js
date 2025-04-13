@@ -11,7 +11,8 @@ class ServerManager {
 
         this.#path={
             users: "/api/users",
-            rooms: "/api/rooms"
+            rooms: "/api/rooms",
+            reservations: "/api/reservations",
         }
 
         this.middlewares();
@@ -28,6 +29,7 @@ class ServerManager {
     #routes(){
         this.#app.use(this.#path.users, require("../api/users/routes"));
         this.#app.use(this.#path.rooms, require("../api/rooms/routes"));
+        this.#app.use(this.#path.reservations, require("../api/reservations/routes"));
     }
 
     listen(){

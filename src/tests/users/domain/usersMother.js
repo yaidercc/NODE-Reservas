@@ -33,6 +33,11 @@ class UserMother {
         return users;
     }
 
+    static async login(repository, dto) {
+        const response = await repository.save(user);
+        return response;
+    }
+
     static adminUserLogin = {
         email: "yaider@gmail.com",
         password: "1d44b922"

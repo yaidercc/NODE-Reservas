@@ -9,6 +9,7 @@
     "migrate:seed": "knex --knexfile=./src/config/database/knexfile.js seed:run\n",
     "migrate:reset": "npm run migrate:rollback && npm run migrate:latest && npm run migrate:seed",
     "api": "nodemon src/app.js"
+
   },
   "keywords": [],
   "author": "",
@@ -35,6 +36,7 @@
   },
   "devDependencies": {
     "chance": "^1.1.12",
+    "cross-env": "^7.0.3",
     "jest": "^29.7.0",
     "nodemon": "^3.1.9",
     "pg": "^8.13.3",
