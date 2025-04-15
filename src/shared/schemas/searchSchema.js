@@ -7,7 +7,7 @@ const filter = Joi.object({
     operator: Joi.string()
         .valid(...Object.keys(COMPARISION_OPERATORS))
         .required(),
-    value: Joi.alternatives().try(Joi.string(), Joi.number()).required(),
+    value: Joi.alternatives().try(Joi.string(), Joi.number()).required().allow(''),
     type: Joi.string()
         .valid(...Object.values(FILTER_TYPE))
         .required()

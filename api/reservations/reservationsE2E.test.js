@@ -27,6 +27,16 @@ describe('rooms E2E Test', () => {
     let adminToken;
 
     beforeAll(async () => {
+        await repository.connection.migrate.rollback({
+            directory: "src/config/database/migrations"
+        }, true);
+        await repository.connection.migrate.latest({
+            directory: "src/config/database/migrations"
+        });
+        await repository.connection.seed.run({
+            directory: "src/config/database/seeds"
+        });
+
         const loginResponse = await request(app)
             .post("/api/users/login")
             .send(UserMother.adminUserLogin);

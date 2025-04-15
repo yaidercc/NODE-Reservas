@@ -28,7 +28,8 @@ class UserMother {
     static async createMany(repository, quantity) {
         const users = [];
         for (let i = 0; i < quantity; i++){
-            await UserMother.create(repository);
+            const newUser = await UserMother.create(repository);
+            users.push(newUser)
         }
         return users;
     }

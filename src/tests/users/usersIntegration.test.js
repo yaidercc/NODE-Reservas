@@ -5,6 +5,7 @@ const UsersMother = require("./domain/usersMother");
 const UserResponse = require("../../core/users/application/UserResponse");
 const UserUpdater = require("../../core/users/application/update/UserUpdater");
 const UserSearcher = require("../../core/users/application/search/UserSearcher");
+const UserCreator = require("../../core/users/application/create/UserCreator");
 
 describe("User integration tests",()=>{
    const repository = new KnexUserRepository(knexConfig);
@@ -17,11 +18,13 @@ describe("User integration tests",()=>{
         await repository.connection.migrate.rollback(undefined, true);
     });
 
-    it('Should create an user', async () => {
-        const createdUser = await UsersMother.create(repository)
-        const user = (await new UserFinder(repository).execute(createdUser.id.value)).toJson().data;
-        expect(user.id).toBe(createdUser.id.value);
-    });
+    it('Should Create a reservation', async () => {
+        const userDto = UsersMother.dto();
+        await new UserCreator(repository).execute(userDto);
+        const userReesponse = await repository.connection("users").select("*").where("id", userDto.id);
+        expect(userReesponse.length).toBe(1)
+    })
+
 
     it('Should find an user by id', async () => {
         const createdUser = await UsersMother.create(repository);
@@ -31,9 +34,9 @@ describe("User integration tests",()=>{
         expect(user).toBeInstanceOf(UserResponse)
     })
 
-    it('Should Find a room by a criteria', async () => {
+    it('Should Find a user by a criteria', async () => {
         const userDto = UsersMother.dto();
-        await UsersMother.create(repository,{...userDto, name: "carlos"});
+        await UsersMother.create(repository,null,{...userDto, name: "carlos"});
 
         const criteria =  {
             filter: [{
