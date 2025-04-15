@@ -34,6 +34,18 @@ describe('rooms E2E Test', () => {
 
     });
 
+    beforeEach(async ()=>{
+        await repository.connection.migrate.rollback({
+            directory: "src/config/database/migrations"
+        }, true);
+        await repository.connection.migrate.latest({
+            directory: "src/config/database/migrations"
+        });
+        await repository.connection.seed.run({
+            directory: "src/config/database/seeds"
+        });
+    })
+
     it("Should create a reservation", async () => {
         const user = await UserMother.create(userRepository, "User123*");
         const room = await RoomsMother.create(roomRepository);

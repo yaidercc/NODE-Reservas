@@ -8,9 +8,19 @@ const connection = {
     port: process.env.DB_PORT
 };
 
+const schema = process.env.DB_SCHEMA;
+
+const setSchema = (conn, done) => {
+    conn.query('SET timezone="UTC";', done);
+    conn.query(`CREATE SCHEMA IF NOT EXISTS ${schema};`, done);
+    conn.query(`SET search_path TO ${schema};`, done);
+};
 
 const development = {
     client: 'pg',
+    pool: {
+        afterCreate: setSchema,
+    },
     migrations: {
         tableName: `knex_migrations`,
         directory: './migrations',
