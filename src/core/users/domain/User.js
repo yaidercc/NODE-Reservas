@@ -1,9 +1,9 @@
 
 const {ValueObjectString} =  require( "../../../shared/valueObjects");
-const valueObjectEmail =  require( "./valueObjects/valueObjectEmail");
-const valueObjectPassword =  require( "./valueObjects/valueObjectPassword");
-const AggregateRoot  = require("../../../shared/domain/aggregateRoot");
-const valueObjectRole = require("./valueObjects/valueObjectRole");
+const valueObjectEmail =  require( "./valueObjects/ValueObjectEmail");
+const valueObjectPassword =  require( "./valueObjects/ValueObjectPassword");
+const AggregateRoot  = require("../../../shared/domain/AggregateRoot");
+const valueObjectRole = require("./valueObjects/ValueObjectRole");
 
 class User extends AggregateRoot {
     /** @type {ValueObjectString} */

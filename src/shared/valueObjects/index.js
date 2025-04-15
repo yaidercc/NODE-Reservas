@@ -1,7 +1,7 @@
 module.exports = {
-    Guards: require("./guards"),
-    ValueObject: require("./valueObject"),
-    ValueObjectId: require("./valueObjectId"),
-    ValueObjectString: require("./valueObjectString"),
-    ValueObjectTimeStamp: require("./valueObjectTimeStamp"),
+    Guards: require("./Guards"),
+    ValueObject: require("./ValueObject"),
+    ValueObjectId: require("./ValueObjectId"),
+    ValueObjectString: require("./ValueObjectString"),
+    ValueObjectTimeStamp: require("./ValueObjectTimeStamp"),
 }

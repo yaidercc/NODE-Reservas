@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const {ValueObjectId} = require("../valueObjects");
-const HttpResponses = require("../httpResponses/httpResponses");
+const HttpResponses = require("../httpResponses/HttpResponses");
 const UserResponse = require("../../core/users/application/UserResponse");
 const {KnexUserRepository} = require("../../core/users");
 const KnexRoomRepository = require("../../core/rooms/infrastructure/KnexRoomRepository");

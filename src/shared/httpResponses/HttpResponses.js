@@ -1,4 +1,4 @@
-const Responses = require("./responses");
+const Responses = require("./Responses");
 const { HttpStatusCode } = require("axios");
 
 class HttpResponses {

@@ -1,5 +1,5 @@
-const {getKnexInstance } = require("../shared/infrastructure/knexConnection")
-const {testing} = require("../config/database/knexfile");
+const {getKnexInstance } = require("../shared/infrastructure/KnexConnection")
+const {testing} = require("../config/database/Knexfile");
 
 module.exports = {
     knexConfig: getKnexInstance(testing),

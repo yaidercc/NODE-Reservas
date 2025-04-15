@@ -1,11 +1,11 @@
-const {development: knexConfig} = require("../../src/config/database/knexfile");
+const {development: knexConfig} = require("../../src/config/database/Knexfile");
 const MiddlewaresManager = require("../../src/shared/middlewares/Middlewares");
-const validateSchemas = require("../../src/shared/validateSchemas");
-const SearchSchema = require("../../src/shared/schemas/searchSchema");
-const {findBusyDaysByDateSchema, createReservationSchema} = require("./schemas");
+const validateSchemas = require("../../src/shared/ValidateSchemas");
+const SearchSchema = require("../../src/shared/schemas/SearchSchema");
+const {findBusyDaysByDateSchema, createReservationSchema} = require("./Schemas");
 const {KnexRoomRepository} = require("../../src/core/rooms");
 const KnexReservationRepository = require("../../src/core/reservations/infrastructure/KnexReservationRepository");
-const ReservationController = require("./controllers");
+const ReservationController = require("./Controllers");
 const Router = require("express").Router();
 
 class Routes {

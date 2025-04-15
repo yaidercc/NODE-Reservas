@@ -1,6 +1,6 @@
-const ValueObject = require("./valueObject");
+const ValueObject = require("./ValueObject");
 const {validate} = require("uuid");
-const Guards = require("./guards");
+const Guards = require("./Guards");
 
 class ValueObjectInt extends ValueObject {
     constructor(field, value, nullable = false) {

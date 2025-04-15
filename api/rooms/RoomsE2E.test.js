@@ -4,7 +4,7 @@ const request = require("supertest");
 const UserMother = require("../../src/tests/users/domain/usersMother");
 const RoomsMother = require("../../src/tests/rooms/domain/roomsMother");
 const {KnexRoomRepository} = require("../../src/core/rooms");
-const {development: knexConfig} = require("../../src/config/database/knexfile");
+const {development: knexConfig} = require("../../src/config/database/Knexfile");
 const {v4: uuid} = require('uuid')
 
 describe('rooms E2E Test', () => {

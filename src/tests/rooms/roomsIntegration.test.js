@@ -2,7 +2,7 @@ const {KnexRoomRepository, RoomFinder, RoomResponse, RoomSearcher} = require("..
 const {knexConfig} = require("../knexfile");
 const RoomsMother = require("./domain/roomsMother");
 const RoomsUpdate = require("../../core/rooms/application/update/RoomUpdate");
-const searchedRoom = require("../../shared/domain/aggregateRoot");
+const searchedRoom = require("../../shared/domain/AggregateRoot");
 
 describe('Rooms Integrations testss', () => {
     const repository = new KnexRoomRepository(knexConfig);

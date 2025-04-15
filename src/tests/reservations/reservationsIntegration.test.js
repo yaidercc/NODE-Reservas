@@ -4,10 +4,10 @@ const ReservationsMother = require("./domain/reservationMother");
 const ReservationsCreator = require("../../core/reservations/application/create/ReservationsCreator");
 const ReservationFinder = require("../../core/reservations/application/finder/ReservationFinder");
 const ReservationSearcher = require("../../core/reservations/application/search/ReservationSearcher");
-const GetBusyDaysByRoom = require("../../core/reservations/application/getBusyDaysByRoom/getBusyDaysByRoom");
+const GetBusyDaysByRoom = require("../../core/reservations/application/getBusyDaysByRoom/GetBusyDaysByRoom");
 const {KnexRoomRepository} = require("../../core/rooms");
 const RoomsMother = require("../rooms/domain/roomsMother");
-const GetBusyDaysByDate = require("../../core/reservations/application/getBusyDaysByDate/getBusyDaysByDate");
+const GetBusyDaysByDate = require("../../core/reservations/application/getBusyDaysByDate/GetBusyDaysByDate");
 const ReservationCancel = require("../../core/reservations/application/cancel/ReservationCancel");
 const DomainReservationsFinder = require("../../core/reservations/domain/ReservationFinder");
 

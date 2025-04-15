@@ -1,4 +1,4 @@
-const ValueObjectEnum = require("../../valueObjects/valueObjectEnum");
+const ValueObjectEnum = require("../../valueObjects/ValueObjectEnum");
 
 const VALID_DIRECTIONS = {
     DESC: 'desc',

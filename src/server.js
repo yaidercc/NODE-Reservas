@@ -28,9 +28,9 @@ class ServerManager {
     }
 
     #routes(){
-        this.#app.use(this.#path.users, require("../api/users/routes"));
-        this.#app.use(this.#path.rooms, require("../api/rooms/routes"));
-        this.#app.use(this.#path.reservations, require("../api/reservations/routes"));
+        this.#app.use(this.#path.users, require("../api/users/Routes"));
+        this.#app.use(this.#path.rooms, require("../api/rooms/Routes"));
+        this.#app.use(this.#path.reservations, require("../api/reservations/Routes"));
     }
 
     listen(){

@@ -1,4 +1,4 @@
-const ValueObjectInt = require("../valueObjects/valueObjectInt");
+const ValueObjectInt = require("../valueObjects/ValueObjectInt");
 const OrderByCriteria = require("./orderBy/OrderByCriteria");
 const Filters = require("./filter/Filters");
 const {FILTER_TYPE} = require("./filter/ValueObjectFilterType");

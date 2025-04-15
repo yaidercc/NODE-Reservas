@@ -1,4 +1,4 @@
-const KnexUserRepository = require("../../core/users/infrastructure/knexUserRepository");
+const KnexUserRepository = require("../../core/users/infrastructure/KnexUserRepository");
 const {knexConfig} = require("../knexfile");
 const {UserFinder, UserDeleter} = require("../../core/users");
 const UsersMother = require("./domain/usersMother");

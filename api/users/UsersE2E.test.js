@@ -2,7 +2,7 @@ require("dotenv").config({path: __dirname + "/../../.env"});
 const server = require("../../src/app");
 const request = require("supertest");
 const UserMother = require("../../src/tests/users/domain/usersMother");
-const {development: knexConfig} = require("../../src/config/database/knexfile");
+const {development: knexConfig} = require("../../src/config/database/Knexfile");
 const {KnexUserRepository} = require("../../src/core/users");
 const {v4: uuid} = require('uuid')
 

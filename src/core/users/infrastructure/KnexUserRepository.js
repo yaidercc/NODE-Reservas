@@ -1,4 +1,4 @@
-const knexRepository = require("../../../shared/infrastructure/knexRepository");
+const knexRepository = require("../../../shared/infrastructure/KnexRepository");
 const User = require("../domain/User");
 
 class KnexUserRepository extends knexRepository {

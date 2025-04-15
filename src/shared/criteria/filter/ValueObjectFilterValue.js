@@ -1,4 +1,4 @@
-const ValueObject = require("../../valueObjects/valueObject");
+const ValueObject = require("../../valueObjects/ValueObject");
 
 class ValueObjectFilterValue extends ValueObject {
     constructor(value) {

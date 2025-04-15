@@ -1,9 +1,9 @@
 const ReservationsCreator = require("../../src/core/reservations/application/create/ReservationsCreator");
-const HttpResponses = require("../../src/shared/httpResponses/httpResponses");
-const GetBusyDaysByDate = require("../../src/core/reservations/application/getBusyDaysByDate/getBusyDaysByDate");
+const HttpResponses = require("../../src/shared/httpResponses/HttpResponses");
+const GetBusyDaysByDate = require("../../src/core/reservations/application/getBusyDaysByDate/GetBusyDaysByDate");
 const ReservationCancel = require("../../src/core/reservations/application/cancel/ReservationCancel");
 const {validate: validateUuid} = require("uuid");
-const GetBusyDaysByRoom = require("../../src/core/reservations/application/getBusyDaysByRoom/getBusyDaysByRoom");
+const GetBusyDaysByRoom = require("../../src/core/reservations/application/getBusyDaysByRoom/GetBusyDaysByRoom");
 
 class ReservationController {
     #repository;

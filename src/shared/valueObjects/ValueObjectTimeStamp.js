@@ -1,4 +1,4 @@
-const ValueObject = require("./valueObject");
+const ValueObject = require("./ValueObject");
 
 class ValueObjectTimeStamp extends ValueObject {
     constructor(field, value, nullable = false) {

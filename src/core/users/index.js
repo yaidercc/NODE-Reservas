@@ -3,7 +3,7 @@ module.exports = {
     UserFinder: require("./application/find/UserFinder"),
     UserCreator: require("./application/create/UserCreator"),
     UserDeleter: require("./application/deleter/UserDeleter"),
-    KnexUserRepository: require("./infrastructure/knexUserRepository"),
+    KnexUserRepository: require("./infrastructure/KnexUserRepository"),
     User: require("./domain/User"),
 
 }

@@ -1,4 +1,4 @@
-const ValueObjectString = require("../../valueObjects/valueObjectString");
+const ValueObjectString = require("../../valueObjects/ValueObjectString");
 const {ValueObjectFilterOperator} = require("./ValueObjectFilterOperator");
 const {ValueObjectFilterType} = require("./ValueObjectFilterType");
 const ValueObjectFilterValue = require("./ValueObjectFilterValue");

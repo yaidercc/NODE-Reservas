@@ -1,4 +1,4 @@
-const HttpResponses = require("./httpResponses/httpResponses")
+const HttpResponses = require("./httpResponses/HttpResponses")
 const validateSchemas = (schema) => (req, res, next) => {
     const { error } = schema.validate(req.body, { abortEarly: false });
 

@@ -1,5 +1,5 @@
-const AggregateRoot = require("../../../shared/domain/aggregateRoot");
-const ValueObjectString = require("../../../shared/valueObjects/valueObjectString");
+const AggregateRoot = require("../../../shared/domain/AggregateRoot");
+const ValueObjectString = require("../../../shared/valueObjects/ValueObjectString");
 
 class Room extends AggregateRoot{
     /** @type {ValueObjectString} */

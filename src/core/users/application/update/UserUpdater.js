@@ -1,5 +1,5 @@
 const DomainUserFinder = require("../../domain/UserFinder");
-const valueObjectEmail = require("../../domain/valueObjects/valueObjectEmail");
+const valueObjectEmail = require("../../domain/valueObjects/ValueObjectEmail");
 
 class UserUpdater {
     #repository;

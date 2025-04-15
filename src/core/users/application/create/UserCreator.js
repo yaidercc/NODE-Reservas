@@ -1,7 +1,7 @@
 const DomainUserFinder = require("../../domain/UserFinder") ;
 const User = require("../../domain/User");
 const bcryptjs = require("bcryptjs");
-const valueObjectEmail = require("../../domain/valueObjects/valueObjectEmail");
+const valueObjectEmail = require("../../domain/valueObjects/ValueObjectEmail");
 
 class UserCreator {
     #repository;

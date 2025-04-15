@@ -1,4 +1,4 @@
-const ValueObjectId = require("../../../shared/valueObjects/valueObjectId")
+const ValueObjectId = require("../../../shared/valueObjects/ValueObjectId")
 class UserFinder {
     #repository;
 

@@ -1,10 +1,10 @@
 const Router = require("express").Router();
-const { createSchema, updateSchema } = require('./schemas')
-const RoomsController  = require('./controllers')
-const validateSchemas = require("../../src/shared/validateSchemas")
-const SearchSchema = require("../../src/shared/schemas/searchSchema");
+const { createSchema, updateSchema } = require('./Schemas')
+const RoomsController  = require('./Controllers')
+const validateSchemas = require("../../src/shared/ValidateSchemas")
+const SearchSchema = require("../../src/shared/schemas/SearchSchema");
 const {KnexRoomRepository} = require("../../src/core/rooms");
-const {development: knexConfig} = require("../../src/config/database/knexfile");
+const {development: knexConfig} = require("../../src/config/database/Knexfile");
 const MiddlewaresManager = require("../../src/shared/middlewares/Middlewares");
 
 class Routes {

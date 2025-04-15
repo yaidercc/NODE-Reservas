@@ -1,6 +1,6 @@
-const AggregateRoot = require("../../../shared/domain/aggregateRoot");
+const AggregateRoot = require("../../../shared/domain/AggregateRoot");
 const {ValueObjectId} = require("../../../shared/valueObjects");
-const ValueObjectTimeStamp = require("../../../shared/valueObjects/valueObjectTimeStamp");
+const ValueObjectTimeStamp = require("../../../shared/valueObjects/ValueObjectTimeStamp");
 
 class Reservations extends AggregateRoot {
 

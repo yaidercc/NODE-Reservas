@@ -1,4 +1,4 @@
-const ValueObjectEnum = require("../../../../shared/valueObjects/valueObjectEnum");
+const ValueObjectEnum = require("../../../../shared/valueObjects/ValueObjectEnum");
 
 const VALID_ROLES = {
     ADMIN: "admin",

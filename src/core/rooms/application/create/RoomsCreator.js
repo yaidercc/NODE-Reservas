@@ -1,6 +1,6 @@
 const {ValueObjectString} = require("../../../../shared/valueObjects");
 const RoomFinder = require("../../application/find/RoomFinder");
-const ValueObjectId = require("../../../../shared/valueObjects/valueObjectId");
+const ValueObjectId = require("../../../../shared/valueObjects/ValueObjectId");
 const Room = require("../../domain/Room");
 
 

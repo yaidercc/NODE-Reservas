@@ -1,4 +1,4 @@
-const ValueObject = require("./valueObject");
+const ValueObject = require("./ValueObject");
 const {validate} = require("uuid");
 
 class ValueObjectId extends ValueObject {

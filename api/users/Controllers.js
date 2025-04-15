@@ -1,21 +1,24 @@
-const HttpResponses = require("../../src/shared/httpResponses/httpResponses");
-const {RoomSearcher, RoomsCreator, RoomFinder, RoomDeleter} = require("../../src/core/rooms");
+const { UserCreator, UserFinder, UserDeleter} = require( "../../src/core/users");
+const HttpResponses = require("../../src/shared/httpResponses/HttpResponses");
 const {validate: validateUuid} = require("uuid");
-const RoomsUpdate = require("../../src/core/rooms/application/update/RoomUpdate");
+const UserUpdater = require("../../src/core/users/application/update/UserUpdater");
+const UserSearcher = require("../../src/core/users/application/search/UserSearcher");
+const UserLogin = require("../../src/core/users/application/login/UserLogin");
 
-class RoomsControllers {
+class UserController {
     #repository;
     constructor(repository) {
-        this.#repository = repository;
+        this.#repository = repository
     }
+
     create = async ( req, res ) => {
         try {
-            const { body: roomInfo } = req;
-            await new RoomsCreator(this.#repository).execute({...roomInfo, created_at: new Date().toISOString()});
+            const { body: userInfo } = req;
+            await new UserCreator(this.#repository).execute({...userInfo, created_at: new Date().toISOString()});
             return HttpResponses.created({res})
 
         }catch (error) {
-            console.log(error.message)
+            console.log(error)
             return HttpResponses.internalServerError({errors: error.message, res})
         }
     }
@@ -23,7 +26,7 @@ class RoomsControllers {
     search = async ( req, res ) => {
         try {
             const { body: dtoCriteria } = req;
-            const user = await new RoomSearcher(this.#repository).execute(dtoCriteria);
+            const user = await new UserSearcher(this.#repository).execute(dtoCriteria);
             return HttpResponses.ok({res, ...user.toJson() })
 
         }catch (error) {
@@ -32,21 +35,32 @@ class RoomsControllers {
         }
     }
 
+    login = async ( req, res ) => {
+        try {
+            const { body: loginInfo } = req;
+            const user = await new UserLogin(this.#repository).execute(loginInfo);
+            return HttpResponses.ok({res, ...user })
+
+        }catch (error) {
+            console.log(error.message)
+            return HttpResponses.internalServerError({errors: error.message, res})
+        }
+    }
 
     update = async ( req, res ) => {
         try {
-            const { body: roomInfo } = req;
+            const { body: userInfo } = req;
             const { id } = req.params;
 
             if(!validateUuid(id)){
                 return HttpResponses.badRequest({errors: "El id es invalido", res})
             }
 
-            await new RoomsUpdate(this.#repository).execute(id, {...roomInfo, updated_at: new Date().toISOString()});
+            await new UserUpdater(this.#repository).execute(id, {...userInfo, updated_at: new Date().toISOString()});
             return HttpResponses.ok({res})
 
         } catch (error) {
-            console.log(error.message)
+            console.log(error)
             return HttpResponses.internalServerError({errors: error.message, res})
         }
     }
@@ -59,7 +73,7 @@ class RoomsControllers {
                 return HttpResponses.badRequest({errors: "El id es invalido", res})
             }
 
-            const user = await new RoomFinder(this.#repository).execute(id);
+            const user = await new UserFinder(this.#repository).execute(id);
             return HttpResponses.ok({res, ...user.toJson() })
 
         } catch (error) {
@@ -80,7 +94,7 @@ class RoomsControllers {
                 deleted_at: new Date().toISOString()
             };
 
-            await new RoomDeleter(this.#repository).execute(id, dto);
+            await new UserDeleter(this.#repository).execute(id, dto);
             return HttpResponses.ok({res})
 
         } catch (error) {
@@ -110,8 +124,8 @@ class RoomsControllers {
             };
 
 
-            const room = await new RoomSearcher(this.#repository).execute(dtoCriteria);
-            return HttpResponses.ok({res, ...room.toJson() })
+            const user = await new UserSearcher(this.#repository).execute(dtoCriteria);
+            return HttpResponses.ok({res, ...user.toJson() })
 
         } catch (error) {
             console.log(error.message)
@@ -120,4 +134,4 @@ class RoomsControllers {
     }
 }
 
-module.exports = RoomsControllers
+module.exports = UserController;

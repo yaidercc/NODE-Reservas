@@ -1,5 +1,5 @@
 
-const ValueObjectEnum = require("../../valueObjects/valueObjectEnum");
+const ValueObjectEnum = require("../../valueObjects/ValueObjectEnum");
 const FILTER_TYPE = {
     AND: "AND",
     OR: "OR",

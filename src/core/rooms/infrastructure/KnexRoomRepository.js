@@ -1,4 +1,4 @@
-const knexRepository = require("../../../shared/infrastructure/knexRepository");
+const knexRepository = require("../../../shared/infrastructure/KnexRepository");
 const Room = require("../domain/Room");
 
 

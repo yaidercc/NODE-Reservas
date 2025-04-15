@@ -1,7 +1,7 @@
 const bcryptjs = require("bcryptjs");
-const generateJWT = require("../../../../shared/jwt/generateJWT");
+const generateJWT = require("../../../../shared/jwt/GenerateJWT");
 const UserResponse = require("../UserResponse");
-const valueObjectEmail = require("../../domain/valueObjects/valueObjectEmail");
+const valueObjectEmail = require("../../domain/valueObjects/ValueObjectEmail");
 
 class UserLogin {
     #repository;

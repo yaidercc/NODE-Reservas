@@ -1,5 +1,5 @@
-const ValueObject = require("./valueObject");
-const Guards = require("./guards");
+const ValueObject = require("./ValueObject");
+const Guards = require("./Guards");
 
 class ValueObjectString extends ValueObject {
     constructor(field, value, nullable = false) {
