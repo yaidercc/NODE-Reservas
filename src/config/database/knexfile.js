@@ -9,7 +9,7 @@ const connection = {
 };
 
 const schema = process.env.DB_SCHEMA;
-console.log(schema)
+
 const setSchema = (conn, done) => {
     conn.query('SET timezone="UTC";', done);
     conn.query(`CREATE SCHEMA IF NOT EXISTS ${schema};`, done);

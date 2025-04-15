@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env DB_SCHEMA=e2e_testing jest",
+    "test": "cross-env DB_SCHEMA=e2e_testing jest --maxWorkers=1",
+    "test:unit": "jest --testRegex=Unit\\\\.test\\\\.js$ ",
+    "test:integration": "jest --testRegex=Integration\\\\.test\\\\.js$ ",
+    "test:e2e": "cross-env DB_SCHEMA=e2e_testing jest --testRegex=E2E\\\\.test\\\\.js$ --maxWorkers=1",
     "migrate:latest": "knex --knexfile=./src/config/database/knexfile.js migrate:latest\n",
     "migrate:rollback": "knex --knexfile=./src/config/database/knexfile.js migrate:rollback --all\n",
     "migrate:seed": "knex --knexfile=./src/config/database/knexfile.js seed:run\n",

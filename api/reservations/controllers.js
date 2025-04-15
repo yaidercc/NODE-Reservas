@@ -46,7 +46,6 @@ class ReservationController {
             }
 
             const response = await new ReservationCancel(this.#repository).execute(id);
-            console.log(response)
             return HttpResponses.ok({res})
 
         } catch (error) {

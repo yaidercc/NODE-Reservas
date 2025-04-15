@@ -1,4 +1,5 @@
 const DomainRoomFinder = require("../../domain/RoomFinder");
+const {ValueObjectString} = require("../../../../shared/valueObjects");
 
 class RoomsUpdate {
     #repository;
@@ -12,8 +13,16 @@ class RoomsUpdate {
         if (!dto) throw new Error(`dto cannot be null`);
 
         const room = await this.#finder.execute(id);
+
+
+
         if(!room){
             throw new Error("Room not exists")
+        }
+
+        const existsRoomName = await this.#repository.find(new ValueObjectString("name", dto.name))
+        if(existsRoomName && existsRoomName.id.value !== id){
+            throw new Error("Room name already exists")
         }
         room.update(dto);
 

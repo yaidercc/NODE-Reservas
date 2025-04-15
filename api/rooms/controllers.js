@@ -1,7 +1,7 @@
 const HttpResponses = require("../../src/shared/httpResponses/httpResponses");
 const {RoomSearcher, RoomsCreator, RoomFinder, RoomDeleter} = require("../../src/core/rooms");
-const RoomUpdater = require("pg/lib/connection");
 const {validate: validateUuid} = require("uuid");
+const RoomsUpdate = require("../../src/core/rooms/application/update/RoomUpdate");
 
 class RoomsControllers {
     #repository;
@@ -42,7 +42,7 @@ class RoomsControllers {
                 return HttpResponses.badRequest({errors: "El id es invalido", res})
             }
 
-            await new RoomUpdater(this.#repository).execute(id, {...roomInfo, updated_at: new Date().toISOString()});
+            await new RoomsUpdate(this.#repository).execute(id, {...roomInfo, updated_at: new Date().toISOString()});
             return HttpResponses.ok({res})
 
         } catch (error) {

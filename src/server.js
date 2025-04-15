@@ -5,6 +5,7 @@ const morgan = require("morgan");
 class ServerManager {
     #app;
     #path;
+    #server;
     constructor() {
         this.port = process.env.PORT || 4000;
         this.#app = express();
@@ -33,7 +34,7 @@ class ServerManager {
     }
 
     listen(){
-        this.#app.listen(this.port, ()=>{
+        this.#server = this.#app.listen(this.port, ()=>{
             console.log("Server started");
         });
     }
@@ -41,6 +42,23 @@ class ServerManager {
     get app(){
         return this.#app;
     }
+
+    close() {
+        return new Promise((resolve, reject) => {
+            if (this.#server) {
+                this.#server.close((err) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    console.log("Server closed");
+                    resolve();
+                });
+            } else {
+                resolve();
+            }
+        });
+    }
+
 }
 
 module.exports = ServerManager;

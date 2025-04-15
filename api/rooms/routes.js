@@ -24,7 +24,7 @@ class Routes {
         this.router.post("/",[validateSchemas(createSchema), this.middlewares.validateJWT.bind(this.middlewares), this.middlewares.isAdmin], this.controllers.create)
         this.router.post("/search",validateSchemas(SearchSchema), this.controllers.search)
         this.router.put("/:id",[validateSchemas(updateSchema), this.middlewares.validateJWT.bind(this.middlewares), this.middlewares.isAdmin], this.controllers.update)
-        this.router.get("/:id/delete",[this.middlewares.validateJWT.bind(this.middlewares), this.middlewares.isAdmin], this.controllers.delete)
+        this.router.delete("/:id/delete",[this.middlewares.validateJWT.bind(this.middlewares), this.middlewares.isAdmin], this.controllers.delete)
     }
 }
 

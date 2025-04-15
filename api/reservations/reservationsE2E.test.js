@@ -1,5 +1,5 @@
 require("dotenv").config({path: __dirname + "/../../.env"});
-const app = require("../../src/app");
+const server = require("../../src/app");
 const request = require("supertest");
 const UserMother = require("../../src/tests/users/domain/usersMother");
 const {development: knexConfig} = require("../../src/config/database/knexfile");
@@ -9,12 +9,10 @@ const {KnexRoomRepository} = require("../../src/core/rooms");
 const RoomsMother = require("../../src/tests/rooms/domain/roomsMother");
 const ReservationsMother = require("../../src/tests/reservations/domain/reservationMother");
 
-const login = async (email, password) => {
+const login = async (email, password, app) => {
     const loginResponse = await request(app)
         .post("/api/users/login")
         .send({email, password});
-
-
     return loginResponse.body.data.token || ""
 }
 
@@ -25,8 +23,9 @@ describe('rooms E2E Test', () => {
     const roomRepository = new KnexRoomRepository(knexConfig)
 
     let adminToken;
-
+    let app;
     beforeAll(async () => {
+        app = server.app
         await repository.connection.migrate.rollback({
             directory: "src/config/database/migrations"
         }, true);
@@ -44,7 +43,7 @@ describe('rooms E2E Test', () => {
 
     });
 
-    beforeEach(async ()=>{
+    beforeEach(async () => {
         await repository.connection.migrate.rollback({
             directory: "src/config/database/migrations"
         }, true);
@@ -54,12 +53,18 @@ describe('rooms E2E Test', () => {
         await repository.connection.seed.run({
             directory: "src/config/database/seeds"
         });
+    });
+
+
+    afterAll(async () => {
+        await repository.connection.destroy();
+        await server.close()
     })
 
     it("Should create a reservation", async () => {
         const user = await UserMother.create(userRepository, "User123*");
         const room = await RoomsMother.create(roomRepository);
-        const userToken = await login(user.email.value, "User123*")
+        const userToken = await login(user.email.value, "User123*", app)
 
         const reservationDto = ReservationsMother.dto({user_id: user.id.value, room_id: room.id.value})
         const response = await request(app).post("/api/reservations").send(reservationDto).set("x-token", userToken).send(reservationDto);
@@ -70,7 +75,7 @@ describe('rooms E2E Test', () => {
     it("Should cancel a reservation", async () => {
         const user = await UserMother.create(userRepository, "User123*");
         const room = await RoomsMother.create(roomRepository,);
-        const userToken = await login(user.email.value, "User123*")
+        const userToken = await login(user.email.value, "User123*", app)
 
         const reservationDto = ReservationsMother.dto({user_id: user.id.value, room_id: room.id.value})
         await ReservationsMother.create(repository, reservationDto)

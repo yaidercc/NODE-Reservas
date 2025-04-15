@@ -1,5 +1,5 @@
 require("dotenv").config({path: __dirname + "/../../.env"});
-const app = require("../../src/app");
+const server = require("../../src/app");
 const request = require("supertest");
 const UserMother = require("../../src/tests/users/domain/usersMother");
 const {development: knexConfig} = require("../../src/config/database/knexfile");
@@ -10,8 +10,9 @@ describe('users E2E Test', () => {
     const repository = new KnexUserRepository(knexConfig);
     const userPassword = 'RandomPass123#'
     let token;
-
+    let app;
     beforeAll(async () => {
+        app = server.app
         await repository.connection.migrate.rollback({
             directory: "src/config/database/migrations"
         }, true);
@@ -39,6 +40,12 @@ describe('users E2E Test', () => {
         await repository.connection.seed.run({
             directory: "src/config/database/seeds"
         });
+    });
+
+
+    afterAll(async () => {
+        await repository.connection.destroy();
+        await server.close()
     })
 
     it("Should create a new user", async () => {
@@ -216,7 +223,7 @@ describe('users E2E Test', () => {
         expect(response.status).toBe(500)
     })
 
-    it("Should delete a no-existence user", async () => {
+    it("Should not delete a no-existence user", async () => {
         const response = await request(app).delete(`/api/users/${uuid()}/delete`).set("x-token", token)
         expect(response.status).toBe(500)
     })

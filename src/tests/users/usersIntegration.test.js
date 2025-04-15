@@ -1,6 +1,6 @@
 const KnexUserRepository = require("../../core/users/infrastructure/knexUserRepository");
 const {knexConfig} = require("../knexfile");
-const {UserFinder} = require("../../core/users");
+const {UserFinder, UserDeleter} = require("../../core/users");
 const UsersMother = require("./domain/usersMother");
 const UserResponse = require("../../core/users/application/UserResponse");
 const UserUpdater = require("../../core/users/application/update/UserUpdater");
@@ -58,10 +58,21 @@ describe("User integration tests",()=>{
         expect(SearchedUser[0].id).toBe(userDto.id)
     })
 
-    it('Should cancel an user', async () => {
+    it('Should update an user', async () => {
         const createdUser = await UsersMother.create(repository);
         await new UserUpdater(repository).execute(createdUser.id.value, {name: "soy yo"})
         const user = await repository.find(createdUser.id)
         expect(user.name.value).toBe("soy yo");
+    })
+
+    it('Should delete an user', async () => {
+        const createdUser = await UsersMother.create(repository);
+        const dto = {
+            deleted_at: new Date().toISOString()
+        };
+        await new UserDeleter(repository).execute(createdUser.id.value, dto)
+        const user = await repository.find(createdUser.id)
+
+        expect(user.deleted_at.value).toBeDefined()
     })
 })
