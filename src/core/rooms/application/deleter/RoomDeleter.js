@@ -13,13 +13,22 @@ class RoomsDeleter {
         if(!id) throw new Error(`id cannot be null`);
 
         const room = await this.#finder.execute(id);
-        if(!room) throw new Error(`room doesn't exist`);
+        if(!room) {
+            return {
+                success: false,
+                code: 404,
+                errors: "Room does not exist"
+            }
+        }
 
         room.delete(dto);
 
         await this.#repository.delete(room);
 
         room.flushChanges();
+        return {
+            success: true,
+        }
     }
 }
 

@@ -68,7 +68,10 @@ class GetBusyDaysByDate {
 
         const notBusyRooms = await this.#roomRepository.search(criteria);
 
-        return new RoomCollectionResponse(notBusyRooms);
+        return {
+            success: true,
+            rooms: new RoomCollectionResponse(notBusyRooms)
+        }
     }
 }
 

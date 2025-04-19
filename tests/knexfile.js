@@ -1,4 +1,4 @@
-const {getKnexInstance } = require("../shared/infrastructure/KnexConnection")
+const {getKnexInstance } = require("../src/shared/infrastructure/KnexConnection")
 const {testing} = require("../config/database/Knexfile");
 
 module.exports = {

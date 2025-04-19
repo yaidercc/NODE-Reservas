@@ -16,13 +16,21 @@ class UserCreator {
         if (!dto) throw new Error(`dto cannot be null`);
 
         const existsUser = await this.#finder.execute(dto.id)
-        if (existsUser) {
-            throw new Error(`User already exists`);
+        if (existsUser && !existsUser.deleted_at.value) {
+            return {
+                success: false,
+                code: 400,
+                errors: "User already exists",
+            }
         }
 
         const existsEmail = await this.#repository.find(new valueObjectEmail(dto.email));
-        if (existsEmail) {
-            throw new Error(`Email already exists`);
+        if (existsEmail && !existsEmail.deleted_at.value) {
+            return {
+                success: false,
+                code: 400,
+                errors: "Email already exists",
+            }
         }
 
         const salt = bcryptjs.genSaltSync();
@@ -30,6 +38,10 @@ class UserCreator {
 
         const user = new User({...dto, password: encriptedPassword});
         await this.#repository.save(user);
+
+        return {
+            success: true
+        }
     }
 }
 

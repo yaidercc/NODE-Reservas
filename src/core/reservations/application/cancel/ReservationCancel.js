@@ -13,22 +13,38 @@ class ReservationCancel {
 
         const reservation = await this.#finder.execute(id);
         if (!reservation) {
-            throw new Error("Reservation not exists")
+            return {
+                success: false,
+                code: 404,
+                errors: "Reservation not exists"
+            }
         }
 
         if (new Date(reservation.date_to) < new Date()) {
-            throw new Error("Reservation has expired")
+            return {
+                success: false,
+                code: 400,
+                errors: "Reservation has expired"
+            }
         }
 
         if (reservation.cancelled_at.value) {
-            throw new Error("Reservation was cancelled")
+            return {
+                success: false,
+                code: 400,
+                errors: "Reservation was already cancelled"
+            }
         }
 
-        const hoursDiferenceMs = new Date(reservation.date_from.value).getTime() -  new Date().getTime();
-        const twoHoursDifferenceMs = 2 * 60  * 60 * 1000;
+        const hoursDiferenceMs = new Date(reservation.date_from.value).getTime() - new Date().getTime();
+        const twoHoursDifferenceMs = 2 * 60 * 60 * 1000;
 
-        if(hoursDiferenceMs < twoHoursDifferenceMs || hoursDiferenceMs <= 0) {
-            throw new Error("You can only cancel a reservation up to 2 hours before the reservation time.")
+        if (hoursDiferenceMs < twoHoursDifferenceMs || hoursDiferenceMs <= 0) {
+            return {
+                success: false,
+                code: 400,
+                errors: "You can only cancel a reservation up to 2 hours before the reservation time."
+            }
         }
 
         reservation.cancel();
@@ -37,7 +53,9 @@ class ReservationCancel {
         await this.#repository.update(reservation);
 
         reservation.flushChanges();
-
+        return {
+            success: true
+        }
 
     }
 }

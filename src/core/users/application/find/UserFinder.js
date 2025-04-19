@@ -11,9 +11,17 @@ class UserFinder {
     async execute(id){
         const user = await this.#finder.execute(id);
         if(!user || user.deleted_at.value){
-            throw new Error("User don´t exists");
+            return {
+                success: false,
+                code: 404,
+                errors: "user does not exist"
+
+            }
         }
-        return new UserResponse(user);
+        return {
+            success: true,
+            user: new UserResponse(user)
+        }
     }
 }
 

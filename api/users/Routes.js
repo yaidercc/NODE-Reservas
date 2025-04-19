@@ -4,7 +4,7 @@ const UserController  = require('./Controllers')
 const validateSchemas = require("../../src/shared/ValidateSchemas")
 const SearchSchema = require("../../src/shared/schemas/SearchSchema");
 const {KnexUserRepository} = require("../../src/core/users");
-const {development: knexConfig} = require("../../src/config/database/Knexfile");
+const {development: knexConfig} = require("../../config/database/Knexfile");
 const MiddlewaresManager = require("../../src/shared/middlewares/Middlewares");
 
 class Routes {

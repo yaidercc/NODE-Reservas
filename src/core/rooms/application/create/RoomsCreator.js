@@ -20,12 +20,19 @@ class RoomsCreator {
         const existsRoom = await this.#repository.find(new ValueObjectId("id", dto.id))
 
 
-        if (existsRoom || existsRoomName) {
-            throw new Error(`Room already exists`);
+        if ((existsRoom || existsRoomName) && (!existsRoom.deleted_at.value || !existsRoomName.deleted_at.value)) {
+            return {
+                success: false,
+                code: 400,
+                errors: "Room already exists",
+            }
         }
 
         const room = new Room(dto);
         await this.#repository.save(room);
+        return {
+             success: true
+        }
     }
 }
 

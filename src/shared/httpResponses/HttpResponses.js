@@ -22,7 +22,8 @@ class HttpResponses {
         })
     }
     static notFound({message= "Not Found",res}= {}) {
-        return res.status(HttpStatusCode.BadRequest).json({
+        console.log(message)
+        return res.status(HttpStatusCode.NotFound).json({
             message
         })
     }
@@ -50,6 +51,23 @@ class HttpResponses {
             message,
             errors
         })
+    }
+
+    static badResponseByCode(code, params){
+        const responses = {
+            400: HttpResponses.badRequest,
+            401: HttpResponses.unauthorized,
+            403: HttpResponses.forbidden,
+            404: HttpResponses.notFound,
+        }
+
+        const responseFunction = responses[code];
+        if (!responseFunction) {
+            throw new Error(`No HTTP response mapped for code ${code}`);
+        }
+
+        return responseFunction(params);
+
     }
 }
 

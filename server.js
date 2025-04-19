@@ -1,24 +1,31 @@
 const express = require('express');
 const cors = require('cors');
+const swaggerUi = require('swagger-ui-express');
 const morgan = require("morgan");
+const YAML = require("yamljs")
 
 class ServerManager {
     #app;
     #path;
     #server;
+
     constructor() {
         this.port = process.env.PORT || 4000;
         this.#app = express();
 
-        this.#path={
+        this.#path = {
             users: "/api/users",
             rooms: "/api/rooms",
             reservations: "/api/reservations",
         }
 
+        this.swaggerDocument = YAML.load('./src/swagger/api.yaml');
+
         this.middlewares();
 
         this.#routes()
+
+
     }
 
     middlewares() {
@@ -27,19 +34,20 @@ class ServerManager {
         this.#app.use(morgan("dev"));
     }
 
-    #routes(){
-        this.#app.use(this.#path.users, require("../api/users/Routes"));
-        this.#app.use(this.#path.rooms, require("../api/rooms/Routes"));
-        this.#app.use(this.#path.reservations, require("../api/reservations/Routes"));
+    #routes() {
+        this.#app.use(this.#path.users, require("./api/users/Routes"));
+        this.#app.use(this.#path.rooms, require("./api/rooms/Routes"));
+        this.#app.use(this.#path.reservations, require("./api/reservations/Routes"));
+        this.#app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(this.swaggerDocument));
     }
 
-    listen(){
-        this.#server = this.#app.listen(this.port, ()=>{
+    listen() {
+        this.#server = this.#app.listen(this.port, () => {
             console.log("Server started");
         });
     }
 
-    get app(){
+    get app() {
         return this.#app;
     }
 

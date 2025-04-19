@@ -1,11 +1,11 @@
-const KnexUserRepository = require("../../core/users/infrastructure/KnexUserRepository");
+const KnexUserRepository = require("../../src/core/users/infrastructure/KnexUserRepository");
 const {knexConfig} = require("../knexfile");
-const {UserFinder, UserDeleter} = require("../../core/users");
+const {UserFinder, UserDeleter} = require("../../src/core/users");
 const UsersMother = require("./domain/usersMother");
-const UserResponse = require("../../core/users/application/UserResponse");
-const UserUpdater = require("../../core/users/application/update/UserUpdater");
-const UserSearcher = require("../../core/users/application/search/UserSearcher");
-const UserCreator = require("../../core/users/application/create/UserCreator");
+const UserResponse = require("../../src/core/users/application/UserResponse");
+const UserUpdater = require("../../src/core/users/application/update/UserUpdater");
+const UserSearcher = require("../../src/core/users/application/search/UserSearcher");
+const UserCreator = require("../../src/core/users/application/create/UserCreator");
 
 describe("User integration tests",()=>{
    const repository = new KnexUserRepository(knexConfig);
@@ -28,7 +28,7 @@ describe("User integration tests",()=>{
 
     it('Should find an user by id', async () => {
         const createdUser = await UsersMother.create(repository);
-        const user = await new UserFinder(repository).execute(createdUser.id.value)
+        const {user} = await new UserFinder(repository).execute(createdUser.id.value)
 
         expect(user).not.toBeNull();
         expect(user).toBeInstanceOf(UserResponse)

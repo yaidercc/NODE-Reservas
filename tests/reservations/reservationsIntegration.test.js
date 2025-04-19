@@ -1,15 +1,15 @@
 const {knexConfig} = require("../knexfile");
-const KnexReservationRepository = require("../../core/reservations/infrastructure/KnexReservationRepository");
+const KnexReservationRepository = require("../../src/core/reservations/infrastructure/KnexReservationRepository");
 const ReservationsMother = require("./domain/reservationMother");
-const ReservationsCreator = require("../../core/reservations/application/create/ReservationsCreator");
-const ReservationFinder = require("../../core/reservations/application/finder/ReservationFinder");
-const ReservationSearcher = require("../../core/reservations/application/search/ReservationSearcher");
-const GetBusyDaysByRoom = require("../../core/reservations/application/getBusyDaysByRoom/GetBusyDaysByRoom");
-const {KnexRoomRepository} = require("../../core/rooms");
+const ReservationsCreator = require("../../src/core/reservations/application/create/ReservationsCreator");
+const ReservationFinder = require("../../src/core/reservations/application/finder/ReservationFinder");
+const ReservationSearcher = require("../../src/core/reservations/application/search/ReservationSearcher");
+const GetBusyDaysByRoom = require("../../src/core/reservations/application/getBusyDaysByRoom/GetBusyDaysByRoom");
+const {KnexRoomRepository} = require("../../src/core/rooms");
 const RoomsMother = require("../rooms/domain/roomsMother");
-const GetBusyDaysByDate = require("../../core/reservations/application/getBusyDaysByDate/GetBusyDaysByDate");
-const ReservationCancel = require("../../core/reservations/application/cancel/ReservationCancel");
-const DomainReservationsFinder = require("../../core/reservations/domain/ReservationFinder");
+const GetBusyDaysByDate = require("../../src/core/reservations/application/getBusyDaysByDate/GetBusyDaysByDate");
+const ReservationCancel = require("../../src/core/reservations/application/cancel/ReservationCancel");
+const DomainReservationsFinder = require("../../src/core/reservations/domain/ReservationFinder");
 
 describe('Reservations Integrations tests', () => {
     const repository = new KnexReservationRepository(knexConfig);

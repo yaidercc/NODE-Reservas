@@ -1,5 +1,5 @@
 const UserMother = require("./domain/usersMother");
-const User = require("../../core/users/domain/User");
+const User = require("../../src/core/users/domain/User");
 
 describe("User unit tests", () => {
     test("Should create a user", async () => {

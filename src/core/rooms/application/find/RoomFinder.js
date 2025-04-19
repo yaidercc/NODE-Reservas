@@ -9,9 +9,16 @@ class RoomsFinder {
     async execute(id){
         const room = await this.#finder.execute(id)
         if(!room || room.deleted_at.value){
-            throw new Error("Room don´t exists");
+            return {
+                success: false,
+                code: 404,
+                errors: "Room don´t exists"
+            }
         }
-        return new RoomResponse(room);
+        return {
+            success: true,
+            room: new RoomResponse(room)
+        }
     }
 }
 

@@ -15,8 +15,12 @@ class ReservationsCreator {
         const msIn24h = 24 * 60 * 60 * 1000;
         const reservationDuration = new Date(dto.date_to).getTime() - new Date(dto.date_from).getTime();
 
-        if(reservationDuration <= 0 || reservationDuration % msIn24h !== 0) {
-            throw new Error("reservationDuration duration must be greater or equal to 24h");
+        if (reservationDuration <= 0 || reservationDuration % msIn24h !== 0) {
+            return {
+                success: false,
+                code: 400,
+                errors: "reservation duration must be greater or equal to 24h"
+            }
         }
 
         const dtoCriteria = {
@@ -55,10 +59,18 @@ class ReservationsCreator {
         const reservations = new ReservationsCollectionResponse(response);
 
         if (reservations.length > 0) {
-           throw new Error("The room is already booked during this date range.")
+            return {
+                success: false,
+                code: 400,
+                errors: "The room is already booked during this date range."
+            }
         }
         const reservation = new Reservations(dto);
         await this.#repository.save(reservation);
+
+        return {
+            success: true
+        }
 
     }
 }

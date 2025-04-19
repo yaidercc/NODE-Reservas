@@ -1,5 +1,5 @@
 const RoomsMother = require("./domain/roomsMother");
-const Room = require("../../core/rooms/domain/Room");
+const Room = require("../../src/core/rooms/domain/Room");
 
 describe('Rooms Unit tests', () => {
     it('Should Create a room', async () => {

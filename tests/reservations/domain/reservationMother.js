@@ -1,5 +1,5 @@
 const {v4: uuid} = require('uuid');
-const Reservations = require("../../../core/reservations/domain/Reservations");
+const Reservations = require("../../../src/core/reservations/domain/Reservations");
 
 class ReservationsMother {
 

@@ -1,5 +1,5 @@
 const ReservationMother = require("./domain/reservationMother");
-const Reservation = require("../../core/reservations/domain/Reservations");
+const Reservation = require("../../src/core/reservations/domain/Reservations");
 
 describe('Reservations Unit tests', () => {
     it('Should Create a reservation', async () => {

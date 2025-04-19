@@ -50,7 +50,10 @@ class GetBusyDaysByRoom {
 
         const rooms = await this.#repository.search(criteria);
 
-        return new ReservationsCollectionResponseByRoom(rooms);
+        return {
+            success: true,
+            rooms: new ReservationsCollectionResponseByRoom(rooms)
+        }
     }
 }
 

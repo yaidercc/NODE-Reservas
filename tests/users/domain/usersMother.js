@@ -1,5 +1,5 @@
 const {v4: uuid} = require('uuid')
-const User = require("../../../core/users/domain/User.js");
+const User = require("../../../src/core/users/domain/User.js");
 const bcryptjs = require("bcryptjs");
 const chance = new (require('chance'))();
 

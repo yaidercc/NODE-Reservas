@@ -1,5 +1,5 @@
 const {v4: uuid} = require('uuid');
-const Room = require("../../../core/rooms/domain/Room");
+const Room = require("../../../src/core/rooms/domain/Room");
 const chance = new (require('chance'))();
 class RoomsMother {
     static dto() {

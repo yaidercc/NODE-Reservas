@@ -1,8 +1,8 @@
 require("dotenv").config({path: __dirname + "/../../.env"});
-const server = require("../../src/app");
+const server = require("../../app");
 const request = require("supertest");
-const UserMother = require("../../src/tests/users/domain/usersMother");
-const {development: knexConfig} = require("../../src/config/database/Knexfile");
+const UserMother = require("../../tests/users/domain/usersMother");
+const {development: knexConfig} = require("../../config/database/Knexfile");
 const {KnexUserRepository} = require("../../src/core/users");
 const {v4: uuid} = require('uuid')
 
@@ -14,13 +14,13 @@ describe('users E2E Test', () => {
     beforeAll(async () => {
         app = server.app
         await repository.connection.migrate.rollback({
-            directory: "src/config/database/migrations"
+            directory: "config/database/migrations"
         }, true);
         await repository.connection.migrate.latest({
-            directory: "src/config/database/migrations"
+            directory: "config/database/migrations"
         });
         await repository.connection.seed.run({
-            directory: "src/config/database/seeds"
+            directory: "config/database/seeds"
         });
 
         const loginResponse = await request(app)
@@ -32,13 +32,13 @@ describe('users E2E Test', () => {
 
     beforeEach(async () => {
         await repository.connection.migrate.rollback({
-            directory: "src/config/database/migrations"
+            directory: "config/database/migrations"
         }, true);
         await repository.connection.migrate.latest({
-            directory: "src/config/database/migrations"
+            directory: "config/database/migrations"
         });
         await repository.connection.seed.run({
-            directory: "src/config/database/seeds"
+            directory: "config/database/seeds"
         });
     });
 
@@ -69,7 +69,7 @@ describe('users E2E Test', () => {
         })
 
 
-        expect(response.status).toBe(500)
+        expect(response.status).toBe(400)
     })
 
     it("Should update an user ", async () => {
@@ -94,7 +94,7 @@ describe('users E2E Test', () => {
         }
         const response = await request(app).put(`/api/users/${userCreated2.id.value}`).send(infoToUpdate).set("x-token", token)
 
-        expect(response.status).toBe(500)
+        expect(response.status).toBe(400)
     })
 
     it("Should not update a no-existence user", async () => {
@@ -103,7 +103,7 @@ describe('users E2E Test', () => {
         }
         const response = await request(app).put(`/api/users/${uuid()}`).send(infoToUpdate).set("x-token", token)
 
-        expect(response.status).toBe(500)
+        expect(response.status).toBe(404)
     })
 
     it("Should find an user", async () => {
@@ -120,7 +120,7 @@ describe('users E2E Test', () => {
         expect(user.email).toBe(userCreated.email.value)
     })
 
-    it("Should cancel an user", async () => {
+    it("Should update an user", async () => {
         const userCreated = await UserMother.create(repository);
 
         const infoToUpdate = {
@@ -220,12 +220,12 @@ describe('users E2E Test', () => {
 
         const response = await request(app).get(`/api/users/${userCreated.id.value}`)
 
-        expect(response.status).toBe(500)
+        expect(response.status).toBe(404)
     })
 
     it("Should not delete a no-existence user", async () => {
         const response = await request(app).delete(`/api/users/${uuid()}/delete`).set("x-token", token)
-        expect(response.status).toBe(500)
+        expect(response.status).toBe(404)
     })
 
 

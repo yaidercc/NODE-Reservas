@@ -40,7 +40,7 @@ const testing = {
     useNullAsDefault: true,
     migrations: {
         tableName: 'knex_migrations',
-        directory: './src/config/database/migrations',
+        directory: './config/database/migrations',
     },
     seeds: {
         directory: './seeds',

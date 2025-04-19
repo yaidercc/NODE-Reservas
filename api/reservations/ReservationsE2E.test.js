@@ -1,13 +1,13 @@
 require("dotenv").config({path: __dirname + "/../../.env"});
-const server = require("../../src/app");
+const server = require("../../app");
 const request = require("supertest");
-const UserMother = require("../../src/tests/users/domain/usersMother");
-const {development: knexConfig} = require("../../src/config/database/Knexfile");
+const UserMother = require("../../tests/users/domain/usersMother");
+const {development: knexConfig} = require("../../config/database/Knexfile");
 const KnexReservationRepository = require("../../src/core/reservations/infrastructure/KnexReservationRepository");
 const {KnexUserRepository} = require("../../src/core/users");
 const {KnexRoomRepository} = require("../../src/core/rooms");
-const RoomsMother = require("../../src/tests/rooms/domain/roomsMother");
-const ReservationsMother = require("../../src/tests/reservations/domain/reservationMother");
+const RoomsMother = require("../../tests/rooms/domain/roomsMother");
+const ReservationsMother = require("../../tests/reservations/domain/reservationMother");
 
 const login = async (email, password, app) => {
     const loginResponse = await request(app)
@@ -27,13 +27,13 @@ describe('rooms E2E Test', () => {
     beforeAll(async () => {
         app = server.app
         await repository.connection.migrate.rollback({
-            directory: "src/config/database/migrations"
+            directory: "config/database/migrations"
         }, true);
         await repository.connection.migrate.latest({
-            directory: "src/config/database/migrations"
+            directory: "config/database/migrations"
         });
         await repository.connection.seed.run({
-            directory: "src/config/database/seeds"
+            directory: "config/database/seeds"
         });
 
         const loginResponse = await request(app)
@@ -45,13 +45,13 @@ describe('rooms E2E Test', () => {
 
     beforeEach(async () => {
         await repository.connection.migrate.rollback({
-            directory: "src/config/database/migrations"
+            directory: "config/database/migrations"
         }, true);
         await repository.connection.migrate.latest({
-            directory: "src/config/database/migrations"
+            directory: "config/database/migrations"
         });
         await repository.connection.seed.run({
-            directory: "src/config/database/seeds"
+            directory: "config/database/seeds"
         });
     });
 

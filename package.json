@@ -7,12 +7,11 @@
     "test:unit": "jest --testRegex=Unit\\\\.test\\\\.js$ ",
     "test:integration": "jest --testRegex=Integration\\\\.test\\\\.js$ ",
     "test:e2e": "cross-env DB_SCHEMA=e2e_testing jest --testRegex=E2E\\\\.test\\\\.js$ --maxWorkers=1",
-    "migrate:latest": "knex --knexfile=./src/config/database/knexfile.js migrate:latest\n",
-    "migrate:rollback": "knex --knexfile=./src/config/database/knexfile.js migrate:rollback --all\n",
-    "migrate:seed": "knex --knexfile=./src/config/database/knexfile.js seed:run\n",
+    "migrate:latest": "knex --knexfile=./config/database/knexfile.js migrate:latest\n",
+    "migrate:rollback": "knex --knexfile=./config/database/knexfile.js migrate:rollback --all\n",
+    "migrate:seed": "knex --knexfile=./config/database/knexfile.js seed:run\n",
     "migrate:reset": "npm run migrate:rollback && npm run migrate:latest && npm run migrate:seed",
-    "api": "cross-env DB_SCHEMA=public nodemon src/app.js"
-
+    "api": "cross-env DB_SCHEMA=public nodemon app.js"
   },
   "keywords": [],
   "author": "",
@@ -35,7 +34,8 @@
     "morgan": "^1.10.0",
     "sequelize": "^6.37.5",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-ui-express": "^5.0.1",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "chance": "^1.1.12",

@@ -16,7 +16,11 @@ class ReservationController {
     create = async ( req, res ) => {
         try {
             const { body: reservationInfo } = req;
-            await new ReservationsCreator(this.#repository).execute({...reservationInfo, created_at: new Date().toISOString()});
+            const response = await new ReservationsCreator(this.#repository).execute({...reservationInfo, created_at: new Date().toISOString()});
+            if (!response.success) {
+                const {errors, code} = response
+                return HttpResponses.badResponseByCode(code, {errors, res})
+            }
             return HttpResponses.created({res})
 
         }catch (error) {
@@ -28,8 +32,8 @@ class ReservationController {
     search = async ( req, res ) => {
         try {
             const { body: dtoCriteria } = req;
-            const user = await new ReservationsSearcher(this.#repository).execute(dtoCriteria);
-            return HttpResponses.ok({res, ...user.toJson() })
+            const reservation = await new ReservationsSearcher(this.#repository).execute(dtoCriteria);
+            return HttpResponses.ok({res, ...reservation.toJson() })
 
         }catch (error) {
             console.log(error.message)
@@ -46,6 +50,10 @@ class ReservationController {
             }
 
             const response = await new ReservationCancel(this.#repository).execute(id);
+            if (!response.success) {
+                const {errors, code} = response
+                return HttpResponses.badResponseByCode(code, {errors, res})
+            }
             return HttpResponses.ok({res})
 
         } catch (error) {
@@ -65,7 +73,12 @@ class ReservationController {
             }
 
             const response = await new GetBusyDaysByRoom(this.#repository).execute(roomId);
-            return HttpResponses.ok({res, ...response.toJson() })
+            if (!response.success) {
+                const {errors, code} = response
+                return HttpResponses.badResponseByCode(code, {errors, res})
+            }
+            const { rooms } = response
+            return HttpResponses.ok({res, ...rooms.toJson() })
 
         } catch (error) {
             console.log(error.message)
@@ -77,7 +90,12 @@ class ReservationController {
         try {
             const { body: datesToSearch } = req;
             const response = await new GetBusyDaysByDate(this.#repository,this.#roomRepository).execute({...datesToSearch});
-            return HttpResponses.ok({res, ...response.toJson() })
+            if (!response.success) {
+                const {errors, code} = response
+                return HttpResponses.badResponseByCode(code, {errors, res})
+            }
+            const { rooms } = response
+            return HttpResponses.ok({res, ...rooms.toJson() })
 
         }catch (error) {
             console.log(error)

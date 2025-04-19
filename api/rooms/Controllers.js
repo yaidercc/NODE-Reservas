@@ -5,44 +5,60 @@ const RoomsUpdate = require("../../src/core/rooms/application/update/RoomUpdate"
 
 class RoomsControllers {
     #repository;
+
     constructor(repository) {
         this.#repository = repository;
     }
-    create = async ( req, res ) => {
+
+    create = async (req, res) => {
         try {
-            const { body: roomInfo } = req;
-            await new RoomsCreator(this.#repository).execute({...roomInfo, created_at: new Date().toISOString()});
+            const {body: roomInfo} = req;
+            const response = await new RoomsCreator(this.#repository).execute({
+                ...roomInfo,
+                created_at: new Date().toISOString()
+            });
+            if (!response.success) {
+                const {errors, code} = response
+                return HttpResponses.badResponseByCode(code, {errors, res})
+            }
             return HttpResponses.created({res})
 
-        }catch (error) {
+        } catch (error) {
             console.log(error.message)
             return HttpResponses.internalServerError({errors: error.message, res})
         }
     }
 
-    search = async ( req, res ) => {
+    search = async (req, res) => {
         try {
-            const { body: dtoCriteria } = req;
+            const {body: dtoCriteria} = req;
             const user = await new RoomSearcher(this.#repository).execute(dtoCriteria);
-            return HttpResponses.ok({res, ...user.toJson() })
+            return HttpResponses.ok({res, ...user.toJson()})
 
-        }catch (error) {
+        } catch (error) {
             console.log(error.message)
             return HttpResponses.internalServerError({errors: error.errors, res})
         }
     }
 
 
-    update = async ( req, res ) => {
+    update = async (req, res) => {
         try {
-            const { body: roomInfo } = req;
-            const { id } = req.params;
+            const {body: roomInfo} = req;
+            const {id} = req.params;
 
-            if(!validateUuid(id)){
+            if (!validateUuid(id)) {
                 return HttpResponses.badRequest({errors: "El id es invalido", res})
             }
 
-            await new RoomsUpdate(this.#repository).execute(id, {...roomInfo, updated_at: new Date().toISOString()});
+            const response = await new RoomsUpdate(this.#repository).execute(id, {
+                ...roomInfo,
+                updated_at: new Date().toISOString()
+            });
+            if (!response.success) {
+                const {errors, code} = response
+                return HttpResponses.badResponseByCode(code, {errors, res})
+            }
             return HttpResponses.ok({res})
 
         } catch (error) {
@@ -51,16 +67,21 @@ class RoomsControllers {
         }
     }
 
-    find = async ( req, res ) => {
+    find = async (req, res) => {
         try {
-            const { id } = req.params;
+            const {id} = req.params;
 
-            if(!validateUuid(id)){
+            if (!validateUuid(id)) {
                 return HttpResponses.badRequest({errors: "El id es invalido", res})
             }
 
-            const user = await new RoomFinder(this.#repository).execute(id);
-            return HttpResponses.ok({res, ...user.toJson() })
+            const response = await new RoomFinder(this.#repository).execute(id);
+            if (!response.success) {
+                const {errors, code} = response
+                return HttpResponses.badResponseByCode(code, {errors, res})
+            }
+            const {room} = response
+            return HttpResponses.ok({res, ...room.toJson()})
 
         } catch (error) {
             console.log(error)
@@ -68,11 +89,11 @@ class RoomsControllers {
         }
     }
 
-    delete = async ( req, res ) => {
+    delete = async (req, res) => {
         try {
-            const { id } = req.params;
+            const {id} = req.params;
 
-            if(!validateUuid(id)){
+            if (!validateUuid(id)) {
                 return HttpResponses.badRequest({errors: "El id es invalido", res})
             }
 
@@ -80,7 +101,11 @@ class RoomsControllers {
                 deleted_at: new Date().toISOString()
             };
 
-            await new RoomDeleter(this.#repository).execute(id, dto);
+            const response = await new RoomDeleter(this.#repository).execute(id, dto);
+            if (!response.success) {
+                const {errors, code} = response
+                return HttpResponses.badResponseByCode(code, {errors, res})
+            }
             return HttpResponses.ok({res})
 
         } catch (error) {
@@ -89,7 +114,7 @@ class RoomsControllers {
         }
     }
 
-    index = async ( req, res ) => {
+    index = async (req, res) => {
         try {
 
             const dtoCriteria = {
@@ -111,7 +136,7 @@ class RoomsControllers {
 
 
             const room = await new RoomSearcher(this.#repository).execute(dtoCriteria);
-            return HttpResponses.ok({res, ...room.toJson() })
+            return HttpResponses.ok({res, ...room.toJson()})
 
         } catch (error) {
             console.log(error.message)

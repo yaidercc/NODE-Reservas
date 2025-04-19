@@ -1,10 +1,10 @@
 require("dotenv").config({path: __dirname + "/../../.env"});
-const server = require("../../src/app");
+const server = require("../../app");
 const request = require("supertest");
-const UserMother = require("../../src/tests/users/domain/usersMother");
-const RoomsMother = require("../../src/tests/rooms/domain/roomsMother");
+const UserMother = require("../../tests/users/domain/usersMother");
+const RoomsMother = require("../../tests/rooms/domain/roomsMother");
 const {KnexRoomRepository} = require("../../src/core/rooms");
-const {development: knexConfig} = require("../../src/config/database/Knexfile");
+const {development: knexConfig} = require("../../config/database/Knexfile");
 const {v4: uuid} = require('uuid')
 
 describe('rooms E2E Test', () => {
@@ -14,13 +14,13 @@ describe('rooms E2E Test', () => {
     beforeAll(async () => {
         app = server.app
         await repository.connection.migrate.rollback({
-            directory: "src/config/database/migrations"
+            directory: "config/database/migrations"
         }, true);
         await repository.connection.migrate.latest({
-            directory: "src/config/database/migrations"
+            directory: "config/database/migrations"
         });
         await repository.connection.seed.run({
-            directory: "src/config/database/seeds"
+            directory: "config/database/seeds"
         });
 
         const loginResponse = await request(app)
@@ -32,13 +32,13 @@ describe('rooms E2E Test', () => {
 
     beforeEach(async () => {
         await repository.connection.migrate.rollback({
-            directory: "src/config/database/migrations"
+            directory: "config/database/migrations"
         }, true);
         await repository.connection.migrate.latest({
-            directory: "src/config/database/migrations"
+            directory: "config/database/migrations"
         });
         await repository.connection.seed.run({
-            directory: "src/config/database/seeds"
+            directory: "config/database/seeds"
         });
     });
 
@@ -60,7 +60,7 @@ describe('rooms E2E Test', () => {
         }
         const response = await request(app).put(`/api/rooms/${uuid()}`).set("x-token", token).send(infoToUpdate);
 
-        expect(response.status).toBe(500)
+        expect(response.status).toBe(404)
     })
 
     it("Should not update a room with a existent name", async () => {
@@ -71,7 +71,7 @@ describe('rooms E2E Test', () => {
         }
         const response = await request(app).put(`/api/rooms/${room1.id.value}`).set("x-token", token).send(infoToUpdate);
 
-        expect(response.status).toBe(500)
+        expect(response.status).toBe(400)
     })
 
     it("Should update a room", async () => {
@@ -153,7 +153,6 @@ describe('rooms E2E Test', () => {
 
     })
 
-
     it("Should delete a room", async () => {
         const room = await RoomsMother.create(repository)
 
@@ -163,13 +162,13 @@ describe('rooms E2E Test', () => {
 
         const response = await request(app).get(`/api/rooms/${room.id.value}`);
 
-        expect(response.status).toBe(500);
+        expect(response.status).toBe(404);
 
     })
 
     it("Should not delete a no-existence room", async () => {
         const response = await request(app).delete(`/api/rooms/${uuid()}/delete`).set("x-token", token)
-        expect(response.status).toBe(500)
+        expect(response.status).toBe(404)
     })
 
 
