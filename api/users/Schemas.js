@@ -17,7 +17,8 @@ const updateSchema = Joi.object({
     name: Joi.string().max(30),
     last_name: Joi.string().max(30),
     email: Joi.string().max(100),
-    password: Joi.string().max(30)
+    password: Joi.string().max(30),
+    role: Joi.string().valid('admin', 'client')
 });
 
 const loginSchema = Joi.object({

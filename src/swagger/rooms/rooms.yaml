@@ -1,0 +1,233 @@
+rooms:
+  get:
+    tags:
+      - Rooms
+    summary: Get rooms collection
+    description: Get all rooms from the database
+    responses:
+      '200':
+        description: A list of rooms
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoomCollection"
+      '404':
+        $ref: '../common.yaml#/schemas/not_found_response'
+      '500':
+        $ref: '../common.yaml#/schemas/custom_error_response'
+  post:
+    tags:
+      - Rooms
+    summary: Create a room instance
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CreateRoom"
+    responses:
+      '201':
+        description: room instance created succesfully
+        content:
+          application/json:
+            schema:
+              $ref: '../common.yaml#/schemas/created_response'
+      '400':
+        $ref: '../common.yaml#/schemas/bad_status_response'
+      '404':
+        $ref: '../common.yaml#/schemas/not_found_response'
+      '500':
+        $ref: '../common.yaml#/schemas/custom_error_response'
+rooms_id:
+  get:
+    tags:
+      - Rooms
+    summary:  Fetch an room by ID
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        descripcion: Return an room instance
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  $ref: "../common.yaml#/schemas/message_ok"
+                data:
+                  $ref: "#/components/schemas/Room"
+      '400':
+        $ref: '../common.yaml#/schemas/bad_status_response'
+      '404':
+        $ref: '../common.yaml#/schemas/not_found_response'
+      '500':
+        $ref: '../common.yaml#/schemas/custom_error_response'
+  post:
+    tags:
+      - Rooms
+    summary: Update an room instance
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UpdateRoom"
+    responses:
+      '200':
+        description: room instance updated succesfully
+        content:
+          application/json:
+            schema:
+              $ref: '../common.yaml#/schemas/success_response'
+      '400':
+        $ref: '../common.yaml#/schemas/bad_status_response'
+      '404':
+        $ref: '../common.yaml#/schemas/not_found_response'
+      '500':
+        $ref: '../common.yaml#/schemas/custom_error_response'
+
+  delete:
+    tags:
+      - Rooms
+    summary:  Delete an room
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        descripcion: Delete an room instance
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  $ref: "../common.yaml#/schemas/message_ok"
+      '400':
+        $ref: '../common.yaml#/schemas/bad_status_response'
+      '404':
+        $ref: '../common.yaml#/schemas/not_found_response'
+      '500':
+        $ref: '../common.yaml#/schemas/custom_error_response'
+rooms_search:
+  post:
+    tags:
+      - Rooms
+    summary: Search room instances by a specific field and value
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/SearchCollection"
+    responses:
+      '200':
+        description: Returns a list of rooms which match with the search
+        content:
+          application/json:
+            schema:
+              $ref:  "#/components/schemas/RoomCollection"
+      '400':
+        $ref: '../common.yaml#/schemas/bad_status_response'
+      '404':
+        $ref: '../common.yaml#/schemas/not_found_response'
+      '500':
+        $ref: '../common.yaml#/schemas/custom_error_response'
+
+components:
+  schemas:
+    name:
+      type: string
+      example: jon
+    Created:
+      type: object
+      properties:
+        created_at:
+          $ref: "../common.yaml#/schemas/created_at"
+        created_by:
+          $ref: "../common.yaml#/schemas/created_by"
+    Updated:
+      type: object
+      properties:
+        updated_at:
+          $ref: "../common.yaml#/schemas/updated_at"
+        updated_by:
+          $ref: "../common.yaml#/schemas/updated_by"
+    RoomBase:
+      type: object
+      properties:
+        name:
+          $ref: "#/components/schemas/name"
+    Room:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '../common.yaml#/schemas/id'
+        - $ref: "#/components/schemas/RoomBase"
+        - $ref: "#/components/schemas/Created"
+        - $ref: "#/components/schemas/Updated"
+
+    RoomCollection:
+      type: object
+      properties:
+        message:
+          $ref: "../common.yaml#/schemas/message_ok"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Room"
+
+    CreateRoom:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: "../common.yaml#/schemas/id"
+        - $ref: "#/components/schemas/RoomBase"
+    UpdateRoom:
+      allOf:
+        - $ref: "#/components/schemas/RoomBase"
+        - type: object
+          properties:
+            updated_at:
+              $ref: "../common.yaml#/schemas/updated_at"
+            updated_by:
+              $ref: "../common.yaml#/schemas/updated_by"
+    SearchCollection:
+      type: object
+      properties:
+        filter:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+                example: name
+              operator:
+                type: string
+                example: like
+              value:
+                type: string
+                example: example name
+              type:
+                type: string
+                example: AND
+        limit:
+          type: integer
+          example: 10
+        offset:
+          type: integer
+          example: 0

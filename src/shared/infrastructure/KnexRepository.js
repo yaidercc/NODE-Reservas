@@ -23,6 +23,7 @@ class knexRepository {
 
     async update (aggregate) {
         try {
+            console.log(aggregate.changedAttributes)
             await this.connection(this.#tableName)
                 .update(aggregate.changedAttributes)
                 .where({id: aggregate.id.value})

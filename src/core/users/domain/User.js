@@ -43,7 +43,7 @@ class User extends AggregateRoot {
     set last_name (newLastName) {
         if(newLastName !== this.#last_name.value) {
             this.#last_name = new ValueObjectString("last_name", newLastName);
-            this.changedAttributes.lastName = newLastName;
+            this.changedAttributes.last_name = newLastName;
         }
     }
 
@@ -55,13 +55,13 @@ class User extends AggregateRoot {
     }
 
     set password (newPassword) {
-        if(newPassword === this.#password.value) {
+        if(newPassword !== this.#password.value) {
             this.#password = new valueObjectPassword(newPassword);
             this.changedAttributes.password = newPassword;
         }
     }
     set role (newRole) {
-        if(newRole === this.#password.value) {
+        if(newRole !== this.#role.value) {
             this.#role = new valueObjectRole(newRole);
             this.changedAttributes.role = newRole;
         }

@@ -23,10 +23,10 @@ class Criteria {
     }
 
     get order() {
-        return {
+        return this.#order ? {
             field: this.#order.field.value,
             direction: this.#order.direction.value,
-        }
+        } : {}
     }
 
     get offset() {
@@ -47,8 +47,11 @@ class Criteria {
             knexQuery.offset(this.offset);
         }
 
-        if (table) knexQuery.orderBy(`${table}.${this.order.field}`, this.order.direction);
-        else knexQuery.orderBy(this.order.field, this.order.direction);
+        if (this.#order) {
+            if (table) knexQuery.orderBy(`${table}.${this.order.field}`, this.order.direction);
+            else knexQuery.orderBy(this.order.field, this.order.direction);
+        }
+
     }
 
     #converFiltersToKnex(KnexQuery, filter) {

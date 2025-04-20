@@ -19,7 +19,7 @@ class ServerManager {
             reservations: "/api/reservations",
         }
 
-        this.swaggerDocument = YAML.load('./src/swagger/api.yaml');
+        this.swaggerDocument = YAML.load('./src/swagger/dist/api.yaml');
 
         this.middlewares();
 

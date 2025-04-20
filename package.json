@@ -11,7 +11,8 @@
     "migrate:rollback": "knex --knexfile=./config/database/knexfile.js migrate:rollback --all\n",
     "migrate:seed": "knex --knexfile=./config/database/knexfile.js seed:run\n",
     "migrate:reset": "npm run migrate:rollback && npm run migrate:latest && npm run migrate:seed",
-    "api": "cross-env DB_SCHEMA=public nodemon app.js"
+    "api": "cross-env DB_SCHEMA=public nodemon app.js",
+    "build": "npx swagger-cli bundle src/swagger/api.yaml --outfile src/swagger/dist/api.yaml --type yaml --dereference"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +23,7 @@
     "@core": "src/core"
   },
   "dependencies": {
+    "@apidevtools/swagger-cli": "^4.0.4",
     "axios": "^1.8.1",
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
@@ -30,6 +32,7 @@
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
+    "live-server": "^1.2.2",
     "module-alias": "^2.2.3",
     "morgan": "^1.10.0",
     "sequelize": "^6.37.5",

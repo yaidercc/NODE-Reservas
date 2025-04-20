@@ -62,14 +62,21 @@ class UserController {
 
     update = async (req, res) => {
         try {
-            const {body: userInfo} = req;
+            const {body: userInfo, user} = req;
             const {id} = req.params;
 
             if (!validateUuid(id)) {
                 return HttpResponses.badRequest({errors: "El id es invalido", res})
             }
 
-            const response = await new UserUpdater(this.#repository).execute(id, {...userInfo, updated_at: new Date().toISOString()});
+            if (userInfo?.role === "admin" && user.role !== userInfo.role) {
+                return HttpResponses.forbidden({errors: "You cannot change your role without admin permissions", res})
+            }
+
+            const response = await new UserUpdater(this.#repository).execute(id, {
+                ...userInfo,
+                updated_at: new Date().toISOString()
+            });
             if (!response.success) {
                 const {errors, code} = response
                 return HttpResponses.badResponseByCode(code, {errors, res})
@@ -96,7 +103,6 @@ class UserController {
                 const {errors, code} = response
                 return HttpResponses.badResponseByCode(code, {errors, res})
             }
-
             const {user} = response
 
             return HttpResponses.ok({res, ...user.toJson()})
