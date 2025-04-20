@@ -9,7 +9,7 @@ servers:
     description: Staging server
 
 security:
-    - ApiKeyAuth: [ ]
+  - ApiKeyAuth: [ ]
 tags:
   - name: Users
     description: Module in which you can manage everything related to Users
