@@ -95,6 +95,7 @@ users_id:
       '500':
         $ref: '../common.yaml#/schemas/custom_error_response'
 
+users_delete:
   delete:
     tags:
       - Users
@@ -219,12 +220,6 @@ components:
     UpdateUser:
       allOf:
         - $ref: "#/components/schemas/UserBase"
-        - type: object
-          properties:
-            updated_at:
-              $ref: "../common.yaml#/schemas/updated_at"
-            updated_by:
-              $ref: "../common.yaml#/schemas/updated_by"
     SearchCollection:
       type: object
       properties:

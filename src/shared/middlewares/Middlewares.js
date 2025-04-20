@@ -36,8 +36,8 @@ class MiddlewaresManager {
             req.user = new UserResponse(user).toJson().data;
             next();
         } catch (error) {
-            console.log(error.message)
-            return HttpResponses.unauthorized({errors: "User don´t exists", res})
+            console.log("eyy",error.message)
+            return HttpResponses.unauthorized({errors: error.message, res})
 
         }
 

@@ -23,6 +23,8 @@ paths:
     $ref: "./users/users.yaml#/users"
   /users/{id}:
     $ref: "./users/users.yaml#/users_id"
+  /users/{id}/delete:
+    $ref: "./users/users.yaml#/users_delete"
   /users/search:
     $ref: "./users/users.yaml#/users_search"
 
@@ -30,6 +32,8 @@ paths:
     $ref: "./rooms/rooms.yaml#/rooms"
   /rooms/{id}:
     $ref: "./rooms/rooms.yaml#/rooms_id"
+  /rooms/{id}/delete:
+    $ref: "./rooms/rooms.yaml#/rooms_delete"
   /rooms/search:
     $ref: "./rooms/rooms.yaml#/rooms_search"
 

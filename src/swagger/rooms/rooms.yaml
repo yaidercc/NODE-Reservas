@@ -66,7 +66,7 @@ rooms_id:
         $ref: '../common.yaml#/schemas/not_found_response'
       '500':
         $ref: '../common.yaml#/schemas/custom_error_response'
-  post:
+  put:
     tags:
       - Rooms
     summary: Update an room instance
@@ -94,7 +94,7 @@ rooms_id:
         $ref: '../common.yaml#/schemas/not_found_response'
       '500':
         $ref: '../common.yaml#/schemas/custom_error_response'
-
+rooms_delete:
   delete:
     tags:
       - Rooms
@@ -149,7 +149,7 @@ components:
   schemas:
     name:
       type: string
-      example: jon
+      example: 202
     Created:
       type: object
       properties:
@@ -199,12 +199,6 @@ components:
     UpdateRoom:
       allOf:
         - $ref: "#/components/schemas/RoomBase"
-        - type: object
-          properties:
-            updated_at:
-              $ref: "../common.yaml#/schemas/updated_at"
-            updated_by:
-              $ref: "../common.yaml#/schemas/updated_by"
     SearchCollection:
       type: object
       properties:
