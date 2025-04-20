@@ -109,7 +109,7 @@ describe('users E2E Test', () => {
     it("Should find an user", async () => {
         const userCreated = await UserMother.create(repository);
 
-        const {status, body} = await request(app).get(`/api/users/${userCreated.id.value}`)
+        const {status, body} = await request(app).get(`/api/users/${userCreated.id.value}`).set("x-token", token)
         const {data: user} = body
 
         expect(status).toBe(200)
@@ -218,7 +218,7 @@ describe('users E2E Test', () => {
         const userCreated = await UserMother.create(repository);
         await request(app).delete(`/api/users/${userCreated.id.value}/delete`).set("x-token", token)
 
-        const response = await request(app).get(`/api/users/${userCreated.id.value}`)
+        const response = await request(app).get(`/api/users/${userCreated.id.value}`).set("x-token", token)
 
         expect(response.status).toBe(404)
     })

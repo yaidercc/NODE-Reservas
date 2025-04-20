@@ -1,0 +1,230 @@
+users:
+  get:
+    tags:
+      - Users
+    summary: Get users collection
+    description: Get all users from the database
+    responses:
+      '200':
+        description: A list of users
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserCollection"
+      '404':
+        $ref: '../common.yaml#/schemas/not_found_response'
+      '500':
+        $ref: '../common.yaml#/schemas/custom_error_response'
+  post:
+    tags:
+      - Users
+    summary: Create a user instance
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CreateUser"
+    responses:
+      '201':
+        description: user instance created succesfully
+        content:
+          application/json:
+            schema:
+              $ref: '../common.yaml#/schemas/created_response'
+      '400':
+        $ref: '../common.yaml#/schemas/bad_status_response'
+      '404':
+        $ref: '../common.yaml#/schemas/not_found_response'
+      '500':
+        $ref: '../common.yaml#/schemas/custom_error_response'
+users_id:
+  get:
+    tags:
+      - Users
+    summary:  Fetch an user by ID
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        descripcion: Return an user instance
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  $ref: "../common.yaml#/schemas/message_ok"
+                data:
+                  $ref: "#/components/schemas/User"
+      '400':
+        $ref: '../common.yaml#/schemas/bad_status_response'
+      '404':
+        $ref: '../common.yaml#/schemas/not_found_response'
+      '500':
+        $ref: '../common.yaml#/schemas/custom_error_response'
+  post:
+    tags:
+      - Users
+    summary: Update an user instance
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UpdateUser"
+    responses:
+      '200':
+        description: user instance updated succesfully
+        content:
+          application/json:
+            schema:
+              $ref: '../common.yaml#/schemas/success_response'
+      '400':
+        $ref: '../common.yaml#/schemas/bad_status_response'
+      '404':
+        $ref: '../common.yaml#/schemas/not_found_response'
+      '500':
+        $ref: '../common.yaml#/schemas/custom_error_response'
+
+  delete:
+    tags:
+      - Users
+    summary:  Delete an user
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        descripcion: Delete an user instance
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  $ref: "../common.yaml#/schemas/message_ok"
+      '400':
+        $ref: '../common.yaml#/schemas/bad_status_response'
+      '404':
+        $ref: '../common.yaml#/schemas/not_found_response'
+      '500':
+        $ref: '../common.yaml#/schemas/custom_error_response'
+
+components:
+  schemas:
+    name:
+      type: string
+      example: jon
+    last_name:
+      type: string
+      example: Doe
+    email:
+      type: string
+      example: jonDoe@gmail.com
+    role:
+      type: string
+      example: admin
+    password:
+      type: string
+      example: JonDoe123*
+    Created:
+      type: object
+      properties:
+        created_at:
+          $ref: "../common.yaml#/schemas/created_at"
+        created_by:
+          $ref: "../common.yaml#/schemas/created_by"
+    Updated:
+      type: object
+      properties:
+        updated_at:
+          $ref: "../common.yaml#/schemas/updated_at"
+        updated_by:
+          $ref: "../common.yaml#/schemas/updated_by"
+    UserBase:
+      type: object
+      properties:
+        name:
+          $ref: "#/components/schemas/name"
+        last_name:
+          $ref: "#/components/schemas/last_name"
+        email:
+          $ref: "#/components/schemas/email"
+    User:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '../common.yaml#/schemas/id'
+            role:
+              $ref: "#/components/schemas/role"
+        - $ref: "#/components/schemas/UserBase"
+        - $ref: "#/components/schemas/Created"
+        - $ref: "#/components/schemas/Updated"
+
+    UserCollection:
+      type: object
+      properties:
+        message:
+          $ref: "../common.yaml#/schemas/message_ok"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+
+    CreateUser:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: "../common.yaml#/schemas/id"
+            password:
+              $ref: "#/components/schemas/password"
+        - $ref: "#/components/schemas/UserBase"
+    UpdateUser:
+      allOf:
+        - $ref: "#/components/schemas/UserBase"
+        - type: object
+          properties:
+            updated_at:
+              $ref: "../common.yaml#/schemas/updated_at"
+            updated_by:
+              $ref: "../common.yaml#/schemas/updated_by"
+    SearchCollection:
+      type: object
+      properties:
+        filter:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+                example: namee
+              operator:
+                type: string
+                example: like
+              value:
+                type: string
+                example: example name
+              type:
+                type: string
+                example: AND
+        limit:
+          type: integer
+          example: 10
+        offset:
+          type: integer
+          example: 0
