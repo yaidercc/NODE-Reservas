@@ -72,6 +72,23 @@ describe('rooms E2E Test', () => {
         expect(response.status).toBe(201)
     })
 
+    it("Should fetch all reservations", async () => {
+        const user = await UserMother.create(userRepository, "User123*");
+        const room = await RoomsMother.create(roomRepository);
+        const userToken = await login(user.email.value, "User123*", app)
+
+        const reservationDto = ReservationsMother.dto({user_id: user.id.value, room_id: room.id.value})
+        await request(app).post("/api/reservations").send(reservationDto).set("x-token", userToken).send(reservationDto);
+
+
+        const response = await request(app)
+            .get(`/api/reservations`).set("x-token", adminToken)
+        const { data } = response.body
+        expect(response.status).toBe(200)
+        expect(data.length).toBeGreaterThan(0)
+    })
+
+
     it("Should cancel a reservation", async () => {
         const user = await UserMother.create(userRepository, "User123*");
         const room = await RoomsMother.create(roomRepository,);
@@ -96,12 +113,12 @@ describe('rooms E2E Test', () => {
         expect(response.body.data.length).toBe(1);
     })
 
-    it('Should Find busy days by date', async () => {
+    it('Should Find busy rooms by date', async () => {
         const roomsCreated = await RoomsMother.createMany(roomRepository, 4);
         const user = await UserMother.create(userRepository);
         const reservationDto = ReservationsMother.dto({user_id: user.id.value, room_id: roomsCreated[0].id.value})
         const reservationCreated = await ReservationsMother.create(repository, reservationDto);
-        const response = await request(app).post(`/api/reservations/getBusyDaysByDate`).send({
+        const response = await request(app).post(`/api/reservations/getBusyRoomsByDate`).send({
             date_to: reservationCreated.date_to.value,
             date_from: reservationCreated.date_from.value
         })

@@ -48,11 +48,11 @@ class GetBusyDaysByRoom {
         };
         const criteria = new Criteria(dtoCriteria.filter, dtoCriteria.order, dtoCriteria.limit, dtoCriteria.offset);
 
-        const rooms = await this.#repository.search(criteria);
+        const busyDays = await this.#repository.search(criteria);
 
         return {
             success: true,
-            rooms: new ReservationsCollectionResponseByRoom(rooms)
+            busyDays: new ReservationsCollectionResponseByRoom(busyDays)
         }
     }
 }

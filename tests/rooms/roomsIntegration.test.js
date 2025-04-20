@@ -16,14 +16,14 @@ describe('Rooms Integrations testss', () => {
 
     it('Should Create a room', async () => {
         const createdRoom = await RoomsMother.create(repository)
-        const room = (await new RoomFinder(repository).execute(createdRoom.id.value)).toJson().data;
+        const room = (await new RoomFinder(repository).execute(createdRoom.id.value)).room.toJson().data;
         expect(room.id).toBe(createdRoom.id.value);
     })
 
 
     it('Should Find a room by id', async () => {
         const createdRoom = await RoomsMother.create(repository)
-        const room = await new RoomFinder(repository).execute(createdRoom.id.value);
+        const {room} = await new RoomFinder(repository).execute(createdRoom.id.value);
 
         expect(room).not.toBeNull();
         expect(room).toBeInstanceOf(RoomResponse)
@@ -59,7 +59,7 @@ describe('Rooms Integrations testss', () => {
         }
         await (new RoomsUpdate(repository).execute(createdRoom.id.value, dtoRoomUpdated));
 
-        const findRoom = (await new RoomFinder(repository).execute(createdRoom.id.value)).toJson().data;
+        const findRoom = (await new RoomFinder(repository).execute(createdRoom.id.value)).room.toJson().data;
 
         expect(findRoom.name).toBe(dtoRoomUpdated.name);
     })

@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
   title: Reservation Api
-  summary: Summary.
-  description: Description.
+  summary: 'Practice API for managing users, rooms, and reservations.'
+  description: 'A practice API built to manage users, rooms, and reservations, applying best practices learned throughout my professional experience.'
   version: 0.2.0
 servers:
   - url: 'http://localhost:4000/api'
@@ -601,18 +601,12 @@ paths:
                             created_at:
                               type: string
                               format: date-time
-                            created_by:
-                              type: string
-                              format: uuid
                         - type: object
                           properties:
                             updated_at:
                               type: string
                               format: date-time
                               nullable: true
-                            updated_by:
-                              type: string
-                              format: uuid
         '404':
           description: Not found
           content:
@@ -724,7 +718,7 @@ paths:
             type: string
       responses:
         '200':
-          descripcion: Return an room instance
+          description: Return an room instance
           content:
             application/json:
               schema:
@@ -751,18 +745,12 @@ paths:
                           created_at:
                             type: string
                             format: date-time
-                          created_by:
-                            type: string
-                            format: uuid
                       - type: object
                         properties:
                           updated_at:
                             type: string
                             format: date-time
                             nullable: true
-                          updated_by:
-                            type: string
-                            format: uuid
         '400':
           description: Validation fails
           content:
@@ -897,7 +885,7 @@ paths:
             type: string
       responses:
         '200':
-          descripcion: Delete an room instance
+          description: Room instance deleted succesfully
           content:
             application/json:
               schema:
@@ -1014,18 +1002,508 @@ paths:
                             created_at:
                               type: string
                               format: date-time
-                            created_by:
-                              type: string
-                              format: uuid
                         - type: object
                           properties:
                             updated_at:
                               type: string
                               format: date-time
                               nullable: true
-                            updated_by:
+        '400':
+          description: Validation fails
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Validations fail
+                  data:
+                    type: object
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        field:
+                          type: string
+                          example: id
+                        message:
+                          type: string
+                          example: '"id" is required'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not found
+        '500':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unexpected error occurred
+  /reservations:
+    get:
+      tags:
+        - Reservations
+      summary: Get reservations collection
+      description: Get all reservations from the database
+      responses:
+        '200':
+          description: A list of reservations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      allOf:
+                        - type: object
+                          properties:
+                            id:
                               type: string
                               format: uuid
+                              example: 5b090fbb-926e-4997-9242-12fa7847bf5b
+                        - type: object
+                          properties:
+                            user_id:
+                              type: string
+                              format: uuid
+                            room_id:
+                              type: string
+                              format: uuid
+                            date_from:
+                              type: string
+                              format: date-time
+                            date_to:
+                              type: string
+                              format: date-time
+                        - type: object
+                          properties:
+                            created_at:
+                              type: string
+                              format: date-time
+                        - type: object
+                          properties:
+                            updated_at:
+                              type: string
+                              format: date-time
+                              nullable: true
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not found
+        '500':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unexpected error occurred
+    post:
+      tags:
+        - Reservations
+      summary: Create a reservation instance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                      example: 5b090fbb-926e-4997-9242-12fa7847bf5b
+                - type: object
+                  properties:
+                    user_id:
+                      type: string
+                      format: uuid
+                    room_id:
+                      type: string
+                      format: uuid
+                    date_from:
+                      type: string
+                      format: date-time
+                    date_to:
+                      type: string
+                      format: date-time
+      responses:
+        '201':
+          description: reservation instance created succesfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource(s) created
+                  data:
+                    type: object
+                  metadata:
+                    type: object
+        '400':
+          description: Validation fails
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Validations fail
+                  data:
+                    type: object
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        field:
+                          type: string
+                          example: id
+                        message:
+                          type: string
+                          example: '"id" is required'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not found
+        '500':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unexpected error occurred
+  '/reservations/getBusyDaysByRoom/{roomId}':
+    get:
+      tags:
+        - Reservations
+      summary: Fetch room's busy days by roomId
+      parameters:
+        - name: roomId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Busy dates fetched succesfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date_from:
+                          type: string
+                          format: date-time
+                        date_to:
+                          type: string
+                          format: date-time
+        '400':
+          description: Validation fails
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Validations fail
+                  data:
+                    type: object
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        field:
+                          type: string
+                          example: id
+                        message:
+                          type: string
+                          example: '"id" is required'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not found
+        '500':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unexpected error occurred
+  /reservations/getBusyRoomsByDate:
+    post:
+      tags:
+        - Reservations
+      summary: Fetch room's busy days by date
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date_from:
+                  type: string
+                  format: date-time
+                date_to:
+                  type: string
+                  format: date-time
+      responses:
+        '200':
+          description: Busy dates fetched succesfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date_from:
+                          type: string
+                          format: date-time
+                        date_to:
+                          type: string
+                          format: date-time
+        '400':
+          description: Validation fails
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Validations fail
+                  data:
+                    type: object
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        field:
+                          type: string
+                          example: id
+                        message:
+                          type: string
+                          example: '"id" is required'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not found
+        '500':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unexpected error occurred
+  '/reservations/cancel/{id}':
+    get:
+      tags:
+        - Reservations
+      summary: Cancel a reservation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Reservation cancelled succesfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: success
+        '400':
+          description: Validation fails
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Validations fail
+                  data:
+                    type: object
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        field:
+                          type: string
+                          example: id
+                        message:
+                          type: string
+                          example: '"id" is required'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not found
+        '500':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unexpected error occurred
+  /reservations/search:
+    post:
+      tags:
+        - Rooms
+      summary: Search room instances by a specific field and value
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                filter:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      field:
+                        type: string
+                        example: name
+                      operator:
+                        type: string
+                        example: like
+                      value:
+                        type: string
+                        example: example name
+                      type:
+                        type: string
+                        example: AND
+                limit:
+                  type: integer
+                  example: 10
+                offset:
+                  type: integer
+                  example: 0
+      responses:
+        '200':
+          description: Returns a list of rooms which match with the search
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      allOf:
+                        - type: object
+                          properties:
+                            id:
+                              type: string
+                              format: uuid
+                              example: 5b090fbb-926e-4997-9242-12fa7847bf5b
+                        - type: object
+                          properties:
+                            name:
+                              type: string
+                              example: 202
+                        - type: object
+                          properties:
+                            created_at:
+                              type: string
+                              format: date-time
+                        - type: object
+                          properties:
+                            updated_at:
+                              type: string
+                              format: date-time
+                              nullable: true
         '400':
           description: Validation fails
           content:

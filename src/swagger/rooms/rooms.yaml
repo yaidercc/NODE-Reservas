@@ -50,7 +50,7 @@ rooms_id:
           type: string
     responses:
       '200':
-        descripcion: Return an room instance
+        description: Return an room instance
         content:
           application/json:
             schema:
@@ -107,7 +107,7 @@ rooms_delete:
           type: string
     responses:
       '200':
-        descripcion: Delete an room instance
+        description: Room instance deleted succesfully
         content:
           application/json:
             schema:
@@ -155,15 +155,11 @@ components:
       properties:
         created_at:
           $ref: "../common.yaml#/schemas/created_at"
-        created_by:
-          $ref: "../common.yaml#/schemas/created_by"
     Updated:
       type: object
       properties:
         updated_at:
           $ref: "../common.yaml#/schemas/updated_at"
-        updated_by:
-          $ref: "../common.yaml#/schemas/updated_by"
     RoomBase:
       type: object
       properties:

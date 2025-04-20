@@ -1,4 +1,4 @@
-const Responses = require("./Responses");
+
 const { HttpStatusCode } = require("axios");
 
 class HttpResponses {
@@ -22,7 +22,6 @@ class HttpResponses {
         })
     }
     static notFound({message= "Not Found",res}= {}) {
-        console.log(message)
         return res.status(HttpStatusCode.NotFound).json({
             message
         })

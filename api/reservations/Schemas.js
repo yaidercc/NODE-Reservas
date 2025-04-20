@@ -5,7 +5,7 @@ const datesSchema = {
     date_to: Joi.date()
         .required()
         .custom((value, helpers) => {
-            const {date_from} = helpers.state.ancestors[0];
+            const { date_from } = helpers.state.ancestors[0];
             const msIn24h = 24 * 60 * 60 * 1000;
 
             if (!date_from) return value;
@@ -13,12 +13,16 @@ const datesSchema = {
             const duration = new Date(value).getTime() - new Date(date_from).getTime();
 
             if (duration <= 0 || duration % msIn24h !== 0) {
-                return helpers.error('any.invalid');
+                return helpers.error('date.invalidInterval'); // 🔥 Custom error
             }
 
             return value;
-        }, '24h interval validation'),
-}
+        }, '24h interval validation')
+        .messages({
+            'date.invalidInterval': 'The end date must be greater than the start date and in multiples of 24 hours.'
+        }),
+};
+
 
 const createReservationSchema = Joi.object({
     id: Joi.string().uuid().required(),
@@ -28,10 +32,10 @@ const createReservationSchema = Joi.object({
     created_at: Joi.date()
 });
 
-const findBusyDaysByDateSchema =Joi.object({
+const findBusyRoomsByDateSchema =Joi.object({
     ...datesSchema
 })
 module.exports = {
     createReservationSchema,
-    findBusyDaysByDateSchema
+    findBusyRoomsByDateSchema
 }

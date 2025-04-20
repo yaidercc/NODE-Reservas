@@ -1,7 +1,7 @@
 const Criteria = require("../../../../shared/criteria/Criteria");
 const RoomCollectionResponse = require("../../../rooms/application/RoomCollectionResponse");
 
-class GetBusyDaysByDate {
+class GetBusyRoomsByDate {
     #repository;
     #roomRepository;
 
@@ -75,4 +75,4 @@ class GetBusyDaysByDate {
     }
 }
 
-module.exports = GetBusyDaysByDate;
+module.exports = GetBusyRoomsByDate;

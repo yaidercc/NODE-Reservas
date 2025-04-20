@@ -2,7 +2,7 @@ const {development: knexConfig} = require("../../config/database/Knexfile");
 const MiddlewaresManager = require("../../src/shared/middlewares/Middlewares");
 const validateSchemas = require("../../src/shared/ValidateSchemas");
 const SearchSchema = require("../../src/shared/schemas/SearchSchema");
-const {findBusyDaysByDateSchema, createReservationSchema} = require("./Schemas");
+const {findBusyRoomsByDateSchema, createReservationSchema} = require("./Schemas");
 const {KnexRoomRepository} = require("../../src/core/rooms");
 const KnexReservationRepository = require("../../src/core/reservations/infrastructure/KnexReservationRepository");
 const ReservationController = require("./Controllers");
@@ -22,6 +22,8 @@ class Routes {
     }
 
     setRoutes() {
+        this.router.get("/", [this.middlewares.validateJWT.bind(this.middlewares),
+            this.middlewares.isAdmin,], this.controllers.index)
         this.router.post("/",
             [
                 this.middlewares.validateJWT.bind(this.middlewares),
@@ -34,9 +36,9 @@ class Routes {
                 validateSchemas(SearchSchema)
             ], this.controllers.search)
         this.router.get("/getBusyDaysByRoom/:roomId", this.controllers.getBusyDaysByRoom)
-        this.router.post("/getBusyDaysByDate",
-            validateSchemas(findBusyDaysByDateSchema)
-            , this.controllers.getBusyDaysByDate)
+        this.router.post("/getBusyRoomsByDate",
+            validateSchemas(findBusyRoomsByDateSchema)
+            , this.controllers.getBusyRoomsByDate)
         this.router.get("/cancel/:id",
             [
                 this.middlewares.validateJWT.bind(this.middlewares),

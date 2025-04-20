@@ -10,7 +10,7 @@ class ServerManager {
     #server;
 
     constructor() {
-        this.port = process.env.PORT || 4000;
+        this.port = process.env.PORT || 4100;
         this.#app = express();
 
         this.#path = {

@@ -1,0 +1,254 @@
+reservations:
+  get:
+    tags:
+      - Reservations
+    summary: Get reservations collection
+    description: Get all reservations from the database
+    responses:
+      '200':
+        description: A list of reservations
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReservationCollection"
+      '404':
+        $ref: '../common.yaml#/schemas/not_found_response'
+      '500':
+        $ref: '../common.yaml#/schemas/custom_error_response'
+  post:
+    tags:
+      - Reservations
+    summary: Create a reservation instance
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CreateReservation"
+    responses:
+      '201':
+        description: reservation instance created succesfully
+        content:
+          application/json:
+            schema:
+              $ref: '../common.yaml#/schemas/created_response'
+      '400':
+        $ref: '../common.yaml#/schemas/bad_status_response'
+      '404':
+        $ref: '../common.yaml#/schemas/not_found_response'
+      '500':
+        $ref: '../common.yaml#/schemas/custom_error_response'
+
+reservations_get_busy_days_by_room:
+  get:
+    tags:
+      - Reservations
+    summary:  Fetch room's busy days by roomId
+    parameters:
+      - name: roomId
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Busy dates fetched succesfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  $ref: "../common.yaml#/schemas/message_ok"
+                data:
+                  $ref: "#/components/schemas/BusyDaysResponse"
+      '400':
+        $ref: '../common.yaml#/schemas/bad_status_response'
+      '404':
+        $ref: '../common.yaml#/schemas/not_found_response'
+      '500':
+        $ref: '../common.yaml#/schemas/custom_error_response'
+
+reservations_get_busy_days_by_date:
+  post:
+    tags:
+      - Reservations
+    summary: Fetch room's busy days by date
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/BusyDaysByDate"
+    responses:
+      '200':
+        description: Busy dates fetched succesfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  $ref: "../common.yaml#/schemas/message_ok"
+                data:
+                  $ref: "#/components/schemas/BusyDaysResponse"
+      '400':
+        $ref: '../common.yaml#/schemas/bad_status_response'
+      '404':
+        $ref: '../common.yaml#/schemas/not_found_response'
+      '500':
+        $ref: '../common.yaml#/schemas/custom_error_response'
+
+reservations_cancel:
+  get:
+    tags:
+      - Reservations
+    summary:  Cancel a reservation
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Reservation cancelled succesfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  $ref: "../common.yaml#/schemas/message_ok"
+      '400':
+        $ref: '../common.yaml#/schemas/bad_status_response'
+      '404':
+        $ref: '../common.yaml#/schemas/not_found_response'
+      '500':
+        $ref: '../common.yaml#/schemas/custom_error_response'
+
+reservations_search:
+  post:
+    tags:
+      - Reservations
+    summary: Search reservation instances by a specific field and value
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/SearchCollection"
+    responses:
+      '200':
+        description: Returns a list of reservations which match with the search
+        content:
+          application/json:
+            schema:
+              $ref:  "#/components/schemas/ReservationCollection"
+      '400':
+        $ref: '../common.yaml#/schemas/bad_status_response'
+      '404':
+        $ref: '../common.yaml#/schemas/not_found_response'
+      '500':
+        $ref: '../common.yaml#/schemas/custom_error_response'
+
+components:
+  schemas:
+    user_id:
+      type: string
+      format: uuid
+    room_id:
+      type: string
+      format: uuid
+    date_from:
+      type: string
+      format: date-time
+    date_to:
+      type: string
+      format: date-time
+    Created:
+      type: object
+      properties:
+        created_at:
+          $ref: "../common.yaml#/schemas/created_at"
+    Updated:
+      type: object
+      properties:
+        updated_at:
+          $ref: "../common.yaml#/schemas/updated_at"
+    ReservationBase:
+      type: object
+      properties:
+        user_id:
+          $ref: "#/components/schemas/user_id"
+        room_id:
+          $ref: "#/components/schemas/room_id"
+        date_from:
+          $ref: "#/components/schemas/date_from"
+        date_to:
+          $ref: "#/components/schemas/date_to"
+    Reservation:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '../common.yaml#/schemas/id'
+        - $ref: "#/components/schemas/ReservationBase"
+        - $ref: "#/components/schemas/Created"
+        - $ref: "#/components/schemas/Updated"
+    BusyDaysByDate:
+      type: object
+      properties:
+        date_from:
+          $ref: "#/components/schemas/date_from"
+        date_to:
+          $ref: "#/components/schemas/date_to"
+    BusyDaysResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          date_from:
+            $ref: "#/components/schemas/date_from"
+          date_to:
+            $ref: "#/components/schemas/date_to"
+    ReservationCollection:
+      type: object
+      properties:
+        message:
+          $ref: "../common.yaml#/schemas/message_ok"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Reservation"
+
+    CreateReservation:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: "../common.yaml#/schemas/id"
+        - $ref: "#/components/schemas/ReservationBase"
+    SearchCollection:
+      type: object
+      properties:
+        filter:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+                example: name
+              operator:
+                type: string
+                example: like
+              value:
+                type: string
+                example: example name
+              type:
+                type: string
+                example: AND
+        limit:
+          type: integer
+          example: 10
+        offset:
+          type: integer
+          example: 0

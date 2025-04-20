@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
   title: Reservation Api
-  summary: Summary.
-  description: Description.
+  summary: Practice API for managing users, rooms, and reservations.
+  description: A practice API built to manage users, rooms, and reservations, applying best practices learned throughout my professional experience.
   version: 0.2.0
 servers:
   - url: http://localhost:4000/api
@@ -16,7 +16,7 @@ tags:
   - name: Rooms
     description: Module in which you can manage everything related to Rooms
   - name: Reservations
-    description: Module in which you can manage everything related to Rooms
+    description: Module in which you can manage everything related to Reservations
 
 paths:
   /users:
@@ -35,6 +35,17 @@ paths:
   /rooms/{id}/delete:
     $ref: "./rooms/rooms.yaml#/rooms_delete"
   /rooms/search:
+    $ref: "./rooms/rooms.yaml#/rooms_search"
+
+  /reservations:
+    $ref: "./reservations/reservations.yaml#/reservations"
+  /reservations/getBusyDaysByRoom/{roomId}:
+    $ref: "./reservations/reservations.yaml#/reservations_get_busy_days_by_room"
+  /reservations/getBusyRoomsByDate:
+    $ref: "./reservations/reservations.yaml#/reservations_get_busy_days_by_date"
+  /reservations/cancel/{id}:
+    $ref: "./reservations/reservations.yaml#/reservations_cancel"
+  /reservations/search:
     $ref: "./rooms/rooms.yaml#/rooms_search"
 
 

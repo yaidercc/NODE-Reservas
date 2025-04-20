@@ -25,15 +25,6 @@ class ReservationsMother {
         return reservations;
     }
 
-    static async createMany(repository, quantity) {
-        const rooms = [];
-        for (let i = 0; i < quantity; i++) {
-            const room = await RoomsMother.create(repository);
-            rooms.push(room);
-        }
-
-        return rooms;
-    }
 
     static
 

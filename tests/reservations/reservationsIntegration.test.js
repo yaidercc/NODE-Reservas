@@ -7,7 +7,7 @@ const ReservationSearcher = require("../../src/core/reservations/application/sea
 const GetBusyDaysByRoom = require("../../src/core/reservations/application/getBusyDaysByRoom/GetBusyDaysByRoom");
 const {KnexRoomRepository} = require("../../src/core/rooms");
 const RoomsMother = require("../rooms/domain/roomsMother");
-const GetBusyDaysByDate = require("../../src/core/reservations/application/getBusyDaysByDate/GetBusyDaysByDate");
+const GetBusyRoomsByDate = require("../../src/core/reservations/application/getBusyRoomsByDate/GetBusyRoomsByDate");
 const ReservationCancel = require("../../src/core/reservations/application/cancel/ReservationCancel");
 const DomainReservationsFinder = require("../../src/core/reservations/domain/ReservationFinder");
 
@@ -61,7 +61,7 @@ describe('Reservations Integrations tests', () => {
 
     it('Should Find busy days by room', async () => {
         const reservationCreated = await ReservationsMother.create(repository);
-        const busyDays = await new GetBusyDaysByRoom(repository).execute(reservationCreated.room_id.value)
+        const {busyDays} = await new GetBusyDaysByRoom(repository).execute(reservationCreated.room_id.value)
         expect(busyDays.toJson().data.length).toBe(1);
     })
 
@@ -73,12 +73,12 @@ describe('Reservations Integrations tests', () => {
             room_id: roomsCreated[0].id.value
         });
 
-        const busyDays = await new GetBusyDaysByDate(repository, roomRepository).execute({
+        const {rooms} = await new GetBusyRoomsByDate(repository, roomRepository).execute({
             date_to: reservationCreated.date_to.value,
             date_from: reservationCreated.date_from.value
         })
 
-        expect(busyDays.toJson().data.length).toBe(3);
+        expect(rooms.toJson().data.length).toBe(3);
     })
 
     it('Should Cancel a reservation', async () => {

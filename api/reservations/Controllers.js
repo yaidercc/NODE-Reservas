@@ -1,9 +1,10 @@
 const ReservationsCreator = require("../../src/core/reservations/application/create/ReservationsCreator");
 const HttpResponses = require("../../src/shared/httpResponses/HttpResponses");
-const GetBusyDaysByDate = require("../../src/core/reservations/application/getBusyDaysByDate/GetBusyDaysByDate");
+const GetBusyRoomsByDate = require("../../src/core/reservations/application/getBusyRoomsByDate/GetBusyRoomsByDate");
 const ReservationCancel = require("../../src/core/reservations/application/cancel/ReservationCancel");
 const {validate: validateUuid} = require("uuid");
 const GetBusyDaysByRoom = require("../../src/core/reservations/application/getBusyDaysByRoom/GetBusyDaysByRoom");
+const ReservationSearcher = require("../../src/core/reservations/application/search/ReservationSearcher");
 
 class ReservationController {
     #repository;
@@ -11,6 +12,42 @@ class ReservationController {
     constructor(repository, roomRepository) {
         this.#repository = repository;
         this.#roomRepository = roomRepository;
+    }
+
+    index = async (req, res) => {
+        try {
+
+            const dtoCriteria = {
+                filter: [
+                    {
+                        field: "deleted_at",
+                        operator: "null",
+                        value: '',
+                        type: "AND"
+                    },
+                    {
+                        field: "deleted_at",
+                        operator: "null",
+                        value: '',
+                        type: "AND"
+                    },
+                ],
+                limit: 10,
+                offset: 0,
+                order: {
+                    field: 'created_at',
+                    direction: 'desc',
+                },
+            };
+
+
+            const reservation = await new ReservationSearcher(this.#repository).execute(dtoCriteria);
+            return HttpResponses.ok({res, ...reservation.toJson() })
+
+        } catch (error) {
+            console.log(error.message)
+            return HttpResponses.internalServerError({errors: error.errors, res})
+        }
     }
 
     create = async ( req, res ) => {
@@ -32,7 +69,7 @@ class ReservationController {
     search = async ( req, res ) => {
         try {
             const { body: dtoCriteria } = req;
-            const reservation = await new ReservationsSearcher(this.#repository).execute(dtoCriteria);
+            const reservation = await new ReservationSearcher(this.#repository).execute(dtoCriteria);
             return HttpResponses.ok({res, ...reservation.toJson() })
 
         }catch (error) {
@@ -77,8 +114,8 @@ class ReservationController {
                 const {errors, code} = response
                 return HttpResponses.badResponseByCode(code, {errors, res})
             }
-            const { rooms } = response
-            return HttpResponses.ok({res, ...rooms.toJson() })
+            const { busyDays } = response
+            return HttpResponses.ok({res, ...busyDays.toJson() })
 
         } catch (error) {
             console.log(error.message)
@@ -86,10 +123,10 @@ class ReservationController {
         }
     }
 
-    getBusyDaysByDate = async ( req, res ) => {
+    getBusyRoomsByDate = async ( req, res ) => {
         try {
             const { body: datesToSearch } = req;
-            const response = await new GetBusyDaysByDate(this.#repository,this.#roomRepository).execute({...datesToSearch});
+            const response = await new GetBusyRoomsByDate(this.#repository,this.#roomRepository).execute({...datesToSearch});
             if (!response.success) {
                 const {errors, code} = response
                 return HttpResponses.badResponseByCode(code, {errors, res})
