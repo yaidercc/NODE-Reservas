@@ -1,6 +1,6 @@
 # Reservas
 
-Este es un proyecto diseñado para gestionar reservas genéricas. No está enfocado en un tipo específico de reserva (como hoteles o eventos), sino que simplemente permite a un usuario crear, actualizar y gestionar reservas.
+Este es un proyecto diseñado para gestionar reservas de habitaciones en la cual se pueden gestionar habitaciones, usuarios y reservas.
 
 ## Objetivo
 Este proyecto tiene como propósito reforzar y aplicar los conocimientos que he adquirido en mi proceso laboral y a través de cursos, incluyendo:
@@ -12,6 +12,58 @@ Este proyecto tiene como propósito reforzar y aplicar los conocimientos que he 
 - Gestión de bases de datos: uso de Knex.js y PostgreSQL.
   
 Con este proyecto, quiero consolidar mi experiencia en desarrollo backend aplicando buenas prácticas y arquitecturas modernas, asegurando que el código sea robusto, mantenible y bien probado.
+
+## Scripts Disponibles
+
+### Servidor
+
+- Ejecutar servidor
+```
+ npm run api
+```
+- Ejecutar todos los tests (E2E, Unitarios, Integracion)
+
+### Tests
+```
+ npm run test
+```
+- Ejecutar todos los tests unitarios
+ 
+```
+ npm run test:unit
+```
+- Ejecutar todos los tests de integracion
+```
+ npm run test:integration 
+```
+- Ejecutar todos los tests E2E
+```
+ npm run test:e2e
+```
+### Database
+- Aplica las últimas migraciones de la base de datos.
+``` 
+ npm run migrate:latest 
+```
+-  Revierte todas las migraciones.
+```
+npm run migrate:rollback
+```
+-  Ejecuta los seeds de la base de datos para poblarla con datos de prueba.
+```
+npm run migrate:seed
+```  
+- Revierte todas las migraciones, aplica las últimas y ejecuta los seeds (reset completo de la base de datos).
+```
+npm run migrate:reset
+```  
+- Compila y construye la documentación de la API en Swagger, generando un archivo dereferenciado listo para su despliegue.
+```
+npm run build
+```  
+
+
+
 
 ## Tecnologías utilizadas
 - Node.js
