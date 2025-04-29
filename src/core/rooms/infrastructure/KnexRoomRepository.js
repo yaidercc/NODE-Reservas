@@ -15,7 +15,7 @@ class KnexRoomRepository extends knexRepository{
                 created_at: dto.created_at.value
             });
         }catch(e){
-            console.log(e);
+            console.log(e.message);
             throw new Error(`Error: ${e}`);
         }
 

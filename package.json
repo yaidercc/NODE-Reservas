@@ -7,12 +7,13 @@
     "test:unit": "jest --testRegex=Unit\\\\.test\\\\.js$ ",
     "test:integration": "jest --testRegex=Integration\\\\.test\\\\.js$ ",
     "test:e2e": "cross-env DB_SCHEMA=e2e_testing jest --testRegex=E2E\\\\.test\\\\.js$ --maxWorkers=1",
-    "migrate:latest": "knex --knexfile=./config/database/knexfile.js migrate:latest\n",
-    "migrate:rollback": "knex --knexfile=./config/database/knexfile.js migrate:rollback --all\n",
-    "migrate:seed": "knex --knexfile=./config/database/knexfile.js seed:run\n",
+    "migrate:latest": "knex --knexfile=./config/database/Knexfile.js migrate:latest\n",
+    "migrate:rollback": "knex --knexfile=./config/database/Knexfile.js migrate:rollback --all\n",
+    "migrate:seed": "knex --knexfile=./config/database/Knexfile.js seed:run\n",
     "migrate:reset": "npm run migrate:rollback && npm run migrate:latest && npm run migrate:seed",
     "api": "cross-env DB_SCHEMA=public nodemon app.js",
-    "build": "npx swagger-cli bundle src/swagger/api.yaml --outfile src/swagger/dist/api.yaml --type yaml --dereference"
+    "build:swagger": "npx swagger-cli bundle src/swagger/api.yaml --outfile src/swagger/dist/api.yaml --type yaml --dereference",
+    "start": "node app.js"
   },
   "keywords": [],
   "author": "",
@@ -35,7 +36,6 @@
     "live-server": "^1.2.2",
     "module-alias": "^2.2.3",
     "morgan": "^1.10.0",
-    "sequelize": "^6.37.5",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "yamljs": "^0.3.0"

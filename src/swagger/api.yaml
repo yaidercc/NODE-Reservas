@@ -21,6 +21,8 @@ tags:
 paths:
   /users:
     $ref: "./users/users.yaml#/users"
+  /users/login:
+    $ref: "./users/users.yaml#/users_login"
   /users/{id}:
     $ref: "./users/users.yaml#/users_id"
   /users/{id}/delete:

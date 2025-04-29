@@ -37,6 +37,39 @@ users:
         $ref: '../common.yaml#/schemas/not_found_response'
       '500':
         $ref: '../common.yaml#/schemas/custom_error_response'
+users_login:
+  post:
+    tags:
+      - Users
+    summary: Login an user
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/LoginUser"
+    responses:
+      '200':
+        description: user logged succesfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  $ref: "../common.yaml#/schemas/message_ok"
+                data:
+                  type: object
+                  properties:
+                    user:
+                      $ref: "#/components/schemas/User"
+                    token:
+                      $ref: "#/components/schemas/token"
+      '400':
+        $ref: '../common.yaml#/schemas/bad_status_response'
+      '404':
+        $ref: '../common.yaml#/schemas/not_found_response'
+      '500':
+        $ref: '../common.yaml#/schemas/custom_error_response'
 users_id:
   get:
     tags:
@@ -50,7 +83,7 @@ users_id:
           type: string
     responses:
       '200':
-        descripcion: Return an user instance
+        description: Return an user instance
         content:
           application/json:
             schema:
@@ -163,6 +196,9 @@ components:
     password:
       type: string
       example: JonDoe123*
+    token:
+      type: string
+      example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NT...w5cCqY'
     Created:
       type: object
       properties:
@@ -197,7 +233,13 @@ components:
         - $ref: "#/components/schemas/UserBase"
         - $ref: "#/components/schemas/Created"
         - $ref: "#/components/schemas/Updated"
-
+    LoginUser:
+      type: object
+      properties:
+        email:
+          $ref: "#/components/schemas/email"
+        password:
+          $ref: "#/components/schemas/password"
     UserCollection:
       type: object
       properties:

@@ -13,7 +13,7 @@ async function seed(knex) {
             email: "yaider@gmail.com",
             password: hashedPassword,
         }
-    );
+    )
 }
 
 module.exports = {seed}

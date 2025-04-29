@@ -1,12 +1,12 @@
 # Reservas
 
-Este es un proyecto diseñado para gestionar reservas de habitaciones en la cual se pueden gestionar habitaciones, usuarios y reservas.
+Este es un proyecto diseñado para gestionar reservas de habitaciones que permite gestionar habitaciones, usuarios y reservas.
 
 ## Objetivo
 Este proyecto tiene como propósito reforzar y aplicar los conocimientos que he adquirido en mi proceso laboral y a través de cursos, incluyendo:
 
 - Domain-Driven Design (DDD): estructuración del código en capas y contextos bien definidos.
-- Test-Driven Development (TDD): asegurando que la lógica de negocio esté bien testeada desde el inicio.
+- Test-Driven Development (TDD): asegurando que la lógica de negocio esté correctamente probada desde el inicio.
 - Principios SOLID: escritura de código limpio, escalable y mantenible.
 - Testing: pruebas unitarias, de integración y E2E.
 - Gestión de bases de datos: uso de Knex.js y PostgreSQL.
@@ -17,13 +17,19 @@ Con este proyecto, quiero consolidar mi experiencia en desarrollo backend aplica
 
 ### Servidor
 
-- Ejecutar servidor
+- Ejecutar proyecto localmente
 ```
  npm run api
 ```
-- Ejecutar todos los tests (E2E, Unitarios, Integracion)
+
+- Ejecutar proyecto con docker
+```
+ docker compose up
+```
 
 ### Tests
+
+- Ejecutar todos los tests (E2E, Unitarios, Integracion)
 ```
  npm run test
 ```
@@ -49,7 +55,7 @@ Con este proyecto, quiero consolidar mi experiencia en desarrollo backend aplica
 ```
 npm run migrate:rollback
 ```
--  Ejecuta los seeds de la base de datos para poblarla con datos de prueba.
+-  Ejecuta los seeds de la base de datos para poblarla con datos de ejemplo.
 ```
 npm run migrate:seed
 ```  
@@ -70,3 +76,4 @@ npm run build
 - Knex.js (Query Builder para SQL)
 - PostgreSQL (Base de datos)
 - Jest & Supertest (Para testing)
+- Docker
