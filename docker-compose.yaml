@@ -10,7 +10,7 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "5433:5432"  # Aquí estamos mapeando el puerto 5433 al 5432 en el contenedor
+      - "5433:5432"
     networks:
       - app-network
     volumes:
