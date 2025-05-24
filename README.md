@@ -68,6 +68,13 @@ npm run migrate:reset
 npm run build
 ```  
 
+Datos del usuario por defecto:
+
+```
+user: yaider@gmail.com
+pass: 1d44b922
+```  
+
 
 
 
