@@ -1,15 +1,18 @@
-# Reservas
+# 🏨 API de Reservas de Habitaciones
 
-Este es un proyecto diseñado para gestionar reservas de habitaciones que permite gestionar habitaciones, usuarios y reservas.
+Este es un proyecto backend desarrollado en Node.js para la gestión de reservas de habitaciones. Permite administrar usuarios, habitaciones y reservas, aplicando buenas prácticas de arquitectura y pruebas automatizadas.
 
-## Objetivo
-Este proyecto tiene como propósito reforzar y aplicar los conocimientos que he adquirido en mi proceso laboral y a través de cursos, incluyendo:
+---
 
-- Domain-Driven Design (DDD): estructuración del código en capas y contextos bien definidos.
-- Test-Driven Development (TDD): asegurando que la lógica de negocio esté correctamente probada desde el inicio.
-- Principios SOLID: escritura de código limpio, escalable y mantenible.
-- Testing: pruebas unitarias, de integración y E2E.
-- Gestión de bases de datos: uso de Knex.js y PostgreSQL.
+## 🎯 Objetivo del Proyecto
+
+Este proyecto nace con el propósito de reforzar y aplicar los conocimientos adquiridos tanto en experiencia laboral como en formación técnica y cursos. Algunas prácticas destacadas implementadas:
+
+- ✅ **Domain-Driven Design (DDD)**: estructuración del código por dominios y capas, facilitando el mantenimiento y la escalabilidad.
+- ✅ **Test-Driven Development (TDD)**: desarrollo impulsado por pruebas desde el principio.
+- ✅ **Principios SOLID**: construcción de código limpio, desacoplado y de fácil extensión.
+- ✅ **Testing Completo**: incluye pruebas **unitarias**, **de integración** y **end-to-end**.
+- ✅ **Base de Datos Relacional**: implementación con PostgreSQL utilizando **Knex.js** como query builder.
   
 Con este proyecto, quiero consolidar mi experiencia en desarrollo backend aplicando buenas prácticas y arquitecturas modernas, asegurando que el código sea robusto, mantenible y bien probado.
 
@@ -68,6 +71,13 @@ npm run migrate:reset
 npm run build
 ```  
 
+Datos del usuario por defecto:
+
+```
+user: yaider@gmail.com
+pass: 1d44b922
+```  
+
 
 
 
@@ -77,3 +87,4 @@ npm run build
 - PostgreSQL (Base de datos)
 - Jest & Supertest (Para testing)
 - Docker
+- Domain driven design, Principios SOLID
