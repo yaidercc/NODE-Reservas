@@ -3,7 +3,7 @@ async function seed(knex) {
     const now = new Date();
     const future = new Date(now);
     future.setHours(future.getHours() + 24);
-
+    await knex("reservations").del();
     await knex('reservations').insert(
         {
             id: 'c4fa928b-ba85-4e23-88ab-10cdb9b48d56',
@@ -15,4 +15,4 @@ async function seed(knex) {
     );
 }
 
-module.exports = {seed}
+module.exports = { seed }

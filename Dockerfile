@@ -12,6 +12,9 @@ FROM node:20-alpine as prod
 WORKDIR /app
 COPY --from=prod-deps /app/node_modules ./node_modules
 COPY . .
-EXPOSE 4000
-CMD [ "npm", "run", "start" ]
 
+COPY start.sh .
+RUN chmod +x start.sh
+
+EXPOSE 4000
+CMD ["./start.sh"]
