@@ -2,6 +2,7 @@
 
 Este es un proyecto backend desarrollado en Node.js para la gestión de reservas de habitaciones. Permite administrar usuarios, habitaciones y reservas, aplicando buenas prácticas de arquitectura y pruebas automatizadas.
 
+Api (SWAGGER): https://booking-api.yaidercc.me/api-docs
 ---
 
 ## 🎯 Objetivo del Proyecto
