@@ -9,8 +9,6 @@ class knexRepository {
         } else {
             this.#connection = config;
         }
-
-
     }
 
     get connection () {

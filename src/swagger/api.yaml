@@ -5,7 +5,7 @@ info:
   description: A practice API built to manage users, rooms, and reservations, applying best practices learned throughout my professional experience.
   version: 0.2.0
 servers:
-  - url: http://localhost:4000/api
+  - url: https://reservas-6k3v.onrender.com/api
     description: Staging server
 
 security:
